@@ -1,0 +1,452 @@
+/**
+ * Copyright 2022 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+BODY {
+  font-family: Helvetica, Arial, Sans Serif;
+  margin: 0;
+  padding: 0;
+}
+
+#main {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  background-color: #ccccd0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.waiting {
+  color: #888;
+  font-size: 2vh;
+  font-weight: bold;
+  text-align: center;
+}
+
+.toast {
+  box-sizing: border-box;
+  z-index: 900;
+  position: fixed;
+  display: block;
+  width: 50vw;
+  min-width: 50vw;
+  bottom: 30vh;
+  left: 25vw;
+
+  padding: 3vh 8vw 3vh 8vw;
+  background-color: #eee;
+  border: 3px solid #ccc;
+  border-radius: 3vw;
+
+  color: #888;
+  font-size: 2vh;
+  font-weight: bold;
+  text-align: center;
+}
+
+/*
+==================================================================================
+Enrollment and interest
+==================================================================================
+*/
+
+#signupview {
+  box-sizing: border-box;
+  max-width: 50em;
+  border: 1px solid #aaa;
+  padding: 20px;
+  margin: 20px;
+  overflow: hidden;
+  color: #666;
+
+  display: flex;
+  flex-direction: column;
+}
+
+#signupview .title {
+  color: #444;
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+#signupview .intro DIV {
+  margin-bottom: 0.5em;
+}
+
+#signupview DIV.questionbox {
+  color: #444;
+  background: #eee;
+  border: 1px solid #aaa;
+  padding: 20px;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1em 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+}
+
+#signupview .questionbox .questiontext {
+  font-weight: bold;
+  grid-row: 1;
+  grid-column: 1 / span 2;
+}
+
+#signupview .questionbox .row1 {
+  margin-top: 5px;
+  grid-row: 2;
+}
+
+#signupview .questionbox .row2 {
+  margin-top: 5px;
+  grid-row: 3;
+}
+
+#signupview .questionbox INPUT {
+  grid-column: 1;
+  align-self: center;
+}
+
+#signupview .questionbox LABEL {
+  grid-column: 2;
+  align-self: center;
+  margin-left: 10px;
+}
+
+#signupview .questionbox BUTTON {
+  grid-row: 4;
+  grid-column: 1 / span 2;
+  margin-top: 10px;
+  justify-self: start;
+  padding: 4px 15px 4px 15px;
+}
+
+#signupview .questionbox .accountexplain {
+  margin-top: 10px;
+  grid-row: 5;
+  grid-column: 1 / span 2;
+  font-size: 12px;
+  color: #888;
+}
+
+/*
+==================================================================================
+Consent forms
+==================================================================================
+*/
+
+#consentview {
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+  padding: 20px;
+  margin: 20px;
+  overflow: hidden;
+  color: #666;
+
+  display: flex;
+  flex-direction: column;
+}
+
+#consentview .title {
+  color: #444;
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+#consentview .wholine {
+  color: #777;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+#consentview .consentarea .consentscroll {
+  border: 1px solid #aaa;
+  width: 90vw;
+  height: 70vh;
+  overflow: scroll;
+  background-color: #fff;
+  color: #000;
+}
+
+#consentview .consentarea .consentbox {
+  margin: 8px 0 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+#consentview .consentbox LABEL {
+  margin: 0 0 0 5px;
+}
+
+#consentview .consentbox INPUT {
+  margin: 0;
+}
+
+#consentview .nextbutton {
+  padding: 4px 10px 4px 10px;
+}
+
+/*
+==================================================================================
+Instructions view
+==================================================================================
+*/
+
+#instructionview {
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+  padding: 20px;
+  margin: 20px;
+  overflow: hidden;
+  color: #666;
+  background-color: #fff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#instructionview .title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+#instructionview .helptext {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+#instructionview button {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+
+
+/*
+==================================================================================
+Recording view
+==================================================================================
+*/
+
+#recordingview {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#recordingview BUTTON {
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  box-sizing: border-box;
+  font-weight: bold;
+}
+
+#recordingview BUTTON:disabled {
+  cursor: not-allowed;
+}
+
+#recordingview .cardribbon {
+  margin-top: 5vh;
+  width: calc(3 * 80vw + 10vw);
+  min-width: calc(3 * 80vw + 10vw);
+  display: flex;
+  overflow: hidden;
+}
+
+#recordingview .cardribbon .thiscard {
+  margin: 0 5vw 0 5vw;
+  font-weight: bold;
+  font-size: 5vh;
+}
+
+#recordingview .cardribbon .prevcard {
+  cursor: pointer;
+}
+
+#recordingview .cardribbon .nextcard {
+  cursor: pointer;
+}
+
+#recordingview .card {
+  box-sizing: border-box;
+  width: 80vw;
+  min-width: 80vw;
+  height: 60vh;
+  min-height: 60vh;
+  padding: 3vh;
+  color: rgba(0,0,80,1);
+  background-color: #eef;
+  border: 3px solid #bbd;
+}
+
+#recordingview .card.recorded {
+  background-color: #eeeef4;
+  border-color: #bbbbc2;
+}
+
+#recordingview .navpanel {
+  margin: 2vh 0 0 0;
+
+  width: 80vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#recordingview .navpanel .position {
+  margin: 0 1vw 0 1vw;
+  font-size: 2.2vh;
+  color: #777;
+  white-space: nowrap;
+}
+
+#recordingview .navpanel BUTTON {
+  width: 12em;
+  height: 5vh;
+
+  padding: 1vh 3vw 1vh 3vw;
+  border-radius: 1vh;
+  border: 2px solid #bbd;
+  background-color: #ddf;
+  color: #446;
+  font-weight: bold;
+  font-size: 2vh;
+}
+
+#recordingview .navpanel BUTTON:disabled {
+  border: 2px solid #ccc;
+  background-color: #eee;
+  color: #888;
+}
+
+#recordingview .progresswidget {
+  width: 50vw;
+  min-width: 50vw;
+  padding: 0;
+  margin: 2vh 0 0 0;
+  border: 1px solid #aae;
+  background-color: #eee;
+}
+
+#recordingview .progressleft {
+  background-color: #aaf;
+}
+
+#recordingview .progresstext {
+  margin: 0.5vh 0 0 0;
+  font-size: 1.2vh;
+  color: #448;
+}
+
+#recordingview .controlpanel {
+  margin: 5vh 0 0 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#recordingview BUTTON.listen,#recordingview BUTTON.delete {
+  margin: 0 1vw 0 1vw;
+  width: 13vw;
+  min-width: 7em;
+  height: calc(min(6vh, 6vw));
+  border-radius: 3vh;
+  font-size: calc(min(2vh, 2vw));
+
+  border: 2px solid #cce;
+  background-color: #ddf;
+  color: #339;
+}
+
+#recordingview .controlpanel BUTTON.listen.playing {
+  border: 2px solid #c77;
+  background-color: #a00;
+  color: #fde;
+}
+
+#recordingview BUTTON.record {
+  margin: 0 1vw 0 1vw;
+  width: 35vw;
+  min-width: 10em;
+  height: calc(min(10vh, 10vw));
+
+  border-radius: 5vh;
+  font-size: calc(min(3vh, 3vw));
+
+  border: 3px solid #66e;
+  background-color: #00b;
+  color: #fff;
+}
+
+#recordingview .controlpanel.newcard BUTTON.record {
+  margin-left: 32.5vw;
+}
+
+#recordingview BUTTON.listen {
+  margin-left: 10vw;
+}
+
+#recordingview .controlpanel.recorded BUTTON.record {
+  width: 20vw;
+  min-width: 10em;
+  height: calc(min(6vh, 6vw));
+  border-radius: 3vh;
+  font-size: calc(min(2vh, 2vw));
+}
+
+#recordingview BUTTON.record:hover {
+  background-color: #33d;
+}
+
+#recordingview .controlpanel BUTTON:disabled {
+  border: 3px solid #bbb;
+  background-color: #888;
+  color: #bbb;
+}
+
+#recordingview .controlpanel BUTTON.cancel {
+  height: calc(min(6vh, 6vw));
+
+  margin: 0 0 0 1vw;
+  padding: 1vh 3vw 1vh 3vw;
+  border-radius: 3vh;
+  font-size: calc(min(2vh, 2vw));
+
+  border: 2px solid #c77;
+  background-color: #a00;
+  color: #fde;
+}
+
+#recordingview BUTTON.cancel:hover {
+  background-color: #c33;
+}

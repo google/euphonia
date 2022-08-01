@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "module": "amd",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noImplicitAny": false,
+    "strictNullChecks": true,
+    "outDir": "public/lib",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2017",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  },
+  "compileOnSave": true,
+  "include": [
+    "websrc",
+    "commonsrc"
+  ]
+}

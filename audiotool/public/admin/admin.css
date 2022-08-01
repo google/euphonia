@@ -1,0 +1,757 @@
+/**
+ * Copyright 2022 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+==================================================================================
+Common styles
+==================================================================================
+*/
+
+BODY {
+  font-family: Helvetica, Arial, Sans Serif;
+  margin: 0;
+  padding: 0;
+}
+
+TABLE,TR,TD {
+  text-align: left;
+  vertical-align: top;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-spacing: 0;
+}
+
+H2 {
+  font-size: 16px;
+  margin: 5px 0px 5px 0px;
+}
+
+A {
+  font-weight: bold;
+  color: #008;
+  text-decoration: underline;
+}
+
+#main {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#adminapp,#userview,#tasksetsview,#consentsview,#userdetailview,#consentdetailview,#tasksetdetailview {
+  box-sizing: border-box;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#adminapp .navbar {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #ddd;
+}
+
+#adminapp .navbar A {
+  margin: 5px 0px 5px 10px;
+  font-size: 13px;
+}
+
+.scrolltable {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+A {
+  cursor: pointer;
+}
+
+A:disabled {
+  cursor: not-allowed;
+}
+
+.toast {
+  box-sizing: border-box;
+  z-index: 900;
+  position: fixed;
+  display: block;
+  width: 50vw;
+  min-width: 50vw;
+  bottom: 30vh;
+  left: 25vw;
+
+  padding: 3vh 8vw 3vh 8vw;
+  background-color: #eee;
+  border: 3px solid #ccc;
+  border-radius: 3vw;
+
+  color: #888;
+  font-size: 2vh;
+  font-weight: bold;
+  text-align: center;
+}
+
+.errortoast {
+  background-color: #fdd;
+  border-color: #fbb;
+  color: #a44;
+}
+
+/*
+==================================================================================
+Dialog boxes
+==================================================================================
+*/
+
+.dialogoverlay {
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 700;
+  backdrop-filter: blur(3px);
+  background-color: #fffa;
+  
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.dialog {
+  margin-top: 20vh;
+  padding: 20px;
+  border: 4px solid #ddd;
+  background-color: #fff;
+}
+
+.dialog .title {
+  margin-bottom: 10px;
+}
+
+.dialog TABLE.formtable TD {
+  padding: 8px 10px 0 0;
+}
+
+.dialog TABLE.formtable TD.label {
+  font-weight: bold;
+  text-align: right;
+}
+
+.dialog TABLE.formtable INPUT {
+  width: 300px;
+}
+
+.dialog TABLE.formtable INPUT.checkbox {
+  width: auto;
+}
+
+.dialog TABLE.formtable INPUT.radio {
+  width: 2em;
+}
+
+.dialog TABLE.formtable TEXTAREA {
+  width: 300px;
+  min-height: 100px;
+}
+
+.dialog .buttonbox {
+  padding-top: 15px;
+  text-align: right;
+}
+
+.dialog .buttonbox BUTTON {
+  margin-left: 10px;
+}
+
+.dialog.choicedialog LABEL {
+  margin-right: 5px;
+}
+
+.dialog.choicedialog BUTTON {
+  margin-left: 5px;
+}
+
+/*
+==================================================================================
+User List View
+==================================================================================
+*/
+
+#userview {
+  padding: 0 8px 0 8px;
+  height: 100%;
+}
+
+#userview .buttonbox {
+  margin: 5px 0 5px 0;
+}
+
+#userview .buttonbox BUTTON {
+  margin-right: 5px;
+}
+
+#userview TABLE.users {
+  margin: 10px 0 0 0;
+  padding: 0;
+}
+
+#userview TABLE.users TH {
+  padding: 2px 4px 5px 8px;
+  background-color: #ddd;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  font-size: 13px;
+  font-weight: bold;
+}
+#userview TABLE.users .tick {
+  text-align: center;
+}
+
+#userview TABLE.users TR:hover TD {
+  background-color: #ffd;
+}
+
+#userview TABLE.users TD {
+  padding: 2px 4px 5px 8px;
+  font-size: 11px;
+  border-top: 1px solid #ddd;
+}
+
+#userview TABLE.users .num,#userview TABLE.users .date {
+  text-align: right;
+}
+
+#userview TABLE.users TD.euid {
+  font-size: 11px;
+  font-weight: bold;
+  font-family: monospace;
+  color: #008;
+}
+
+#userview TABLE.users TD.email {
+  font-size: 11px;
+  font-family: monospace;
+}
+
+#userview TABLE.users TD.num {
+  font-size: 14px;
+  font-family: monospace;
+}
+
+#userview TABLE.users TD.tags,#userview TABLE.users TD.language {
+  font-family: monospace;
+}
+
+#userview TABLE.users TD.date {
+  text-align: right;
+  font-size: 10px;
+  font-family: monospace;
+}
+
+/*
+==================================================================================
+User Detail View
+==================================================================================
+*/
+
+#userdetailview {
+  overflow-y: auto;
+}
+
+#userdetailview .userinfo .euid {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0 0 8px 10px;
+}
+
+#userdetailview .userinfo TD {
+  font-size: 12px;
+  padding: 2px 0 2px 10px;
+}
+
+#userdetailview .userinfo TD .label {
+  font-weight: bold;
+}
+
+#userdetailview H2 {
+  margin: 5px 10px 5px 10px;
+}
+
+#userdetailview .userinfo .buttonbox BUTTON {
+  margin: 5px 0 20px 10px;
+}
+
+#userdetailview TABLE.userwork {
+  margin: 10px;
+  padding: 0;
+}
+
+#userdetailview TABLE.userwork TH {
+  padding: 2px 4px 5px 8px;
+  background-color: #ddd;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+#userdetailview TABLE.userwork TR:hover TD {
+  background-color: #ffd;
+}
+
+#userdetailview TABLE.userwork TD {
+  padding: 2px 4px 5px 8px;
+  font-size: 11px;
+  border-top: 1px solid #ddd;
+}
+
+#userdetailview TABLE.userwork .num,#userdetailview TABLE.userwork .date {
+  text-align: right;
+}
+
+#userdetailview TABLE.userwork AUDIO {
+  height: 20px;
+}
+
+
+/*
+==================================================================================
+Taskset List View
+==================================================================================
+*/
+
+#tasksetsview {
+  padding: 0 8px 0 8px;
+  height: 100%;
+}
+
+
+#tasksetsview .buttonbox {
+  margin: 5px 0 5px 0;
+}
+
+#tasksetsview .buttonbox BUTTON {
+  margin-right: 5px;
+}
+
+#tasksetsview TABLE.tasksets {
+  margin: 10px 0 0 0;
+  padding: 0;
+}
+
+#tasksetsview TABLE.tasksets TH {
+  padding: 2px 5px 5px 10px;
+  background-color: #ddd;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+#tasksetsview TABLE.tasksets TR:hover TD {
+  background-color: #ffd;
+}
+
+#tasksetsview TABLE.tasksets TD {
+  padding: 2px 5px 5px 10px;
+  font-size: 11px;
+  border-top: 1px solid #ddd;
+}
+
+#tasksetsview TABLE.tasksets .num,#tasksetsview TABLE.tasksets .date {
+  text-align: right;
+}
+
+#tasksetsview TABLE.tasksets TD.tsid {
+  font-size: 11px;
+  font-weight: bold;
+  font-family: monospace;
+  color: #008;
+}
+
+#tasksetsview TABLE.tasksets TD.num {
+  font-size: 14px;
+  font-family: monospace;
+}
+
+#tasksetsview TABLE.tasksets TD.language {
+  font-family: monospace;
+}
+
+#tasksetsview TABLE.tasksets TD.date {
+  text-align: right;
+  font-size: 10px;
+  font-family: monospace;
+}
+
+/*
+==================================================================================
+Taskset Detail View
+==================================================================================
+*/
+
+#tasksetdetailview {
+  overflow-y: auto;
+}
+
+#tasksetdetailview .tasksetinfo {
+  margin: 10px;
+}
+
+#tasksetdetailview .tasksetinfo A {
+  font-weight: normal;
+  font-size: 11px;
+  margin-left: 6px;
+}
+
+#tasksetdetailview H2 {
+  margin: 5px 10px 5px 10px;
+}
+
+#tasksetdetailview .taskstats {
+  margin: 0px 0px 0px 10px;
+  font-size: 11px;
+}
+
+#tasksetdetailview BUTTON.addrule {
+  margin: 0 10px 15px 10px;
+}
+
+#tasksetdetailview .tasksetinfo .title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#tasksetdetailview .tasksetinfo .description {
+  font-size: 12px;
+}
+
+#tasksetdetailview .tasksetinfo .language {
+  color: #666;
+  font-style: italic;
+}
+
+#tasksetdetailview BUTTON.addrule {
+  margin-top: 5px;
+}
+
+#tasksetdetailview TABLE {
+  margin: 10px 0 0 10px;
+  padding: 0;
+}
+
+#tasksetdetailview TABLE TH {
+  padding: 2px 5px 5px 10px;
+  background-color: #ddd;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+#tasksetdetailview TABLE TR:hover TD {
+  background-color: #ffd;
+}
+
+#tasksetdetailview TABLE TD {
+  padding: 2px 5px 5px 10px;
+  font-size: 11px;
+  border-top: 1px solid #ddd;
+}
+
+#tasksetdetailview TABLE.tasks .num,#tasksetdetailview TABLE.tasks .date {
+  text-align: right;
+}
+
+#tasksetdetailview TABLE.tasks TD.tsid {
+  font-size: 11px;
+  font-weight: bold;
+  font-family: monospace;
+  color: #008;
+}
+
+#tasksetdetailview TABLE.tasks TD.num {
+  font-size: 14px;
+  font-family: monospace;
+  text-align: right;
+}
+
+#tasksetdetailview TABLE.tasks TD.language {
+  font-family: monospace;
+}
+
+#tasksetdetailview TABLE.tasks TD.date {
+  text-align: right;
+  font-size: 10px;
+  font-family: monospace;
+}
+
+#tasksetdetailview .buttonbar BUTTON {
+  margin: 10px 0 10px 10px;
+}
+
+.addtaskdialog LABEL,.addtaskdialog BUTTON,.addtaskdialog INPUT {
+  margin-right: 10px;
+}
+
+.addtaskdialog INPUT {
+  width: 300px;
+}
+
+.bulktaskdialog LABEL,.bulktaskdialog BUTTON,.bulktaskdialog INPUT {
+  margin-right: 10px;
+}
+
+/*
+==================================================================================
+Bulk Assign dialog
+==================================================================================
+*/
+
+.bulkassigndialog.dialog {
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+}
+
+.bulkassigndialog .assignline {
+  font-size: 11px;
+  font-style: italic;
+}
+
+.bulkassigndialog LABEL {
+  font-size: 12px;
+}
+
+.bulkassigndialog TABLE.formtable TD.taskstablebox {
+  display: block;
+  overflow: auto;
+  width: 700px;
+  height: 50vh;
+  border: 1px solid #ddd;
+  padding: 0;
+  margin-top: 5px;
+}
+
+.bulkassigndialog .taskstablebox TABLE.taskstable TH {
+  position: sticky;
+  top: 0;
+  padding: 2px 4px 5px 8px;
+  background-color: #ddd;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.bulkassigndialog .taskstablebox TABLE.taskstable .tick {
+  padding: 0;
+}
+
+.bulkassigndialog .taskstablebox TABLE.taskstable TD {
+  padding: 2px 4px 5px 8px;
+  font-size: 11px;
+  border-top: 1px solid #ddd;
+}
+
+.bulkassigndialog .taskstablebox TABLE.taskstable INPUT {
+  width: 15px;
+}
+
+.bulkassigndialog .taskstablebox TABLE.taskstable TD.created {
+  white-space: nowrap;
+}
+
+.bulkassigndialog .taskstablebox TABLE.taskstable.disabled {
+  pointer-events: none;
+  background-color: #fff;
+  color: #ccc;
+}
+
+.bulkassigndialog .taskstablebox TABLE.taskstable.disabled INPUT {
+  color: #aaa;
+  accent-color: #eee;
+}
+
+
+/*
+==================================================================================
+Consent List View
+==================================================================================
+*/
+
+#consentsview {
+  padding: 0 8px 0 8px;
+  height: 100%;
+}
+
+
+#consentsview .buttonbox {
+  margin: 5px 0 5px 0;
+}
+
+#consentsview .buttonbox BUTTON {
+  margin-right: 5px;
+}
+
+#consentsview TABLE.consents {
+  margin: 10px 0 0 0;
+  padding: 0;
+}
+
+#consentsview TABLE.consents TH {
+  padding: 2px 5px 5px 10px;
+  background-color: #ddd;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+#consentsview TABLE.consents TR:hover TD {
+  background-color: #ffd;
+}
+
+#consentsview TABLE.consents TD {
+  padding: 2px 5px 5px 10px;
+  font-size: 11px;
+  border-top: 1px solid #ddd;
+}
+
+#consentsview TABLE.consents TD.consentid {
+  font-size: 11px;
+  font-weight: bold;
+  font-family: monospace;
+  color: #008;
+}
+
+#consentsview TABLE.consents TD.num {
+  text-align: right;
+  font-size: 14px;
+  font-family: monospace;
+}
+
+#consentsview TABLE.consents TD.language {
+  font-family: monospace;
+}
+
+#consentsview TABLE.consents TD.date {
+  text-align: right;
+  font-size: 10px;
+  font-family: monospace;
+}
+
+/*
+==================================================================================
+Consent Detail View
+==================================================================================
+*/
+
+#consentdetailview {
+  overflow-y: auto;
+}
+
+#consentdetailview .consentinfo {
+  margin: 10px;
+}
+
+#consentdetailview .consentinfo TD {
+  font-size: 12px;
+  padding: 2px 0 2px 10px;
+}
+
+#consentdetailview .consentinfo TD .label {
+  text-align: right;
+  font-weight: bold;
+}
+
+#consentdetailview .consentinfo BUTTON {
+  margin: 4px 10px 0 10px;
+}
+
+#consentdetailview H2 {
+  margin: 5px 10px 5px 10px;
+}
+
+#consentdetailview BUTTON.addversion {
+  margin: 10px 10px 15px 10px;
+}
+
+#consentdetailview TABLE.versions {
+  margin: 10px 0 0 10px;
+  padding: 0;
+}
+
+#consentdetailview TABLE.versions TH {
+  padding: 2px 5px 5px 10px;
+  background-color: #ddd;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+#consentdetailview TABLE.versions TR:hover TD {
+  background-color: #ffd;
+}
+
+#consentdetailview TABLE.versions TD {
+  padding: 2px 5px 5px 10px;
+  font-size: 11px;
+  border-top: 1px solid #ddd;
+}
+
+#consentdetailview TABLE.versions TD.num {
+  font-size: 14px;
+  font-family: monospace;
+  text-align: right;
+}
+
+#consentdetailview TABLE.versions TD.language {
+  font-family: monospace;
+}
+
+#consentdetailview TABLE.versions TD.date {
+  text-align: right;
+  font-size: 10px;
+  font-family: monospace;
+}
+
+#consentdetailview TABLE.versions TD A {
+  margin-right: 10px;
+}
+
+#consentdetailview .buttonbar BUTTON {
+  margin: 10px 0 10px 10px;
+}
