@@ -2,7 +2,7 @@
 
 ### **Motivation and objective**
 
-Project Euphonia has demonstrated that it's possible to collect a large, useful dataset of impaired speech samples from participants using consumer devices in at-home settings. There is now a strong and demonstrated need for other institutions, both corporate and academic, to develop and share a dataset like this. A consortium of such institutions is in the process of funding a data collection partner to operate a similar program. This system is a contribution from Euphonia that encapsulates expertise and best practices.
+Project Euphonia has demonstrated that it's possible to collect a large, useful dataset of impaired speech samples from participants using consumer devices in at-home settings. There is now a strong and demonstrated need for other institutions, both corporate and academic, to develop and share a dataset like this. To support these needs, Euphonia has published this reference implementation which encapsulates some of our expertise and best practices.
 
 ### **Technology Choices**
 
@@ -20,7 +20,7 @@ A summary of key technology choices for various components of this system:
 - **Firebase Authentication**: permits restriction to the Google Identity Provider, which allows each request to be rejected until the user is signed in. This further permits arbitrary authorization rules such as allowlisting, admin users, etc. A future implementor could activate other Federated identity provider integrations as well.
 - **Firestore**: stores simple user metadata such as registration status and phrases completed, with reasonably performant queries.
 - **GCS**: stores recorded audio, in a simple JSON format, which can be exported later for research.
-- **GitHub**: Houses source code and implements version control. Repository will have ACLs for now, but will become open to consortium members once we have an initial version drafted.
+- **GitHub**: Houses source code and implements version control. Repository will have ACLs for now, but will become open to others once we have an initial version drafted.
 
 ### **Proposed Architecture**
 
@@ -31,7 +31,7 @@ At a glance:
 
 ### **Key Functions**
 
-Based on design inputs gathered from internal and consortium stakeholders, the high level functions/UX in the system are roughly:
+Based on design inputs gathered from experts, the high level functions/UX in the system are roughly:
 
 - **User registration**: collects interest form from anyone, collects consent, stores interest form responses, creates user record and assigns a non-identifying program ID such as a Euphonia EUID or a Relate hash.
 - **Recording tasks**: Shows the user prompt/task cards for them to complete. Permits listening to current recordings, collects new recordings, shows count and status. Uploads audio to storage. We expect the GUI to be "just like Project Relate" recording cards. Some keyboard support and cross-platform browser testing will be needed.
