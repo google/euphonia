@@ -66,7 +66,7 @@ export interface EUserData {
 export interface EUserInfo {
   euid: string;
   email: string;
-  name: string;
+  name: string;  // set by admin, or from the interest form during signup
   fbname?: string;  // this won't be set until the user claims their row
   language: string;
   tags: string[];
@@ -74,6 +74,7 @@ export interface EUserInfo {
   notes: string;
   numRecordings: number;
   lastRecordingTimestamp: number;
+  demographics?: UserDemographics;
   numTasks: number;
   numCompletedTasks: number;
   createTimestamp: number;
@@ -81,17 +82,41 @@ export interface EUserInfo {
   numAssignmentsByTaskSet: [taskSetId: string, numAssignments: number][];
 }
 
+// Structured storage of interest form reply
+export interface UserDemographics {
+  name?: string;
+  country?: string;
+  state?: string;
+  city?: string;
+  accent?: string;
+  referral?: string;
+  gender?: string;  // one of "male", "female", "undisclosed", "", or any other text for "other"
+  race?: string;
+  accessDevices?: string[];  // each entry is one of "computer", "androidphone", "iphone", "none", or any "other" string
+
+  hasHelper?: boolean;
+  helperName?: string;
+  helperEmail?: string;
+  helperRelationship?: string;
+  consentStorage?: boolean;
+  consentInitials?: string;
+  acceptTos?: boolean;
+  otherInfo?: string;
+}
+
 // Never stored, but these are the typical subset of parameters for a new user
 export interface NewUserInfo {
-  idinfo: {
-    email: string;
-    name: string;
-    uid?: string;  // uid may not be set yet for admin-created users
-  };
+  email: string;  // This must match Firebase signin, for security
+  name: string;
   language: string;
   tags: string[];
   signupTimestamp: number;
   notes: string;
+  demographics?: UserDemographics;
+
+  // these may not be set yet for admin-created users
+  fbuid?: string;
+  fbname?: string;
 }
 
 // Each ERecording

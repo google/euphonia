@@ -115,7 +115,7 @@ export class EStorage {
   // Creates a user if they don't exist, or claims their existing user account otherwise.
   async signUpUser(newuser: schema.NewUserInfo): Promise<EUser> {
     // First see if they already have an account and we can just claim it
-    const fbuid = newuser.idinfo.uid;
+    const fbuid = newuser.fbuid;
     if (!fbuid) {
       throw new ParamError('FBUser info required for signup');
     }
@@ -123,17 +123,18 @@ export class EStorage {
       let existingUser = await this.loadUserByFBUID(fbuid, txn);
       if (!existingUser) {
         // The user may have been pre-enrolled by an administrator
-        existingUser = await this.loadUserByEmail(newuser.idinfo.email, txn);
+        existingUser = await this.loadUserByEmail(newuser.email, txn);
         if (!existingUser) {
           return null;  // This is a fresh signup, no existing record to update
         }
       }
 
       // Claim and update the existing record
-      existingUser.fbuid = newuser.idinfo.uid;
-      existingUser.info.email = newuser.idinfo.email;  // this can be slightly different due to normalization
-      existingUser.info.fbname = newuser.idinfo.name;
+      existingUser.fbuid = fbuid;
+      existingUser.info.email = newuser.email;  // this can be slightly different due to normalization
+      existingUser.info.fbname = newuser.fbname;
       existingUser.info.signupTimestamp = newuser.signupTimestamp;
+      existingUser.info.demographics = newuser.demographics;
       existingUser.update(txn);
       return existingUser;
     });
@@ -169,7 +170,7 @@ export class EStorage {
       try {
         return await this.run(async txn => {
           // Make sure the normalized email is unique
-          const user = await this.loadUserByEmail(newuser.idinfo.email, txn);
+          const user = await this.loadUserByEmail(newuser.email, txn);
           if (user) {
             throw new Error(`Email address already in use: ${user.info.email} (${user.normalizedEmail})`);
           } else {
@@ -203,15 +204,15 @@ export class EStorage {
     // This EUID is unused, create a full user record
     const info: schema.EUserInfo = {
       euid: newEuid,
-      email: newuser.idinfo.email,
-      name: newuser.idinfo.name,
-      fbname: newuser.idinfo.name,  // This can be set to something else later when the logged in user claims this record
+      email: newuser.email,
+      name: newuser.name,
       language: newuser.language,
       tags: newuser.tags,
       consents: [],
       notes: newuser.notes,
       createTimestamp: Date.now(),
       signupTimestamp: newuser.signupTimestamp,
+      demographics: newuser.demographics,
       // These counters are denormalized by the mutation APIs elsewhere
       numRecordings: 0,
       lastRecordingTimestamp: 0,
@@ -222,8 +223,8 @@ export class EStorage {
 
     const fsdata: schema.EUserData = {
       euid: newEuid,
-      fbuid: newuser.idinfo.uid,  // this will be unset for admin-created users
-      normalizedEmail: normalizeEmail(newuser.idinfo.email),
+      fbuid: newuser.fbuid,  // this will be unset for admin-created users
+      normalizedEmail: normalizeEmail(newuser.email),
       info: JSON.stringify(info)
     };
 

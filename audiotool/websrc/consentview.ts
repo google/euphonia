@@ -19,7 +19,7 @@ import {App} from './app';
 import * as firebaseconfig from './firebaseconfig';
 import * as schema from '../commonsrc/schema';
 import {parseTags} from '../commonsrc/util';
-import {toast, Spinner} from './util';
+import {Spinner} from './util';
 
 // Shows the consents to the user immediately before they enroll.
 export class ConsentView {
@@ -59,18 +59,23 @@ export class ConsentView {
 
   // Hides or shows the whole display
   async eshow(show: boolean): Promise<void> {
-    if (show) {
-      $('#whoisenrolling').text(this.data.fbuser!.email);
-      this.consents = await this.data.listConsents(this.language, this.tags);
-      this.consents = this.consents.filter(c => !this.hasAgreement_(c));
-
-      if (this.consents.length < 1) {
-        this.displayError_();
-      } else {
-        await this.displayConsentIdx_(0);
-      }
-    }
     this.div.eshow(show);
+  }
+
+  // React to any changes to the user's account or enrollment
+  async handleUpdate() {
+    if (!this.data.fbuser) {
+      return;  // Don't try to set up until the user signs in
+    }
+    
+    $('#whoisenrolling').text(this.data.fbuser.email);
+    this.consents = await this.data.listConsents(this.language, this.tags);
+
+    if (this.consents.length < 1) {
+      this.displayError_();
+    } else {
+      await this.displayConsentIdx_(0);
+    }
   }
 
   // Shows an error if there are no consents to load
@@ -102,7 +107,9 @@ export class ConsentView {
   async displayConsentIdx_(idx: number) {
     const consentCount = this.consents!.length;
     const consent = this.consents![idx];
+    const isFirst = idx <= 0;
     const isLast = idx + 1 >= consentCount;
+    const isAgreed = this.hasAgreement_(consent);
     if (consent.versions.length != 1) {
       throw new Error(`Unexpected applicable versions for consent: ${consent.id}: ${consent.versions.length} versions`);
     }
@@ -117,12 +124,14 @@ export class ConsentView {
     const consentBox = this.consentDiv.eadd('<div class=consentbox />');
     const cb = consentBox.eadd('<input type=checkbox id=agreementcheckbox />');
     consentBox.eadd('<label for=agreementcheckbox />').etext('I agree to the terms above');
+    cb.prop('checked', isAgreed);
 
-    const nextButton = this.consentDiv.eadd('<button class=nextbutton />');
-    nextButton.etext(isLast ? 'Enroll' : 'Next Agreement');
+    const buttonBox = this.consentDiv.eadd('<div class=buttonbox />');
+    const nextButton = buttonBox.eadd('<button class=next />');
+    nextButton.etext(isLast ? (isAgreed ? 'Continue' : 'Enroll') : 'Next Agreement');
     nextButton.on('click', async e => {
       if (!consent.optional && !cb.is(':checked')) {
-        toast('You must agree to the terms to continue');
+        this.app.showMessage('You must agree to the terms to continue.', 'error');
         return;
       }
       this.agreements.push({
@@ -134,10 +143,21 @@ export class ConsentView {
       await Spinner.waitFor(async () => {
         if (isLast) {
           await this.doSaveAgreement_();
+          await this.app.navigateTo('/instructions');
         } else {
           await this.displayConsentIdx_(idx + 1);
         }
       });
+    });
+    const backButton = buttonBox.eadd('<button>Go Back</button>');
+    backButton.on('click', async e => {
+      if (isFirst) {
+        await this.app.navigateTo('/interest');
+      } else {
+        await Spinner.waitFor(async () => {
+          await this.displayConsentIdx_(idx - 1);
+        });
+      }
     });
   }
 
@@ -145,14 +165,11 @@ export class ConsentView {
   async doSaveAgreement_() {
     if (!this.data.user) {
       // Enroll a new user
-      await this.data.enroll(this.language, this.tags, this.agreements);
+      const demographics = this.data.loadDemographics();
+      await this.data.enroll(this.language, this.tags, this.agreements, demographics);
     } else {
       // The user is already enrolled, so we only need to update their agreements.
       await this.data.updateAgreements(this.agreements);
     }
-  }
-
-  // Unused
-  async handleUpdate() {
   }
 }

@@ -31,7 +31,10 @@ interface JQuery {
   evalue(inputValue: string): JQuery<HTMLElement>;
 }
 
-// The object we get from onAuthStateChanged
+// The object we get from onAuthStateChanged;
+// see https://firebase.google.com/docs/reference/js/v8/firebase.User
 interface FBUser {
+  uid: string;
   email: string;
+  displayName: string;
 }

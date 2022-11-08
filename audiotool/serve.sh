@@ -22,6 +22,9 @@ cd functions
 npm run build
 cd ..
 
+# Deploy third party dependencies as a library
+cp -r third_party public/lib
+
 # For local development only, copy the source map
 cp -r -f websrc public/websrc
 

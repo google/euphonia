@@ -16,7 +16,7 @@
 
 import {Data} from './data';
 import {App} from './app';
-import {sleep, sleepFrame, toast} from './util';
+import {sleep, sleepFrame} from './util';
 import {ProgressWidget} from './progresswidget';
 import * as schema from '../commonsrc/schema';
 
@@ -123,6 +123,10 @@ export class RecordingView {
 
   // Called when the user's tasks or metadata have changed, like after a recording
   async handleUpdate() {
+    if (!this.data.user) {
+      return;  // Only react to changes after the user is enrolled
+    }
+
     if (this.taskPos >= this.data.tasks.length) {
       // Tasks have disappeared?? Jump to anywhere valid
       [this.taskPos, this.task] = this.findFirstTask_();
@@ -227,6 +231,7 @@ export class RecordingView {
     if (this.isRecording || this.isStoppingRecord) {
       return;  // Don't navigate while we're recording or uploading
     }
+    this.app.clearMessage();
     const oldPos = this.taskPos;
     this.taskPos = Math.min(Math.max(pos, 0), this.data.tasks.length - 1);
     this.task = this.data.tasks.length > 0 ? this.data.tasks[this.taskPos] : undefined;
@@ -318,13 +323,13 @@ export class RecordingView {
       this.updateGUI_();
       try {
         await this.data.deleteAudio(this.task);
-        toast('Recording deleted');
+        this.app.showMessage('Recording deleted.');
       } finally {
         this.isDeleting = false;
       }
       this.updateGUI_();
     } else {
-      toast('No recording to delete');
+      this.app.showMessage('No recording to delete.');
     }
   }
 
@@ -346,7 +351,7 @@ export class RecordingView {
     }
 
     if (!this.task || this.task.recordedTimestamp == 0) {
-      toast('No recording to play');
+      this.app.showMessage('No recording to play.');
       this.updateGUI_();
       return;
     }
@@ -383,7 +388,7 @@ export class RecordingView {
     this.chunks = [];
     try {
       if (!this.task) {
-        throw new Error('Unexpected missing task, cannot save audio');
+        throw new Error('Unexpected missing task, could not save audio.');
       }
       if (!this.isCanceling) {
         await this.data.saveAudio(this.task, uploadData);
@@ -407,10 +412,10 @@ export class RecordingView {
 
     if (canceled) {
       this.updateGUI_();
-      toast('Recording canceled');
+      this.app.showMessage('Recording canceled', 'error');
     } else if (!uploaded) {
       this.updateGUI_();
-      toast('Upload failed, your audio may not be saved', 3000);
+      this.app.showMessage('Upload failed, your audio may not be saved.', 'error');
     } else {
       await this.autoAdvance_();
     }
@@ -420,15 +425,15 @@ export class RecordingView {
   async autoAdvance_() {
     const user = this.data.user;
     if (this.taskPos < this.data.tasks.length - 1) {
-      toast(`Recording uploaded, here's the next card`);
+      this.app.showMessage(`Recording uploaded! Here's the next card.`);
       await this.gotoTask_(this.taskPos + 1, true);
 
     } else if (user && user.numCompletedTasks >= user.numTasks) {
       // TODO: congratulations screen
-      toast('Congratulations! All tasks completed.');
+      this.app.showMessage('Congratulations! All tasks completed.');
 
     } else if (user) {
-      toast(`Recording uploaded, here's one we missed`);
+      this.app.showMessage(`Recording uploaded! Here's one we missed.`);
       const [firstSkipped, ] = this.findFirstTask_();
       await this.gotoTask_(firstSkipped, true);
     }

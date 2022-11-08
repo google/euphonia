@@ -66,7 +66,7 @@ export class AudioApi {
     AudioApi.installJSONApi(  server, deps, '/api/getuser',                    'runApiGetUser',                   'post');
     AudioApi.installJSONApi(  server, deps, '/api/listconsents',               'runApiListConsents',              'post');
     AudioApi.installJSONApi(  server, deps, '/api/signup',                     'runApiSignup',                    'post');
-    AudioApi.installJSONApi(  server, deps, 'updateagreements',                'runApiUpdateAgreements',          'post');
+    AudioApi.installJSONApi(  server, deps, '/api/updateagreements',           'runApiUpdateAgreements',          'post');
     AudioApi.installJSONApi(  server, deps, '/api/uploadaudio',                'runApiUploadAudio',               'post');
     AudioApi.installStreamApi(server, deps, '/api/getaudio',                   'runApiGetAudio',                  'get');
     AudioApi.installJSONApi(  server, deps, '/api/deleteaudio',                'runApiDeleteAudio',               'post');
@@ -226,14 +226,25 @@ export class AudioApi {
     // Resolve the consents they agreed to
     const info = this.getBodyJSON();
     const userConsents = requireArray(info.agreements as schema.EAgreementInfo[], 1);
+    const demographics = info.demographics as schema.UserDemographics;
+
+    // Interest form safety checks; these shouldn't ever trigger if the form works right.
+    if (!demographics || !demographics.consentStorage || !demographics.consentInitials || !demographics.acceptTos) {
+      throw new ParamError(`Attempted to sign up without interest form agreement`);
+    }
 
     // Define the new user
+    const idinfo = this.getUser();
     const newuser: schema.NewUserInfo = {
-      idinfo: this.getUser(),
+      email: idinfo.email,
+      name: demographics.name ? demographics.name : idinfo.name,
+      fbuid: idinfo.uid,
+      fbname: idinfo.name,
       language: requireLanguage(info.language),
       tags: normalizeTags(info.tags as string[]),
       signupTimestamp,
-      notes: ''
+      notes: '',
+      demographics
     };
 
     let user = await this.storage.signUpUser(newuser);
@@ -318,8 +329,8 @@ export class AudioApi {
   async runAdminApiNewUser() {
     // Creates a new user without their login info
     const newuser: schema.NewUserInfo = this.getBodyJSON();
-    requireParam(newuser.idinfo.name);
-    requireParam(newuser.idinfo.email);
+    requireParam(newuser.name);
+    requireParam(newuser.email);
     newuser.tags = normalizeTags(newuser.tags);
     const [user, taskSets] = await this.storage.createUser(newuser);
     return [user.info, taskSets.map(ts => ts.info)];

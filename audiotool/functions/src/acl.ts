@@ -16,6 +16,7 @@
 
 import firebaseadmin = require('firebase-admin');
 import express = require('express');
+import * as firebaseconfig from './firebaseconfig';
 firebaseadmin.initializeApp();
 
 // Tightens the Firebase user object to be non-nullable.
@@ -32,9 +33,7 @@ export interface UserRequest extends express.Request {
 
 // Simple access checks for API endpoints
 export class ACL {
-  static ADMINS = new Set([
-    'yourname@gmail.com',
-  ]);
+  static ADMINS = new Set(firebaseconfig.ADMIN_EMAILS);
 
   // Ensures that the request is from an authenticated user of some sort, and sets the user on the request.
   static async checkAuthenticated(req: express.Request, res: express.Response) {

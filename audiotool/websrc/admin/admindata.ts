@@ -90,7 +90,7 @@ export class AdminData {
         throw new Error(`Email already enrolled: ${email} is ${existingUser.euid}`);
       }
       const info: schema.NewUserInfo = {
-        idinfo: {email, name}, language, tags, notes,
+        email, name, language, tags, notes,
         signupTimestamp: 0
       };
       const [user, taskSets]: [schema.EUserInfo, schema.ETaskSetInfo[]] = await postAsJson('/api/admin/newuser', info);

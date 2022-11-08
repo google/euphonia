@@ -114,3 +114,8 @@ export function sorted<X>(list: X[], predicate: (a: X, b: X) => number): X[] {
 export function clone<X>(obj: X): X {
   return JSON.parse(JSON.stringify(obj)) as X;
 }
+
+// Returns true if the given item is one of the given list items.
+export function listhas<X>(item: X, ...list: X[]) {
+  return list.indexOf(item) != -1;
+}

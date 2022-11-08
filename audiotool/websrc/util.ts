@@ -126,6 +126,19 @@ export async function fadeOut(div: JQuery, opt_speed?: number) {
   await animateOpacity(div, 1, 0, opt_speed);
 }
 
+// Eases a background color change over time.
+export async function animateCss(div: JQuery, fromClass: string, toClass: string, opt_speed?: number) {
+  if (!opt_speed) {
+    opt_speed = 0.3;
+  }
+  div.addClass(fromClass);
+  await sleep(100);
+  div.addClass(toClass);
+  await sleep(Math.round(opt_speed * 1000));
+  div.removeClass(fromClass);
+  div.removeClass(toClass);
+}
+
 export function toURL(path: string, opt_args?: any): URL {
   const url = new URL(window.location.origin + path);
   if (opt_args) {
@@ -136,8 +149,8 @@ export function toURL(path: string, opt_args?: any): URL {
   return url;
 }
 
-// Performs a network fetch to the server, providing the signed-in user's token. Throws an exception on non-200 responses.
-export async function authenticatedFetch(path: string, opt_args?: any, opt_method?: string, opt_rawBody?: ArrayBuffer) {
+// Performs a network fetch to the server, providing the signed-in user's token, with 1 auth-related retry. Throws an exception on non-200 responses.
+export async function authenticatedFetch(path: string, opt_args?: any, opt_method?: string, opt_rawBody?: ArrayBuffer, retries = 1) {
   const method = opt_method == null ? 'get' : opt_method;
   const args = opt_args == null ? {} : opt_args;
   const options: RequestInit = { method };
@@ -148,19 +161,30 @@ export async function authenticatedFetch(path: string, opt_args?: any, opt_metho
     options.headers = headers;
     options.body = opt_rawBody;
   }
-  const token = await firebase.auth().currentUser.getIdToken();
-  document.cookie = '__session=' + token + ';max-age=3600;path=/';
-  const rsp = await fetch(url.toString(), options);
-  if (!rsp.ok) {
-    // The server will usually give application errors in JSON format
-    const contentType = rsp.headers.get('content-type');
-     if (contentType && contentType.includes('application/json')) {
-      const message = await rsp.json();
-      throw new Error(message[0]);
+  let triesLeft = retries;
+  while (true) {
+    triesLeft--;
+    const token = await firebase.auth().currentUser.getIdToken();
+    document.cookie = '__session=' + token + ';max-age=3600;path=/';
+    const rsp = await fetch(url.toString(), options);
+    if (rsp.ok) {
+      return rsp;
+
+    } else if (0 < triesLeft && (rsp.status == 401 || rsp.status == 403)) {
+      continue;  // try again; the failed response will cause a cookie refresh
+
+    } else {
+      // The server will usually give application errors in JSON format
+      const contentType = rsp.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const message = await rsp.json();
+        throw new Error(message[0]);
+      } else {
+        // Otherwise just report a generic error
+        throw new Error('Error during request');
+      }
     }
-    throw new Error('Error during request');
   }
-  return rsp;
 }
 
 // Same as above, but POSTs a JSON body and receives JSON blob, which it parses.
@@ -183,7 +207,7 @@ export function toast(message: string, duration: number = 1000, cssClasses: stri
 }
 
 export function errorToast(message: string) {
-  toast(message, 5000, 'toast errortoast');
+  toast(message, 3000, 'toast errortoast');
 }
 
 // Blocks out the UI with a global modal spinner

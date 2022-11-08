@@ -55,8 +55,10 @@ export class UserDetailView {
     this.userinfo.empty();
     this.userinfo.eadd('<div class=euid />').etext(`User ${this.user.euid}`);
     const table = this.userinfo.eadd('<table />');
-    table.eaddtr([$('<span class=label />').etext('Name:'), $('<span />').etext(`${this.user.name}`)]);
+    table.eaddtr([$('<span class=label />').etext('Name:'), $('<span />').etext(`${this.getNameInfo_()}`)]);
     table.eaddtr([$('<span class=label />').etext('Email:'), $('<span />').etext(`${this.user.email}`)]);
+    table.eaddtr([$('<span class=label />').etext('Assistant:'), $('<span />').etext(`${this.getHelperInfo_()}`)]);
+    table.eaddtr([$('<span class=label />').etext('Location:'), $('<span />').etext(`${this.getLocationInfo_()}`)]);
     table.eaddtr([$('<span class=label />').etext('Language:'), $('<span />').etext(`${this.user.language}`)]);
     table.eaddtr([$('<span class=label />').etext('Tags:'), $('<span />').etext(`${this.user.tags.join(' ')}`)]);
     table.eaddtr([$('<span class=label />').etext('Signed up:'), $('<span />').etext(`${formatTimestamp(this.user.signupTimestamp, 'never')}`)]);
@@ -74,13 +76,83 @@ export class UserDetailView {
       consentNode.eadd('<div class=consent />').text(`${consent.consentId} (${consent.version}): ${cts}${revoked}`);
     }
 
-    // Notes
+    // Notes and demographics
+    table.eaddtr([$('<span class=label />').etext('Other info:'), $('<span />').etext(`${this.getDemographicsInfo_()}`)]);
     table.eaddtr([$('<span class=label />').etext('Notes:'), $('<span />').etext(`${this.user.notes}`)]);
+
+    // Controls
     const buttons = this.userinfo.eadd('<div class=buttonbox />');
     buttons.eadd('<button />').etext('Edit User').on('click', async e => await this.startEdit());
     buttons.eadd('<button />').etext('Assign tasks').on('click', async e => await this.startAssign());
     buttons.eadd('<button />').etext('Unassign all remaining tasks').on('click', async e => await this.unassignAll());
     this.parent.app.setNav(`/user/${this.user.euid}`);
+  }
+
+  getNameInfo_(): string {
+    const fn = this.user.fbname;
+    const dn = this.user.name;
+    if (fn && dn && fn.trim() != dn.trim()) {
+      return `${dn} (Signed in as ${fn})`;
+    } else {
+      return dn;
+    }
+  }
+
+  getHelperInfo_(): string {
+    const d = this.user.demographics;
+    if (!d || !d.hasHelper) {
+      return 'Unassisted';
+    }
+    let result = '';
+    if (d.helperName) {
+      result += d.helperName + ': ';
+    }
+    if (d.helperEmail) {
+      result += d.helperEmail;
+    }
+    if (d.helperRelationship) {
+      result += ` (${d.helperRelationship})`;
+    }
+    return result;
+  }
+
+  getLocationInfo_(): string {
+    const d = this.user.demographics;
+    let result = '';
+    if (d && d.city) {
+      result += d.city + ' ';
+    }
+    if (d && d.state) {
+      result += d.state + ' ';
+    }
+    if (d && d.country) {
+      result += d.country + ' ';
+    }
+    return result == '' ? 'unknown' : result;
+  }
+
+  getDemographicsInfo_(): string {
+    const d = this.user.demographics;
+    let result = '';
+    if (d && d.accent) {
+      result += `accent=${d.accent}; `;
+    }
+    if (d && d.referral) {
+      result += `referral=${d.referral}; `;
+    }
+    if (d && d.gender) {
+      result += `gender=${d.gender}; `;
+    }
+    if (d && d.race) {
+      result += `race=${d.race}; `;
+    }
+    if (d && d.accessDevices && d.accessDevices.length > 0) {
+      result += `devices=${d.accessDevices.join(', ')}; `;
+    }
+    if (d && d.otherInfo) {
+      result += `info=${d.otherInfo}; `;
+    }
+    return result;
   }
 
   // Displays the view

@@ -38,7 +38,7 @@ export class InstructionsView {
     <iframe width="560" height="315" src="https://www.youtube.com/embed/e6z5rEgoqnI" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     `);
     this.doneButton = this.div.eadd('<button>Start recording!</button>');
-    this.doneButton.on('click', async e => await this.app.showView(this.app.recordingView));
+    this.doneButton.on('click', async e => await this.app.navigateTo('/record'));
   }
 
   // Hides or shows the whole display

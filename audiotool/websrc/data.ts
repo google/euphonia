@@ -22,7 +22,7 @@ import * as schema from '../commonsrc/schema';
 export class Data {
   listener: Listener;  // the app
   fbuser?: FBUser;  // set when the user is authenticated
-  user?: schema.EUserInfo;  // set when the user is enrolled
+  user?: schema.EUserInfo;  // set once the user has a server entry, post-consent
   consented: boolean = false;  // Set when the server thinks this user has all required agreements
   consentCheckTimestamp: number = 0;  // Last time we checked agreements
 
@@ -68,11 +68,12 @@ export class Data {
   }
 
   // Creates a new user account. The user must be signed in.
-  async enroll(language: string, tags: string[], agreements: schema.EAgreementInfo[]): Promise<void> {
+  async enroll(language: string, tags: string[], agreements: schema.EAgreementInfo[],
+               demographics: schema.UserDemographics): Promise<void> {
     if (!this.fbuser) {
       throw new Error('Unexpected signup for unauthenticated user');
     }
-    const result = await postAsJson('/api/signup', {language, tags, agreements});
+    const result = await postAsJson('/api/signup', {language, tags, agreements, demographics});
     const [euser, etasks, isConsented] = result as [schema.EUserInfo, schema.EUserTaskInfo[], boolean];
     this.updateFields_(euser, etasks);
     this.consented = isConsented;
@@ -119,6 +120,38 @@ export class Data {
       const [euser, etask] = await rsp.json() as [schema.EUserInfo, schema.EUserTaskInfo];
       await this.updateTask_(euser, etask);
     });
+  }
+
+  // Stores demographics locally, for later submission when we enroll the person
+  saveDemographics(d: schema.UserDemographics) {
+    localStorage.setItem('demographics', JSON.stringify(d));
+  }
+
+  // Retrieves any previously stored demographics, or returns a new blank one.
+  loadDemographics(): schema.UserDemographics {
+    const d: string|null = localStorage.getItem('demographics');
+    if (d) {
+      return JSON.parse(d) as schema.UserDemographics;
+    } else {
+      return {};
+    }
+  }
+
+  // Returns true if all required fields in the demographics struct are complete.
+  isCompletedDemographics(): boolean {
+    let d: schema.UserDemographics;
+    if (this.user && this.user.demographics) {
+      d = this.user.demographics;
+    } else {
+      d = this.loadDemographics();
+    }
+    return (!!d.country &&
+      (d.country != 'USA' || !!d.state) &&
+      (d.hasHelper != undefined) &&
+      (!d.hasHelper || !!d.helperEmail) &&
+      !!d.consentStorage &&
+      !!d.consentInitials &&
+      !!d.acceptTos);
   }
 
   // Acquires updated data from the server's responses
