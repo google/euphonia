@@ -1,3 +1,11 @@
+# Generated files, see deploy.js
+functions/src/firebaseconfig.ts
+websrc/firebaseconfig.ts
+firebase.json
+.firebaserc
+deploy_test.json
+deploy_prod.json
+
 # Logs
 logs
 *.log

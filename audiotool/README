@@ -26,21 +26,14 @@ NOTE: To get this demo fully working for yourself, you will need to set up a Goo
 
 ## Deploy to test
 
-8. ./node_modules/.bin/firebase deploy --only hosting:yourproject,functions:audioapp,firestore:indexes
-9. https://yourproject.web.app/
-
-
+1. Create a deploy_test.json file by copying the example
+2. Create a test_key.json by copying the example
+3. Fill in all the required values in both files, such as project name and hosting site name
+4. ./deploy.sh
+5. https://yourproject.web.app/
 
 
 ## Run Firebase locally
 
-For some reason port 5000 doesn't work on my laptop?
-
-./node_modules/.bin/firebase emulators:start
-./node_modules/.bin/firebase serve --host localhost --port 8991 --debug
-
-
-
-
-
-
+1. ./serve.sh
+2. http://localhost:8991

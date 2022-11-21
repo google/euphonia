@@ -18,3 +18,9 @@ set -e
 
 # Erase build areas
 rm -rf public/lib public/websrc functions/lib
+
+# Erase the template files
+rm -f functions/src/firebaseconfig.ts
+rm -f websrc/firebaseconfig.ts
+rm -f firebase.json
+rm -f .firebaserc

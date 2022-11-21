@@ -1,10 +1,11 @@
 {
   "hosting": {
-    "target": "yourproject",
+    "target": "__EUPHONIA_FIREBASE_HOST__",
     "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
+      "**/*.template",
       "**/node_modules/**"
     ],
     "rewrites": [

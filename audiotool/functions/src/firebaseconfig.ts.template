@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-// Constants that we would change to point at a different cloud project
+// These magic values will be rewritten by deploy.js into the firebaseconfig.ts file.
 
-export const BUCKET         = 'todo';
-export const RECORDING_PATH = 'audioapp_recordings';
-export const CONSENT_PATH = 'audioapp_consents';
+export const BUCKET         = '__EUPHONIA_FIREBASE_STORAGE_BUCKET__';
+export const RECORDING_PATH = '__EUPHONIA_FIREBASE_STORAGE_RECORDING_PATH__';
+export const CONSENT_PATH = '__EUPHONIA_FIREBASE_STORAGE_CONSENTS_PATH__';
 export const MAX_TASK_BATCH_SIZE = 450;
+export const ADMIN_EMAILS = [__EUPHONIA_ADMIN_EMAILS_LIST__];

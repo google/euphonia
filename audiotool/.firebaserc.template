@@ -1,0 +1,12 @@
+{
+  "projects": {},
+  "targets": {
+    "__EUPHONIA_FIREBASE_PROJECT_ID__": {
+      "hosting": {
+        "__EUPHONIA_FIREBASE_HOST__": [
+          "__EUPHONIA_FIREBASE_HOST__"
+        ]
+      }
+    }
+  }
+}
