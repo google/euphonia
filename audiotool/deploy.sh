@@ -16,7 +16,7 @@
 
 set -e
 
-# "prod" or "test" etc
+# "prod", "test", or "local"
 DEPLOY_ENV=$1
 
 # Load vars for the desired deployment
@@ -49,5 +49,11 @@ cp -r third_party public/lib
 cp -r -f websrc public/websrc
 
 # Deploy
-./node_modules/.bin/firebase target:apply hosting ${HOSTINGNAME} ${HOSTINGNAME}
-./node_modules/.bin/firebase deploy --only hosting:${HOSTINGNAME},functions:audioapp,firestore:indexes
+if [ "${DEPLOY_ENV}" == "local" ]; then
+  # Launch the local emulators
+  ./node_modules/.bin/firebase target:apply hosting ${HOSTINGNAME} ${HOSTINGNAME}
+  ./node_modules/.bin/firebase serve --host localhost --port 8991
+else
+  ./node_modules/.bin/firebase target:apply hosting ${HOSTINGNAME} ${HOSTINGNAME}
+  ./node_modules/.bin/firebase deploy --only hosting:${HOSTINGNAME},functions:audioapp,firestore:indexes
+fi

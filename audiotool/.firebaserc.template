@@ -1,5 +1,7 @@
 {
-  "projects": {},
+  "projects": {
+    "default": "__EUPHONIA_FIREBASE_PROJECT_ID__"
+  },
   "targets": {
     "__EUPHONIA_FIREBASE_PROJECT_ID__": {
       "hosting": {

@@ -3,6 +3,7 @@ functions/src/firebaseconfig.ts
 websrc/firebaseconfig.ts
 firebase.json
 .firebaserc
+deploy_local.json
 deploy_test.json
 deploy_prod.json
 

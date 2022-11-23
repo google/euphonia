@@ -16,6 +16,9 @@
 
 set -e
 
+# Generate template files for local deployment
+node ./deployvars.js gentemplate "local"
+
 # Compile
 npm run build
 cd functions
