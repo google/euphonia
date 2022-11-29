@@ -52,7 +52,7 @@ export class SignupView {
         <a target="_blank" href="https://google-health.force.com/s/form?type=euphoniaform">Contact Us</a>`);
     this.signinDiv = introDiv.eadd('<div />');
     this.signinDiv.eadd('<span>Already enrolled? &nbsp;</span>');
-    this.signinDiv.eadd(`<a href="#">Click to sign in and continue recording</a>`).on('click', async e => await this.login_(true));
+    this.signinDiv.eadd(`<a href="#">Click to sign in and continue recording</a>`).on('click', async e => await this.login(true));
     this.signinDiv.eshow(firebase.auth().currentUser == null);
     
     // confirm basic eligibility
@@ -79,7 +79,7 @@ export class SignupView {
       if (firebase.auth().currentUser == null) {
         // Have them sign in, so that we can more quickly notice if they are
         // already signed up. They'll come back here once logged in.
-        await this.login_(false);
+        await this.login(false);
       }
       await this.app.navigateTo('/interest');
     });
@@ -96,12 +96,12 @@ export class SignupView {
   }
 
   // Runs the Firebase login flow when the user clicks next.
-  async login_(autoNavigate: boolean) {
+  private async login(autoNavigate: boolean) {
     const cred = await Spinner.waitFor(async () => {
-      // If they already have an account, they'll go straight to the app after this. See Data.handleUserAuth_
+      // If they already have an account, they'll go straight to the app after this. See Data.handleUserAuth
       return await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
     });
-    await this.app.data.handleUserAuth_(cred ? cred.user : null);
+    await this.app.data.handleUserAuth(cred ? cred.user : null);
     if (autoNavigate) {
       // pick the best screen based on their account state
       await this.app.navigateTo('');

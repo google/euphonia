@@ -46,7 +46,7 @@ export class InterestView {
     const backButton = buttons.eadd('<button>Go Back</button>');
     const clearButton = buttons.eadd('<button>Clear form and start over</button>');
     backButton.on('click', async e => {
-      const d = this.collect_();
+      const d = this.collect();
       this.data.saveDemographics(d);
       await this.app.navigateTo('/enroll');
     });
@@ -67,7 +67,7 @@ export class InterestView {
     }
 
     // Populate the interest form with any saved choices the user made
-    this.fill_(this.data.loadDemographics());
+    this.fill(this.data.loadDemographics());
   }
 
   // Unused
@@ -77,21 +77,21 @@ export class InterestView {
   // Returns true if the user's inputs were all valid; otherwise toasts and returns false.
   async save(): Promise<boolean> {
     // Save their answers so they can come back, even if they're not right.
-    const d = this.collect_();
+    const d = this.collect();
     this.data.saveDemographics(d);
 
     // Validate required fields
     try {
-      this.checkRequired_('Country is required.', !!d.country);
-      this.checkRequired_('State is required.', d.country != 'USA' || !!d.state);
-      this.checkRequired_('Please tell us if someone will be helping you record.', d.hasHelper != undefined);
-      this.checkRequired_('Please tell us how to email the person helping you.', !d.hasHelper || !!d.helperEmail);
-      this.checkRequired_(`You'll need to give consent to proceed.`, !!d.consentStorage);
-      this.checkRequired_(`Please write your initials next to your consent.`, !!d.consentInitials);
-      this.checkRequired_(`You'll need to accept the terms to proceed.`, !!d.acceptTos);
+      this.checkRequired('Country is required.', !!d.country);
+      this.checkRequired('State is required.', d.country !== 'USA' || !!d.state);
+      this.checkRequired('Please tell us if someone will be helping you record.', d.hasHelper != undefined);
+      this.checkRequired('Please tell us how to email the person helping you.', !d.hasHelper || !!d.helperEmail);
+      this.checkRequired(`You'll need to give consent to proceed.`, !!d.consentStorage);
+      this.checkRequired(`Please write your initials next to your consent.`, !!d.consentInitials);
+      this.checkRequired(`You'll need to accept the terms to proceed.`, !!d.acceptTos);
 
     } catch (e) {
-      if (e instanceof Error && e.message == 'form incomplete') {
+      if (e instanceof Error && e.message === 'form incomplete') {
         return false;
       } else {
         throw e;
@@ -105,10 +105,10 @@ export class InterestView {
   clear() {
     // Overwrite all saved data and clear all form elements
     this.data.saveDemographics({});
-    this.fill_({});
+    this.fill({});
   }
 
-  checkRequired_(message: string, check: boolean) {
+  private checkRequired(message: string, check: boolean) {
     if (!check) {
       this.app.showMessage(message, 'error');
       throw new Error('form incomplete');
@@ -116,7 +116,7 @@ export class InterestView {
   }
 
   // Fills the form elements with the given pre-existing demographics struct
-  fill_(d: UserDemographics) {
+  private fill(d: UserDemographics) {
     const setText = (id: string, t: string|undefined) => $(id).val(t ? t : '');
     const setBool = (id: string, val: boolean) => $(id).prop('checked', val);
 
@@ -134,9 +134,9 @@ export class InterestView {
     setText('#ifotherinfo', d.otherInfo);
 
     // Gender radio buttons
-    setBool('#ifgenderfemale', 'female' == d.gender);
-    setBool('#ifgendermale', 'male' == d.gender);
-    setBool('#ifgenderno', 'undisclosed' == d.gender);
+    setBool('#ifgenderfemale', 'female' === d.gender);
+    setBool('#ifgendermale', 'male' === d.gender);
+    setBool('#ifgenderno', 'undisclosed' === d.gender);
     if (d.gender && !listhas(d.gender, 'female', 'male', 'undisclosed')) {
       setBool('#ifgenderother', true);
       setText('#ifgenderothertext', d.gender);
@@ -172,35 +172,35 @@ export class InterestView {
 
     // Auto-set defaults from Firestore Auth if the user hasn't entered anything
     const fbu = this.data.fbuser;
-    if ($('#ifname').val() == '' && fbu && fbu.displayName) {
+    if ($('#ifname').val() === '' && fbu && fbu.displayName) {
       $('#ifname').val(fbu.displayName);
     }
   }
 
   // Gathers all of the user's responses, valid or otherwise into a struct.
-  collect_(): UserDemographics {
+  private collect(): UserDemographics {
     return {
-      name: this.collectText_('#ifname'),
-      country: this.collectText_('#ifcountry'),
-      state: this.collectText_('#ifstate'),
-      city: this.collectText_('#ifcity'),
-      accent: this.collectText_('#ifaccent'),
-      referral: this.collectText_('#ifreferral'),
-      gender: this.collectGender_(),
-      race: this.collectText_('#ifrace'),
-      accessDevices: this.collectAccessDevices_(),
-      hasHelper: this.collectCheckbox_('#ifhelperyes') ? true : this.collectCheckbox_('#ifhelperno') ? false : undefined,
-      helperName: this.collectText_('#ifassistantname'),
-      helperEmail: this.collectText_('#ifassistantemail'),
-      helperRelationship: this.collectText_('#ifassistantrelationship'),
-      consentStorage: this.collectCheckbox_('#ifformconsent'),
-      consentInitials: this.collectText_('#ifconsentinitials'),
-      acceptTos: this.collectCheckbox_('#ifformtos'),
-      otherInfo: this.collectText_('#ifotherinfo'),
+      name: this.collectText('#ifname'),
+      country: this.collectText('#ifcountry'),
+      state: this.collectText('#ifstate'),
+      city: this.collectText('#ifcity'),
+      accent: this.collectText('#ifaccent'),
+      referral: this.collectText('#ifreferral'),
+      gender: this.collectGender(),
+      race: this.collectText('#ifrace'),
+      accessDevices: this.collectAccessDevices(),
+      hasHelper: this.collectCheckbox('#ifhelperyes') ? true : this.collectCheckbox('#ifhelperno') ? false : undefined,
+      helperName: this.collectText('#ifassistantname'),
+      helperEmail: this.collectText('#ifassistantemail'),
+      helperRelationship: this.collectText('#ifassistantrelationship'),
+      consentStorage: this.collectCheckbox('#ifformconsent'),
+      consentInitials: this.collectText('#ifconsentinitials'),
+      acceptTos: this.collectCheckbox('#ifformtos'),
+      otherInfo: this.collectText('#ifotherinfo'),
     };
   }
 
-  collectText_(inputId: string): string {
+  private collectText(inputId: string): string {
     const text = $(inputId).val() as string;
     if (!text) {
       return '';
@@ -209,19 +209,19 @@ export class InterestView {
     }
   }
 
-  collectCheckbox_(inputId: string): boolean {
+  private collectCheckbox(inputId: string): boolean {
     return $(inputId).is(':checked');
   }
 
-  collectGender_(): string {
-    const hasOther = this.collectCheckbox_('#ifgenderother');
-    const otherText = this.collectText_('#ifgenderothertext');
+  private collectGender(): string {
+    const hasOther = this.collectCheckbox('#ifgenderother');
+    const otherText = this.collectText('#ifgenderothertext');
 
-    if (this.collectCheckbox_('#ifgendermale')) {
+    if (this.collectCheckbox('#ifgendermale')) {
       return 'male';
-    } else if (this.collectCheckbox_('#ifgenderfemale')) {
+    } else if (this.collectCheckbox('#ifgenderfemale')) {
       return 'female';
-    } else if (this.collectCheckbox_('#ifgenderno')) {
+    } else if (this.collectCheckbox('#ifgenderno')) {
       return 'undisclosed';
     } else if (hasOther && otherText) {
       return otherText.trim();
@@ -230,25 +230,25 @@ export class InterestView {
     }
   }
 
-  collectAccessDevices_(): string[] {
+  private collectAccessDevices(): string[] {
     const result: string[] = [];
-    if (this.collectCheckbox_('#ifdeviceother')) {
-      const otherText = this.collectText_('#ifdeviceothertext');
+    if (this.collectCheckbox('#ifdeviceother')) {
+      const otherText = this.collectText('#ifdeviceothertext');
       if (otherText) {
         result.push(otherText);
       }
     }
 
-    if (this.collectCheckbox_('#ifdevicecomputer')) {
+    if (this.collectCheckbox('#ifdevicecomputer')) {
       result.push('computer');
     }
-    if (this.collectCheckbox_('#ifdeviceandroid')) {
+    if (this.collectCheckbox('#ifdeviceandroid')) {
       result.push('androidphone');
     }
-    if (this.collectCheckbox_('#ifdeviceiphone')) {
+    if (this.collectCheckbox('#ifdeviceiphone')) {
       result.push('iphone');
     }
-    if (this.collectCheckbox_('#ifdevicenone')) {
+    if (this.collectCheckbox('#ifdevicenone')) {
       result.push('none');
     }
     return result;

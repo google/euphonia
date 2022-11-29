@@ -23,7 +23,7 @@ export function parseTagsJSON(json: string): string[]|undefined {
   if (!(obj instanceof Array)) {
     return undefined;  // could not parse
   }
-  return [...obj.filter(tag => tag ? tag.trim() != '' : false).map(tag => normalizeTag(tag))];
+  return [...obj.filter(tag => tag ? tag.trim() !== '' : false).map(tag => normalizeTag(tag))];
 }
 
 // Returns the normalized version of the given email address
@@ -34,7 +34,7 @@ export function normalizeEmail(email: string) {
   const name = email.slice(0,sep).replace(/\+.*$/ig, '').replace(/\./g, '');
 
   let domain = email.slice(sep + 1);
-  if (domain == 'googlemail.com') {
+  if (domain === 'googlemail.com') {
     domain = 'gmail.com';
   }
 
@@ -65,7 +65,7 @@ export function requireInt(intText: string|undefined): number {
   if (!intText) {
     throw new ParamError('Missing required field');
   }
-  const num = parseInt(intText);
+  const num = Number(intText);
   if (isNaN(num)) {
     throw new ParamError(`Not a number: ${intText}`);
   }
@@ -84,8 +84,8 @@ export function requireLanguage(language: string|undefined): string {
 }
 
 // Parses a UTF8-encoded text file of prompts, returning an array of task/order tuples. TODO: csv and other task types
-export function parseTasksFile(file: Buffer, format: string, orderStart: number): [number, string][] {
-  if (format != 'txt') {
+export function parseTasksFile(file: Buffer, format: string, orderStart: number): Array<[number, string]> {
+  if (format !== 'txt') {
     // TODO: support other task file formats
     throw new Error(`Unsupported task file format: ${format}`);
   }
@@ -97,7 +97,7 @@ export function parseTasksFile(file: Buffer, format: string, orderStart: number)
   const lines = file.toString('utf8').split(/\n+/);
 
   let order = orderStart;
-  const result: [number, string][] = [];
+  const result: Array<[number, string]> = [];
   for (let line of lines) {
     line = line ? line.trim() : '';
     if (!line) {

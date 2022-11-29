@@ -78,7 +78,7 @@ export class TaskSetsView {
     this.table.html(`<thead><tr><th>ID</th><th>Description</th><th>Language</th>
     <th class=date>Created</th><th>Assigned Users</th><th>Assigned Tasks</th></tr></thead>`);
     const tbody = this.table.eadd('<tbody />');
-    for (let [, ts] of this.app.data.tasksets) {
+    for (const [, ts] of this.app.data.tasksets) {
       const tr = tbody.eadd('<tr />');
       tr.eadd('<td class=tsid />').eadd(`<a href="#/taskset/${ts.id}" />`).etext(ts.id);
       tr.eadd('<td class=name />').text(ts.name);
@@ -164,7 +164,7 @@ export class BulkAssignDialog extends Dialog {
   sampleSize: JQuery<HTMLElement>;
   tasksChoice: JQuery<HTMLElement>;
   tasksTable: JQuery<HTMLElement>;
-  taskTicks: Map<JQuery<HTMLElement>, schema.ETaskInfo> = new Map();
+  taskTicks = new Map<JQuery<HTMLElement>, schema.ETaskInfo>();
   assignLine: JQuery<HTMLElement>;
 
   constructor(app: AdminView, euids: string[]) {
@@ -177,10 +177,10 @@ export class BulkAssignDialog extends Dialog {
     // Dropdown chooser for the task set
     this.startForm();
     this.tsChoice = new Dropdown(this.addFormField('Taskset:'), 'tschoice');
-    for (let [tsid, ts] of this.app.data.tasksets) {
+    for (const [tsid, ts] of this.app.data.tasksets) {
       this.tsChoice.addOption(tsid, `${ts.id}: ${ts.name}`);
     }
-    this.tsChoice.onchange(async e => await this.loadTaskSet_(this.tsChoice.getSelected()!));
+    this.tsChoice.onchange(async e => await this.loadTaskSet(this.tsChoice.getSelected()!));
 
     // Three choices for how we assign tasks: all, sample, or specific
     const choicetd1 = this.addFormField('Assign:');
@@ -198,10 +198,10 @@ export class BulkAssignDialog extends Dialog {
     // Sample size is only enabled for the sampling choice
     this.sampleSize = choicetd2.eadd('<input type=text name=samplesize />');
     this.sampleSize.eenable(false);
-    this.sampleChoice.on('change', e => this.updateGUI_());
-    this.allChoice.on('change', e => this.updateGUI_());
-    this.tasksChoice.on('change', e => this.updateGUI_());
-    this.sampleSize.on('change', e => this.updateGUI_());
+    this.sampleChoice.on('change', e => this.updateGUI());
+    this.allChoice.on('change', e => this.updateGUI());
+    this.tasksChoice.on('change', e => this.updateGUI());
+    this.sampleSize.on('change', e => this.updateGUI());
 
     // The list of tasks for the selected taskset will appear here
     const choicetd4 = this.addFormField('');
@@ -211,30 +211,30 @@ export class BulkAssignDialog extends Dialog {
     // Action buttons
     const buttonTd = this.formTable!.eadd('<tr />').eadd('<td colspan=2 class=buttonbox />');
     this.assignLine = buttonTd.eadd('<span class=assignline />');
-    buttonTd.eadd('<button>Assign</button>').on('click', async e => await this.handleAssign_());
+    buttonTd.eadd('<button>Assign</button>').on('click', async e => await this.handleAssign());
     buttonTd.eadd('<button>Cancel</button>').on('click', async e => await this.remove());
   }
 
   // Loads the taskset's tasks
   async start() {
     await super.start();
-    await this.loadTaskSet_(this.tsChoice.getSelected()!);
+    await this.loadTaskSet(this.tsChoice.getSelected()!);
   }
 
   // Updates the disabled state of the choices when the radio buttons change
-  updateGUI_() {
+  private updateGUI() {
     this.sampleSize.eenable(this.sampleChoice.is(':checked'));
     this.tasksTable.eclass('disabled', !this.tasksChoice.is(':checked'));
-    this.assignLine.text(`Assigning ${this.countTasks_()} tasks to ${this.euids.length} user(s)...`);
+    this.assignLine.text(`Assigning ${this.countTasks()} tasks to ${this.euids.length} user(s)...`);
   }
 
   // Returns the number of tasks we're assigning: all or selected or sampled
-  countTasks_(): number {
+  private countTasks(): number {
     if (this.tasksChoice.is(':checked')) {
-      return this.getTickedTaskIds_().length;
+      return this.getTickedTaskIds().length;
 
     } else if (this.sampleChoice.is(':checked')) {
-      const count = parseInt(`${this.sampleSize.val()}`);
+      const count = Number(`${this.sampleSize.val()}`);
       return isNaN(count) ? 0 : count;
 
     } else if (this.allChoice.is(':checked')) {
@@ -246,9 +246,9 @@ export class BulkAssignDialog extends Dialog {
   }
 
   // Returns a list of task IDs of the selected tasks.
-  getTickedTaskIds_(): string[] {
+  private getTickedTaskIds(): string[] {
     const result: string[] = [];
-    for (let [tick, task] of this.taskTicks) {
+    for (const [tick, task] of this.taskTicks) {
       if (tick.is(':checked')) {
         result.push(task.id);
       }
@@ -257,7 +257,7 @@ export class BulkAssignDialog extends Dialog {
   }
 
   // Called when the user picks a different task set, so we can load its prompts
-  async loadTaskSet_(tsid: string) {
+  private async loadTaskSet(tsid: string) {
     this.allChoice.prop('checked', true);
     await Spinner.waitFor(async () => {
       this.taskTicks.clear();
@@ -265,44 +265,44 @@ export class BulkAssignDialog extends Dialog {
       this.tasksTable.html(`
           <tr><th class=tick><input type=checkbox id=tickalltasks />
           </th><th>Prompt</th><th>Created</th></tr>`);
-      for (let task of tasks) {
+      for (const task of tasks) {
         const tr = this.tasksTable.eadd('<tr />');
         const tick = tr.eadd('<td class=tick />').eadd('<input type=checkbox class=tick />');
         tr.eadd('<td class=prompt />').text(task.prompt);
         tr.eadd('<td class=created />').text(formatTimestamp(task.creationTimestamp));
         this.taskTicks.set(tick, task);
-        tick.on('change', e => this.updateGUI_());
+        tick.on('change', e => this.updateGUI());
       }
       $('#tickalltasks').on('change', e => this.toggleTickAll());
 
-      if (tasks.length == 0) {
+      if (tasks.length === 0) {
         this.tasksTable.html(`<tr><td>No tasks in this taskset, nothing to assign</td></tr>`);
       }
-      this.updateGUI_();
+      this.updateGUI();
     });
   }
 
   // Auto-selects all or no tasks when the tick-all-tasks box is changed
-  toggleTickAll() {
+  private toggleTickAll() {
     const checked = $('#tickalltasks').is(':checked');
-    for (let [tick, ] of this.taskTicks) {
+    for (const [tick, ] of this.taskTicks) {
       tick.prop('checked', checked);
     }
-    this.updateGUI_();
+    this.updateGUI();
   }
 
   // Commits the user's assignment choice
-  async handleAssign_() {
+  private async handleAssign() {
     const tsid = this.tsChoice.getSelected();
-    if (!tsid || this.countTasks_() < 1 || this.euids.length < 1) {
+    if (!tsid || this.countTasks() < 1 || this.euids.length < 1) {
       toast('Invalid selection');
       return;
     }
 
     const spec: schema.EAssignmentRule = {
       allTasks: this.allChoice.is(':checked'),
-      taskIds: this.tasksChoice.is(':checked') ? this.getTickedTaskIds_() : [],
-      sample: this.sampleChoice.is(':checked') ? this.countTasks_() : 0,
+      taskIds: this.tasksChoice.is(':checked') ? this.getTickedTaskIds() : [],
+      sample: this.sampleChoice.is(':checked') ? this.countTasks() : 0,
       id: 0,
       order: 0,
       tags: [],
@@ -310,9 +310,9 @@ export class BulkAssignDialog extends Dialog {
   
     await Spinner.waitFor(async () => {
       const successes = await this.app.data.assignTasks(this.euids, tsid, spec);
-      if (successes.length != this.euids.length) {
+      if (successes.length !== this.euids.length) {
         toast('Assignment had some failures, you can retry the remaining users', 7000);
-        for (let euid of successes) {
+        for (const euid of successes) {
           findAndRemove(this.euids, euid);
         }
       } else {

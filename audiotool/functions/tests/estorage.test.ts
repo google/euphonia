@@ -129,7 +129,7 @@ registerSuite('server', () => {
       assert.equal(1, consent2!.info.versions.length);
       assert.equal(1, consent2!.info.versions[0].numUsers);
     },
-  }
+  };
 });
 
 // Returns a supertest that has POSTed the given JSON object to the given path.

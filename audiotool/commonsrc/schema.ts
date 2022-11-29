@@ -79,7 +79,7 @@ export interface EUserInfo {
   numCompletedTasks: number;
   createTimestamp: number;
   signupTimestamp: number;
-  numAssignmentsByTaskSet: [taskSetId: string, numAssignments: number][];
+  numAssignmentsByTaskSet: Array<[taskSetId: string, numAssignments: number]>;
 }
 
 // Structured storage of interest form reply
@@ -158,7 +158,7 @@ export interface EAgreementInfo {
   version: number;
   consentTimestamp: number;  // This is equal to the signup time for first consent(s)
   revokeTimestamp: number;  // Only set if the user revoked this consent later, otherwise 0
-  superceded?: boolean;  // When set, indicates that the user consented to a newer version later
+  superseded?: boolean;  // When set, indicates that the user consented to a newer version later
 }
 
 // Each ETaskSet
@@ -224,5 +224,5 @@ export interface EConsentVersion {
   description: string;
   creationTimestamp: number;
   liveTimestamp: number;  // When this version becomes the active consent and supercedes lower versions
-  numUsers: number;  // counter for the number of users who consented to this version. Superceding versions detract from this number!
+  numUsers: number;  // counter for the number of users who consented to this version. Superseding versions detract from this number!
 }

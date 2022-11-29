@@ -28,8 +28,8 @@ export function formatDateCode(date: Date) {
 export function formatDate(date: Date) {
   // Destructure the date
   const f = new Intl.DateTimeFormat('en-us', { dateStyle: 'short', timeStyle: 'long' });
-  const parts:any = {year:'', month:'', day:'', hour:'', minute:'', dayPeriod:'', timeZoneName:''};
-  for (let {type, value} of f.formatToParts(date)) {
+  const parts = {year:'', month:'', day:'', hour:'', minute:'', dayPeriod:'', timeZoneName:''};
+  for (const {type, value} of f.formatToParts(date)) {
     parts[type] = value;
   }
 
@@ -60,7 +60,7 @@ export function parseTags(tagsString: string|null|undefined): string[] {
     return [];
   }
   const obj: string[] = tagsString.split(/\s+/);
-  return [...obj.map(tag => normalizeTag(tag)).filter(tag => tag != '' ? true : false)];
+  return [...obj.map(tag => normalizeTag(tag)).filter(tag => tag !== '' ? true : false)];
 }
 
 // Returns a canonicalized version of one tag string
@@ -75,7 +75,7 @@ export function normalizeTag(tag: string) {
 
 // Returns a canonicalized version of the given array of tags
 export function normalizeTags(tags: string[]) {
-  return [...tags.filter(tag => tag ? tag.trim() != '' : false).map(tag => normalizeTag(tag))];
+  return [...tags.filter(tag => tag ? tag.trim() !== '' : false).map(tag => normalizeTag(tag))];
 }
 
 // Shuffles a given array using https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle.
@@ -95,7 +95,7 @@ export function findAndRemove<X>(list: X[], item: X): number {
   let count = 0;
   while (true) {
     const index = list.indexOf(item);
-    if (index == -1) {
+    if (index === -1) {
       return count;
     }
     list.splice(index, 1);
@@ -117,5 +117,5 @@ export function clone<X>(obj: X): X {
 
 // Returns true if the given item is one of the given list items.
 export function listhas<X>(item: X, ...list: X[]) {
-  return list.indexOf(item) != -1;
+  return list.indexOf(item) !== -1;
 }

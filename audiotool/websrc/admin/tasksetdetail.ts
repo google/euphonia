@@ -64,11 +64,11 @@ export class TaskSetDetailView {
     this.bulkTasksButton.on('click', async e => await new BulkTaskDialog(this).start());
 
     // Fill in the TaskSet Values and rules list
-    this.fillTaskSetInfo_();
+    this.fillTaskSetInfo();
   }
 
   // Fills in the task set details like name and rules
-  fillTaskSetInfo_() {
+  private fillTaskSetInfo() {
     this.tsinfo.empty();
     this.tsinfo.eadd('<div class=title />').text(`TaskSet: ${this.taskset.id}`);
     const desc = this.tsinfo.eadd('<div class=description />').etext(`${this.taskset.name}`);
@@ -79,7 +79,7 @@ export class TaskSetDetailView {
 
     // Fill in the list of enrollment rules
     this.rulesTable.html('<tr><th>Order</th><th>Tags</th><th>Action</th><th class=buttoncol></th></tr>');
-    for (let rule of this.taskset.rules) {
+    for (const rule of this.taskset.rules) {
       const ruleId = rule.id;
       let action = '';
       if (rule.allTasks) {
@@ -117,7 +117,7 @@ export class TaskSetDetailView {
   // Update the GUI for any changes to the task set
   onDataChanged() {
     this.taskset = this.data.tasksets.get(this.taskset.id)!;
-    this.fillTaskSetInfo_();
+    this.fillTaskSetInfo();
   }
 
   // Fetch the task list from the server. We don't cache this.
@@ -125,7 +125,7 @@ export class TaskSetDetailView {
     await Spinner.waitFor(async () => {
       this.tasks = await this.parent.app.data.loadTasksetTasks(this.taskset.id);
       this.tasksTable.html(`<tr><th>Order</th><th>Type</th><th>Prompt</th><th>Created</th><th>Recordings</th></tr>`);
-      for (let task of this.tasks) {
+      for (const task of this.tasks) {
         if (this.lastOrder < task.order) {
           this.lastOrder = task.order;
         }
@@ -147,7 +147,7 @@ export class TaskSetDetailView {
   // Deletes a rule
   async deleteRule(ruleId:number): Promise<void> {
     const confirm = await ChoiceDialog.choose('Delete this rule?', 'Delete', 'Cancel');
-    if (confirm != 'Delete') {
+    if (confirm !== 'Delete') {
       return;
     }
     await Spinner.waitFor(async () => {
@@ -226,23 +226,23 @@ class AddRuleDialog extends Dialog {
 
     // Action buttons
     const buttonTd = this.formTable!.eadd('<tr />').eadd('<td colspan=2 class=buttonbox />');
-    buttonTd.eadd('<button>Create Rule</button>').on('click', async e => await this.handleAddRule_());
+    buttonTd.eadd('<button>Create Rule</button>').on('click', async e => await this.handleAddRule());
     buttonTd.eadd('<button>Cancel</button>').on('click', async e => await this.remove());
   }
 
-  async handleAddRule_() {
-    const order = parseInt(this.orderField.val() as string);
+  private async handleAddRule() {
+    const order = Number(this.orderField.val() as string);
     const tags: string[] = parseTags(this.tagsField.val() as string);
     const action = this.allChoice.is(':checked') ? 'all' : this.sampleChoice.is(':checked') ? 'sample' : '';
-    const sample = parseInt(this.sampleSize.val() as string);
-    if (!order || !action || isNaN(order) || (action == 'sample' && isNaN(sample))) {
+    const sample = Number(this.sampleSize.val() as string);
+    if (!order || !action || isNaN(order) || (action === 'sample' && isNaN(sample))) {
       toast('Missing required fields');
       return;
     }
     let lastId = 1;
-    for (let rule of this.parent.taskset.rules) {
+    for (const rule of this.parent.taskset.rules) {
       lastId = Math.max(lastId, rule.id);
-      if (rule.order == order) {
+      if (rule.order === order) {
         toast('Order already in use');
         return;
       }
@@ -265,7 +265,7 @@ class BulkTaskDialog extends Dialog {
     const uploadButton = this.div.eadd('<button>Upload</button>');
     uploadButton.on('click', async e => {
       const files: FileList = fileField.prop('files');
-      if (!files || files.length != 1) {
+      if (!files || files.length !== 1) {
         toast('Please choose a file');
         return;
       }

@@ -47,7 +47,7 @@ export class AdminView implements Listener {
 
     // DOM elements
     this.main = $('#main');
-    this.login = this.buildLogin_();
+    this.login = this.buildLogin();
     this.appDiv = this.main.eadd('<div id=adminapp />');
     this.navbar = this.appDiv.eadd('<div class=navbar />');
     this.usersButton = this.navbar.eadd('<a href="#/users">Users</a>');
@@ -56,14 +56,14 @@ export class AdminView implements Listener {
     this.appDiv.hide();  // will show up after login
 
     // Events
-    $(window).on('hashchange', async e => await this.navigateTo(this.parseHash_()))
+    $(window).on('hashchange', async e => await this.navigateTo(this.parseHash()))
   }
 
   // Loads all data into the GUI and go to the desired deep link
   async start() {
     await Spinner.waitFor(async () => {
       await this.data.update();
-      await this.navigateTo(this.parseHash_());
+      await this.navigateTo(this.parseHash());
     });
   }
 
@@ -86,7 +86,7 @@ export class AdminView implements Listener {
   }
 
   // Returns the navigation path from the current browser navbar, or a default otherwise.
-  parseHash_() {
+  private parseHash() {
     const hash = window.location.hash;
     if (!hash || !hash.startsWith('#')) {
       return '/users';  // Default to the user view
@@ -97,13 +97,13 @@ export class AdminView implements Listener {
 
   // Navigates to the given resource, or to the user view if not specified.
   async navigateTo(path: string) {
-    if (path == this.getNav()) {
+    if (path === this.getNav()) {
       return;  // Already there
     }
-    if (path == '/users') {
+    if (path === '/users') {
       this.startUserView();
 
-    } else if (path == '/tasksets') {
+    } else if (path === '/tasksets') {
       this.startTaskSetsView();
 
     } else if (path == '/consents') {
@@ -124,7 +124,7 @@ export class AdminView implements Listener {
     }
   }
 
-  buildLogin_() {
+  private buildLogin() {
     const div = this.main.eadd('<div class=login />');
     div.hide();
 

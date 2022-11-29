@@ -20,12 +20,13 @@ import express = require('express');
 const cookieParser = require('cookie-parser')();
 import bodyParser = require('body-parser');
 import {EStorage, ETaskSet, EUser} from './estorage';
-import {ACL, UserRequest, FBUser} from './acl';
+import {UserRequest, FBUser, checkAuthenticated, checkAdmin} from './acl';
 import {parseTasksFile, HTTPError, ParamError, AccessError, NotFoundError,
         requireLanguage, requireParam, requireArray, requireInt} from './util';
 import {normalizeTag, normalizeTags} from '../../commonsrc/util';
 import {EAssignmentRule} from '../../commonsrc/schema';
 import * as schema from '../../commonsrc/schema';
+import {Readable} from 'stream';
 
 // Implements the API server endpoints and per-request state needed for API logic.
 export class AudioApi {
@@ -59,7 +60,7 @@ export class AudioApi {
     if (deps && deps.auth) {
       server.use(deps.auth);
     } else {
-      server.use((req, res, next) => AudioApi.checkAuth_(req, res, next));
+      server.use((req, res, next) => AudioApi.checkAuth(req, res, next));
     }
 
     // Install API endpoints
@@ -102,13 +103,13 @@ export class AudioApi {
   // Defines an express JSON endpoint with error handling.
   static installJSONApi(server: express.Express, deps: any, path: string, fnkey: keyof AudioApi, method: 'get'|'post') {
     const fn = async (req: express.Request, rsp: express.Response) => {
-      const result = await AudioApi.runMemberEndpoint_(fnkey, req, rsp, deps);
+      const result = await AudioApi.runMemberEndpoint(fnkey, req, rsp, deps);
       if (result) {
         rsp.json(result);
       }
     };
 
-    if (method == 'get') {
+    if (method === 'get') {
       server.get(path, fn);
     } else {
       server.post(path, fn);
@@ -118,15 +119,15 @@ export class AudioApi {
   // Defines a streaming express endpoint with error handling.
   static installStreamApi(server: express.Express, deps: any, path: string, fnkey: keyof AudioApi, method: 'get'|'post') {
     const fn = async (req: express.Request, rsp: express.Response) => {
-      const result = await AudioApi.runMemberEndpoint_(fnkey, req, rsp, deps);
+      const result = await AudioApi.runMemberEndpoint(fnkey, req, rsp, deps);
       if (result) {
-        const [ctype, readStream] = result;
+        const [ctype, readStream] = result as [string, Readable];
         rsp.type(ctype);
         readStream.pipe(rsp);
       }
     };
 
-    if (method == 'get') {
+    if (method === 'get') {
       server.get(path, fn);
     } else {
       server.post(path, fn);
@@ -134,11 +135,11 @@ export class AudioApi {
   }
 
   // Instantiates the request-scoped helper and runs the endpoint.
-  static async runMemberEndpoint_(fnkey: keyof AudioApi, req: express.Request, rsp: express.Response, deps: any): Promise<any|undefined> {
+  private static async runMemberEndpoint(fnkey: keyof AudioApi, req: express.Request, rsp: express.Response, deps: any): Promise<unknown[]|undefined> {
     try {
       // Run the function and see if it returns normally
       const helper = new AudioApi(req, rsp, deps);
-      const fn = helper[fnkey] as () => Promise<any[]>;
+      const fn = helper[fnkey] as () => Promise<unknown[]>;
       return await fn.bind(helper)();
 
     } catch (e) {
@@ -154,14 +155,14 @@ export class AudioApi {
   }
 
   // Verifies that the auth cookie is present and validates the endpoint path against the user type.
-  static async checkAuth_(req: express.Request, res: express.Response, next: express.NextFunction) {
+  private static async checkAuth(req: express.Request, res: express.Response, next: express.NextFunction) {
     if (!req.path.startsWith('/api/public/')) {
       // The public endpoints don't require sign-in, but everything else does
-      if (await ACL.checkAuthenticated(req, res)) {
+      if (await checkAuthenticated(req, res)) {
         // The admin endpoints also require that the user is a registered administrator
         if (req.path.startsWith('/api/admin/')) {
           // if checkAuthenticated has run then this will be a valid UserRequest
-          if (await ACL.checkAdmin(req as UserRequest, res)) {
+          if (await checkAdmin(req as UserRequest, res)) {
             next();  // allow admin request
           }
         } else {
@@ -248,7 +249,7 @@ export class AudioApi {
     };
 
     let user = await this.storage.signUpUser(newuser);
-    for (let consent of userConsents) {
+    for (const consent of userConsents) {
       user = await user.addConsent(this.now, consent);
     }
     const isConsented = await user.isConsented(this.now);
@@ -260,7 +261,7 @@ export class AudioApi {
     const info = this.getBodyJSON();
     const agreements = requireArray(info.agreements as schema.EAgreementInfo[], 1);
     let user = await this.requireUserByFBUID();
-    for (let agreement of agreements) {
+    for (const agreement of agreements) {
       user = await user.addConsent(this.now, agreement);
     }
     const isConsented = await user.isConsented(this.now);
@@ -300,7 +301,7 @@ export class AudioApi {
     const {user, task, basename} = await this.storage.run(async txn => {
       const user = await this.requireUserByFBUID(txn);
       const task = await user.loadTask(txn, taskId);
-      if (task.info.recordedTimestamp == 0) {
+      if (task.info.recordedTimestamp === 0) {
         throw new NotFoundError(`No task recording found: ${taskId}`);
       }
       const taskSet = await this.storage.requireTaskSet(task.info.taskSetId);
@@ -386,7 +387,7 @@ export class AudioApi {
     const id = requireParam(info.id as string);
     const name = requireParam(info.name as string);
     const language = requireLanguage(info.language as string);
-    if (id != normalizeTag(id)) {
+    if (id !== normalizeTag(id)) {
       throw new ParamError(`Invalid taskset ID: ${id}`);
     }
 
@@ -410,11 +411,11 @@ export class AudioApi {
     const language = info.language as string|undefined;
     const addrules = info.addrules as EAssignmentRule[];
     const delrules = info.delrules as number[];
-    if (!name && !language && addrules.length == 0 && delrules.length == 0) {
+    if (!name && !language && addrules.length === 0 && delrules.length === 0) {
       throw new ParamError('Must change at least one field');
     }
     const ts: ETaskSet = await this.storage.run(async txn => {
-      let ts = await this.storage.requireTaskSet(taskSetId, txn);
+      const ts = await this.storage.requireTaskSet(taskSetId, txn);
       if (addrules.length > 0 || delrules.length > 0) {
         ts.changeRules(addrules, delrules);
       }
@@ -446,7 +447,7 @@ export class AudioApi {
     const taskSetId = requireParam(this.req.query.taskSetId as string);
     const format = requireParam(this.req.query.format as string);
     const orderStart = requireInt(this.req.query.orderStart as string);
-    if (format != 'txt') {
+    if (format !== 'txt') {
       throw new ParamError(`Unsupported format: ${format}`);
     }
     const ts = await this.storage.requireTaskSet(taskSetId);
@@ -470,7 +471,7 @@ export class AudioApi {
   async runAdminApiRemoveTasks() {
     const info = this.getBodyJSON();
     const euid = requireParam(info.euid as string);
-    const idTuples = requireArray(info.idTuples as [string, string][], 1);  // list of [taskSetId, taskId]
+    const idTuples = requireArray(info.idTuples as Array<[string, string]>, 1);  // list of [taskSetId, taskId]
     const [user, taskSets]: [EUser, ETaskSet[]] = await this.storage.run(async txn => {
       const u = await this.storage.loadUser(euid, txn);
       const tss = await u.removeTasks(txn, idTuples);
@@ -503,7 +504,7 @@ export class AudioApi {
     const language = requireLanguage(info.language as string);
     const tags: string[] = requireParam(normalizeTags(info.tags));
     const optional = requireParam(info.optional as boolean);
-    if (id != normalizeTag(id)) {
+    if (id !== normalizeTag(id)) {
       throw new ParamError(`Invalid consent ID: ${id}`);
     }
 
@@ -520,7 +521,7 @@ export class AudioApi {
     const active = pinfo.active as boolean|undefined;
     const optional = pinfo.optional as boolean|undefined;
     const tags = pinfo.tags as string[]|undefined;
-    if (!name && !language && tags == undefined && active == undefined && optional == undefined) {
+    if (!name && !language && tags === undefined && active === undefined && optional === undefined) {
       throw new ParamError('Must change at least one field');
     }
 
@@ -532,13 +533,13 @@ export class AudioApi {
       if (language) {
         consent.info.language = requireLanguage(language);
       }
-      if (active != undefined) {
+      if (active !== undefined) {
         consent.info.active = active;
       }
-      if (optional != undefined) {
+      if (optional !== undefined) {
         consent.info.optional = optional;
       }
-      if (tags != undefined) {
+      if (tags !== undefined) {
         consent.info.tags = tags;
       }
       consent.update(txn);
@@ -567,7 +568,7 @@ export class AudioApi {
     const version = requireInt(pinfo.version as string);
 
     const {info} = await this.storage.run(async txn => {
-      let consent = await this.storage.requireConsent(consentId, txn);
+      const consent = await this.storage.requireConsent(consentId, txn);
       consent.deleteVersion(version, txn);
       return consent;
     });

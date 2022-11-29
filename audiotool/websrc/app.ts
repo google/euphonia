@@ -60,13 +60,13 @@ export class App implements Listener {
     this.waitingSpinner = new Spinner();
 
     // Events
-    $(window).on('hashchange', async e => await this.navigateTo(this.parseHash_()));
+    $(window).on('hashchange', async e => await this.navigateTo(this.parseHash()));
   }
 
   // Shows a transient message to the user.
   showMessage(text: string, opt_level?: string) {
     const level = opt_level ? opt_level : 'info';
-    const isHidden = (this.messageBox.text() == '');
+    const isHidden = (this.messageBox.text() === '');
     setTimeout(async () => {
       this.messageBox.etext(text);
       this.messageBox.addClass(level);
@@ -84,22 +84,22 @@ export class App implements Listener {
   }
 
   // Returns the navigation path from the current browser navbar, or a default otherwise.
-  parseHash_() {
+  private parseHash() {
     const hash = window.location.hash;
     if (!hash || !hash.startsWith('#')) {
-      return this.chooseBestNav_();  // Automatically choose the view based on the user's state
+      return this.chooseBestNav();  // Automatically choose the view based on the user's state
     } else {
       return decodeURIComponent(hash.substring(1));
     }
   }
 
   // Decides where the user should be based on their current state
-  chooseBestNav_() {
+  private chooseBestNav() {
     if (!this.data.fbuser || !this.data.isCompletedDemographics()) {
       return '/enroll';  // They need to enroll and/or complete the interest form
     } else if (!this.data.consented || !this.data.user) {
       return '/consent';  // They need to consent, or re-consent, and then create their records.
-    } else if (this.data.user.numRecordings == 0 && !this.recordingView.seenRecording) {
+    } else if (this.data.user.numRecordings === 0 && !this.recordingView.seenRecording) {
       return '/instructions';  // Show them instructions since they haven't recorded yet.
     } else {
       return '/record';  // Ready for recording!
@@ -129,7 +129,7 @@ export class App implements Listener {
       await this.showView(this.recordingView);
 
     } else {
-      await this.navigateTo(this.chooseBestNav_());
+      await this.navigateTo(this.chooseBestNav());
     }
   }
 
@@ -150,18 +150,18 @@ export class App implements Listener {
     await this.recordingView.handleUpdate();
 
     // Switch to the requested view, or based on the user's state now
-    await this.navigateTo(this.parseHash_());
+    await this.navigateTo(this.parseHash());
   }
 
   // Shows the given view and hides the rest.
   async showView(view: SignupView|InterestView|ConsentView|InstructionsView|RecordingView): Promise<void> {
     this.clearMessage();
     await Spinner.waitFor(async () => {
-      await this.signupView.eshow(view == this.signupView);
-      await this.interestView.eshow(view == this.interestView);
-      await this.consentView.eshow(view == this.consentView);
-      await this.instructionsView.eshow(view == this.instructionsView);
-      await this.recordingView.eshow(view == this.recordingView);
+      await this.signupView.eshow(view === this.signupView);
+      await this.interestView.eshow(view === this.interestView);
+      await this.consentView.eshow(view === this.consentView);
+      await this.instructionsView.eshow(view === this.instructionsView);
+      await this.recordingView.eshow(view === this.recordingView);
     });
   }
 }

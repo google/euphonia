@@ -218,7 +218,7 @@ Interest form
 
 #interestform .required {
   margin-left: 3px;
-  color: #cc0000;
+  color: #c00;
 }
 
 #interestform .optional {

@@ -26,7 +26,7 @@ interface JQuery {
   eenable(wanted: boolean): void;
   eclass(cname: string|undefined, wanted: boolean): void;
   efade(wanted: boolean): void;
-  eaddtr(cellNodes: JQuery<HTMLElement>[], rowClass?: string): JQuery<HTMLElement>[];
+  eaddtr(cellNodes: Array<JQuery<HTMLElement>>, rowClass?: string): Array<JQuery<HTMLElement>>;
   etext(cellText: string): JQuery<HTMLElement>;
   evalue(inputValue: string): JQuery<HTMLElement>;
 }

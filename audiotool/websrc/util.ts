@@ -85,7 +85,7 @@ $.fn.eaddtr = function(cellNodes: JQuery<HTMLElement>[], rowClass?: string): JQu
   const tr = this.eadd('<tr />');
   const result:JQuery<HTMLElement>[] = [];
   tr.eclass(rowClass, !!rowClass);
-  for (let cell of cellNodes) {
+  for (const cell of cellNodes) {
     const td = tr.eadd('<td />');
     td.append(cell);
     result.push(cell);
@@ -142,7 +142,7 @@ export async function animateCss(div: JQuery, fromClass: string, toClass: string
 export function toURL(path: string, opt_args?: any): URL {
   const url = new URL(window.location.origin + path);
   if (opt_args) {
-    for (let k in opt_args) {
+    for (const k in opt_args) {
       url.searchParams.append(k, opt_args[k]);
     }
   }
@@ -170,7 +170,7 @@ export async function authenticatedFetch(path: string, opt_args?: any, opt_metho
     if (rsp.ok) {
       return rsp;
 
-    } else if (0 < triesLeft && (rsp.status == 401 || rsp.status == 403)) {
+    } else if (0 < triesLeft && (rsp.status === 401 || rsp.status === 403)) {
       continue;  // try again; the failed response will cause a cookie refresh
 
     } else {
@@ -188,7 +188,7 @@ export async function authenticatedFetch(path: string, opt_args?: any, opt_metho
 }
 
 // Same as above, but POSTs a JSON body and receives JSON blob, which it parses.
-export async function postAsJson<X>(path: string, jsonObj: any): Promise<X> {
+export async function postAsJson(path: string, jsonObj: any): Promise<unknown> {
   const body = new TextEncoder().encode(JSON.stringify(jsonObj));
   const rsp = await authenticatedFetch(path, {}, 'post', body);
   return await rsp.json();
@@ -266,7 +266,7 @@ export class Dropdown {
 
   // Returns the value of the selected option.
   getSelected(): string|undefined {
-    for (let option of this.options) {
+    for (const option of this.options) {
       if (option.is(':selected')) {
         return `${option.val()}`;
       }

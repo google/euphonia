@@ -9,7 +9,7 @@ Project Euphonia has demonstrated that it's possible to collect a large, useful 
 A summary of key technology choices for various components of this system:
 
 - **HTML5/CSS/JQuery**: A versatile and reliable UI platform. No higher level toolkit is used, to keep the app simple, portable, and clean of proprietary dependencies.
-- **Typescript**: A popular, professional grade, typesafe alternative to Javascript which catches common programming errors and is generally easier to read and maintain.
+- **TypeScript**: A popular, professional grade, typesafe alternative to Javascript which catches common programming errors and is generally easier to read and maintain.
 - **Google Cloud Platform project**: A GCP project is required to house computing and storage resources such as Firebase and GCS.
 - **Firebase platform**: The web app can be deployed via Firebase, which is a simple yet reliable toolkit that interoperates well with Google Cloud APIs such as GCS and Firestore.
 - **Firebase Hosting**: serves static content such as HTML/CSS/JS of the browser side of the app.
@@ -239,14 +239,14 @@ Each consent has a language and tags. These attributes determine which users are
 
 ## **Codebase structure**
 The system generally has:
-- `websrc/...`: a frontend implementation in Typescript, HTML, and CSS intended to run in web browsers such as Chrome.
+- `websrc/...`: a frontend implementation in TypeScript, HTML, and CSS intended to run in web browsers such as Chrome.
 - `websrc/admin/...`: implements the administrative portion of the GUI. Although keeping the admin UI separate is not part of the security design, it is helpful to keep separate the distinct needs, functions, and look-and-feel of the user-facing vs. admin-facing UX.
-- `functions/src/...`: a server side implementation in Typescript intended to run on node.js within Cloud Functions.
-- `commonsrc/...`: Typescript code which is agnostic to the above two platforms and can run in either one. Used for utilities and schema definitions that should be consistent between browser and server.
-- `functions/tests/...`: Typescript code which tests the Cloud Functions implementation in a fake node.js environment.
+- `functions/src/...`: a server side implementation in TypeScript intended to run on node.js within Cloud Functions.
+- `commonsrc/...`: TypeScript code which is agnostic to the above two platforms and can run in either one. Used for utilities and schema definitions that should be consistent between browser and server.
+- `functions/tests/...`: TypeScript code which tests the Cloud Functions implementation in a fake node.js environment.
 
 ## **Consent Assurance**
-Whenever the user starts a recording session, and whenever it's been more than 8 hours since the last check, the user's applicable consents are checked to confirm that still match the latest consent configuration. If the user has never agreed to one of the consents, or if their agreement matches a version that's been superceded, then the GUI prompts the user to consent again before they continue recording.
+Whenever the user starts a recording session, and whenever it's been more than 8 hours since the last check, the user's applicable consents are checked to confirm that still match the latest consent configuration. If the user has never agreed to one of the consents, or if their agreement matches a version that's been superseded, then the GUI prompts the user to consent again before they continue recording.
 
 
 ## **Counters and stats**

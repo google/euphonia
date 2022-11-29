@@ -90,7 +90,7 @@ export class UsersView {
                      <th class=date>Signed up</th></tr></thead>`);
     const tbody = this.table.eadd('<tbody />');
     this.ticks.clear();
-    for (let [, user] of this.app.data.users) {
+    for (const [, user] of this.app.data.users) {
       const euid = user.euid;
       const tr = tbody.eadd('<tr />');
       this.ticks.set(euid, tr.eadd('<td class=tick />').eadd('<input type=checkbox />'));
@@ -125,7 +125,7 @@ export class UsersView {
   // Auto-selects all or no users when the tick-all-users box is changed
   toggleTickAll() {
     const checked = $('#tickallusers').is(':checked');
-    for (let [, input] of this.ticks) {
+    for (const [, input] of this.ticks) {
       input.prop('checked', checked);
     }
   }
@@ -140,12 +140,12 @@ export class UsersView {
   // Shows the bulk assign dialog
   async startBulkAssign() {
     const euids: string[] = [];
-    for (let [euid, input] of this.ticks) {
+    for (const [euid, input] of this.ticks) {
       if (input.is(':checked')) {
         euids.push(euid);
       }
     }
-    if (euids.length == 0) {
+    if (euids.length === 0) {
       toast('No users selected');
       return;
     }

@@ -28,15 +28,15 @@ export class Data {
 
   // The user's currently assigned tasks, if any
   tasks: schema.EUserTaskInfo[] = [];
-  tasksById: Map<string, schema.EUserTaskInfo> = new Map();
+  tasksById = new Map<string, schema.EUserTaskInfo>();
 
   constructor(listener: Listener) {
     this.listener = listener;
-    firebase.auth().onAuthStateChanged(async (user: FBUser) => await this.handleUserAuth_(user));
+    firebase.auth().onAuthStateChanged(async (user: FBUser) => await this.handleUserAuth(user));
   }
 
   // Called when Firebase gets a sign-in
-  async handleUserAuth_(fbuser: FBUser): Promise<void> {
+  async handleUserAuth(fbuser: FBUser): Promise<void> {
     this.fbuser = fbuser;
     if (this.fbuser == null) {
       await this.listener.handleUpdate();
@@ -48,7 +48,7 @@ export class Data {
       this.consented = isConsented;
       this.consentCheckTimestamp = Date.now();
       if (euser) {
-        this.updateFields_(euser, etasks);
+        this.updateFields(euser, etasks);
       }
 
       // Poke the app to respond to state changes
@@ -75,7 +75,7 @@ export class Data {
     }
     const result = await postAsJson('/api/signup', {language, tags, agreements, demographics});
     const [euser, etasks, isConsented] = result as [schema.EUserInfo, schema.EUserTaskInfo[], boolean];
-    this.updateFields_(euser, etasks);
+    this.updateFields(euser, etasks);
     this.consented = isConsented;
     this.consentCheckTimestamp = Date.now();
     console.log(`created user: ${JSON.stringify(this.user)}`);
@@ -107,7 +107,7 @@ export class Data {
       };
       const rsp = await authenticatedFetch('/api/uploadaudio', args, 'post', audio);
       const [euser, etask, erec] = await rsp.json() as [schema.EUserInfo, schema.EUserTaskInfo, schema.ERecordingMetadata];
-      await this.updateTask_(euser, etask);
+      await this.updateTask(euser, etask);
       return erec;
     });
   }
@@ -118,7 +118,7 @@ export class Data {
       const taskId = task.id;
       const rsp = await authenticatedFetch('/api/deleteaudio', {taskId}, 'post');
       const [euser, etask] = await rsp.json() as [schema.EUserInfo, schema.EUserTaskInfo];
-      await this.updateTask_(euser, etask);
+      await this.updateTask(euser, etask);
     });
   }
 
@@ -146,7 +146,7 @@ export class Data {
       d = this.loadDemographics();
     }
     return (!!d.country &&
-      (d.country != 'USA' || !!d.state) &&
+      (d.country !== 'USA' || !!d.state) &&
       (d.hasHelper != undefined) &&
       (!d.hasHelper || !!d.helperEmail) &&
       !!d.consentStorage &&
@@ -155,17 +155,17 @@ export class Data {
   }
 
   // Acquires updated data from the server's responses
-  updateFields_(user: schema.EUserInfo, tasks: schema.EUserTaskInfo[]) {
+  private updateFields(user: schema.EUserInfo, tasks: schema.EUserTaskInfo[]) {
     this.user = user;
     this.tasks = tasks;
     this.tasksById.clear();
-    for (let task of tasks) {
+    for (const task of tasks) {
       this.tasksById.set(task.id, task);
     }
   }
 
   // Same as above, but processes a change to only one task
-  async updateTask_(user: schema.EUserInfo, task: schema.EUserTaskInfo) {
+  private async updateTask(user: schema.EUserInfo, task: schema.EUserTaskInfo) {
     this.user = user;
     this.tasksById.set(task.id, task);  // Replace only one task
     this.tasks = [...this.tasksById.values()];  // Rebuild the array

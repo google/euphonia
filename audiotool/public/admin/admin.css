@@ -37,7 +37,7 @@ TABLE,TR,TD {
 
 H2 {
   font-size: 16px;
-  margin: 5px 0px 5px 0px;
+  margin: 5px 0 5px 0;
 }
 
 A {
@@ -78,7 +78,7 @@ A {
 }
 
 #adminapp .navbar A {
-  margin: 5px 0px 5px 10px;
+  margin: 5px 0 5px 10px;
   font-size: 13px;
 }
 
@@ -441,7 +441,7 @@ Taskset Detail View
 }
 
 #tasksetdetailview .taskstats {
-  margin: 0px 0px 0px 10px;
+  margin: 0 0 0 10px;
   font-size: 11px;
 }
 

@@ -73,7 +73,7 @@ class VarParser {
     }
   }
 
-  // Replaces all occurances of the variable with the desired string value.
+  // Replaces all occurrences of the variable with the desired string value.
   replaceVar(text, varName, value) {
     value = this.getSubValue(varName, value);
 

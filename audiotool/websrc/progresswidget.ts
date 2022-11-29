@@ -24,15 +24,15 @@ export class ProgressWidget {
     this.parent = parent;
     this.div = this.parent.eadd('<div class=progresswidget />');
     this.div.eclass(cssClass, !!cssClass);
-    this.draw_();
+    this.draw();
   }
 
   setRatio(ratio: number) {
     this.ratio = Math.max(0, Math.min(1, ratio));
-    this.draw_();
+    this.draw();
   }
 
-  draw_() {
+  private draw() {
     this.div.empty();
     const left = this.div.eadd('<div class=progressleft>&nbsp;</div>');
     left.css('width', `${Math.round(this.ratio * 100)}%`);

@@ -55,7 +55,7 @@ export class EStorage {
   }
 
   getTasksSubcollection(tsid: string): CollectionReference {
-    return this.firestore.collection(`${schema.TASKSETS_TABLE}/${tsid}/${schema.TASKS_SUBCOLLECTION}`)
+    return this.firestore.collection(`${schema.TASKSETS_TABLE}/${tsid}/${schema.TASKS_SUBCOLLECTION}`);
   }
 
   getConsentsCollection(): CollectionReference {
@@ -71,8 +71,8 @@ export class EStorage {
   async loadUserByFBUID(fbuid: string, opt_txn?: Transaction): Promise<EUser|null> {
     const q = this.getUsersCollection().where('fbuid', '==', fbuid).limit(1);
     const result = opt_txn ? await opt_txn.get(q) : await q.get();
-    if (result.size == 1) {
-      for (let doc of result.docs) {
+    if (result.size === 1) {
+      for (const doc of result.docs) {
         const data = doc.data() as schema.EUserData;
         return new EUser(this, schema.userPath(data.euid), data);
       }
@@ -85,8 +85,8 @@ export class EStorage {
     const normedEmail = normalizeEmail(email);
     const q = this.getUsersCollection().where('normalizedEmail', '==', normedEmail).limit(1);
     const result = opt_txn ? await opt_txn.get(q) : await q.get();
-    if (result.size == 1) {
-      for (let doc of result.docs) {
+    if (result.size === 1) {
+      for (const doc of result.docs) {
         const data = doc.data() as schema.EUserData;
         return new EUser(this, schema.userPath(data.euid), data);
       }
@@ -154,7 +154,7 @@ export class EStorage {
     let user = await this.createUser_(newuser);
 
     // Run the assignment rules on this user in order. The last will be the most up to date.
-    for(let [taskSet, rule] of await this.loadAssignmentRules(user)) {
+    for (const [taskSet, rule] of await this.loadAssignmentRules(user)) {
       user = await taskSet.assignTasks(rule, user.euid);
       taskSets.add(taskSet);
     }
@@ -163,7 +163,7 @@ export class EStorage {
   }
 
   // Creates a new EUser, generating a new unique EUID for them within a transaction.
-  async createUser_(newuser: schema.NewUserInfo): Promise<EUser> {
+  private async createUser_(newuser: schema.NewUserInfo): Promise<EUser> {
     requireLanguage(newuser.language);
 
     for (let tries = 0; tries < EStorage.EUID_TRIES; tries++) {
@@ -175,12 +175,12 @@ export class EStorage {
             throw new Error(`Email address already in use: ${user.info.email} (${user.normalizedEmail})`);
           } else {
             // Try to create a new user with a new EUID. We might have to retry
-            return await this.createUserTxn_(txn, newuser);
+            return await this.createUserTxn(txn, newuser);
           }
         });
 
       } catch (e) {
-        if (`${e}`.indexOf('retry: EUID in use') != -1) {
+        if (`${e}`.indexOf('retry: EUID in use') !== -1) {
           console.log('EUID collision, trying again...');
           continue;  // EUID collection, try again
         }
@@ -191,7 +191,7 @@ export class EStorage {
   }
 
   // One shot at creating a user within a transaction, after existence checks are done.
-  async createUserTxn_(txn: Transaction, newuser: schema.NewUserInfo) {
+  private async createUserTxn(txn: Transaction, newuser: schema.NewUserInfo) {
     // Allocate a new EUID within a transaction and claim it for this new user.
     const newEuid = 'E' + `${Math.floor(Math.random() * 99999)}`.padStart(5, '0');
     const path = schema.userPath(newEuid);
@@ -282,9 +282,9 @@ export class EStorage {
       usertask.update(txn);
 
       // Update the user's recording and task counters
-      user.info.numRecordings = await this.countUserRecordings_(user.euid) + 1;
+      user.info.numRecordings = await this.countUserRecordings(user.euid) + 1;
       user.info.lastRecordingTimestamp = timestamp;
-      if (prevTimestamp == 0) {
+      if (prevTimestamp === 0) {
         user.info.numCompletedTasks += 1;  // Don't do this for re-records
       }
       user.update(txn);
@@ -312,7 +312,7 @@ export class EStorage {
   }
 
   // Queries the user's recordings to count how many there are.
-  async countUserRecordings_(euid: string): Promise<number> {
+  private async countUserRecordings(euid: string): Promise<number> {
     const data = await this.getRecordingsSubcollection(euid).get();
     return data.size;
   }
@@ -375,14 +375,14 @@ export class EStorage {
 
     // Rules have to match the language and one of the user's tags.
     const result: [ETaskSet, schema.EAssignmentRule][] = [];
-    for (let taskSet of await this.listTaskSets()) {
-      if (taskSet.info.language != userLanguage) {
+    for (const taskSet of await this.listTaskSets()) {
+      if (taskSet.info.language !== userLanguage) {
         continue;  // This rule's language doesn't match the user
       }
-      for (let rule of taskSet.info.rules) {
+      for (const rule of taskSet.info.rules) {
         if (rule.tags.length > 0) {
           let tagMatch = false;
-          for (let tag of rule.tags) {
+          for (const tag of rule.tags) {
             if (userTags.has(tag)) {
               tagMatch = true;
               break;
@@ -397,7 +397,7 @@ export class EStorage {
     }
 
     // Order the rules
-    result.sort((a, b) => a[1].order < b[1].order ? -1 : (a[1].order == b[1].order ? 0 : 1));
+    result.sort((a, b) => a[1].order < b[1].order ? -1 : (a[1].order === b[1].order ? 0 : 1));
     return result;
   }
 
@@ -431,11 +431,11 @@ export class EStorage {
   // Same as above, but returns only the subset of consents that apply to a user with the given language and tags.
   async listApplicableConsents(language: string, tags: string[], now: number) : Promise<EConsent[]> {
     const result: Set<EConsent> = new Set();
-    for (let consent of await this.listConsents()) {
+    for (const consent of await this.listConsents()) {
       if (!consent.info.active) {
         continue;  // suppress this inactive consent
       }
-      if (consent.info.language != language) {
+      if (consent.info.language !== language) {
         continue;  // not applicable to this user
       }
       if (!consent.getLiveVersion(now)) {
@@ -443,9 +443,9 @@ export class EStorage {
       }
       if (consent.info.tags.length > 0) {
         // A tagged consent means it only applies to certain users
-        for (let ctag of consent.info.tags) {
-          for (let utag of tags) {
-            if (utag == ctag) {
+        for (const ctag of consent.info.tags) {
+          for (const utag of tags) {
+            if (utag === ctag) {
               result.add(consent);
             }
           }
@@ -514,8 +514,8 @@ export class EUser {
 
   // Returns the number of tasks from the given taskset assigned to this user.
   getNumTasks(taskSetId: string): number {
-    for (let [tsid, num] of this.info.numAssignmentsByTaskSet) {
-      if (tsid == taskSetId) {
+    for (const [tsid, num] of this.info.numAssignmentsByTaskSet) {
+      if (tsid === taskSetId) {
         return num;
       }
     }
@@ -524,8 +524,8 @@ export class EUser {
 
   // Adds or removes task counts from the given taskset's counter on this user, and returns the new value.
   changeNumTasks(taskSetId: string, delta: number): number {
-    for (let t of this.info.numAssignmentsByTaskSet) {
-      if (t[0] == taskSetId) {
+    for (const t of this.info.numAssignmentsByTaskSet) {
+      if (t[0] === taskSetId) {
         if (t[1] + delta >= 0) {
           t[1] += delta;
           this.info.numTasks += delta;
@@ -561,7 +561,7 @@ export class EUser {
 
   // Returns true if the user's agreements match the live versions of all applicable consents
   async isConsented(now: number): Promise<boolean> {
-    for (let c of await this.parent.listApplicableConsents(this.info.language, this.info.tags, now)) {
+    for (const c of await this.parent.listApplicableConsents(this.info.language, this.info.tags, now)) {
       if (c.info.optional) {
         continue;  // Permit user not to have consented if the consent is optional
       }
@@ -574,10 +574,10 @@ export class EUser {
   }
 
   // Returns true if this user has an agreement to the given exact consent and version
-  isConsented_(consentId: string, version: number): boolean {
-    for (let agreement of this.info.consents) {
-      if (agreement.consentId ==  consentId && agreement.version == version &&
-          agreement.consentTimestamp != 0 && agreement.revokeTimestamp == 0) {
+  private isConsented_(consentId: string, version: number): boolean {
+    for (const agreement of this.info.consents) {
+      if (agreement.consentId === consentId && agreement.version === version &&
+          agreement.consentTimestamp !== 0 && agreement.revokeTimestamp === 0) {
         return true;  // Found a matching and non-revoked agreement
       }
     }
@@ -588,8 +588,8 @@ export class EUser {
   async addConsent(now: number, agreement: schema.EAgreementInfo): Promise<EUser> {
     return await this.parent.run(async txn => {
       const consent = await this.parent.requireConsent(agreement.consentId, txn);
-      let [exact, others] = this.findConsents_(agreement.consentId, agreement.version);
-      if (exact && exact.revokeTimestamp == 0) {
+      let [exact, others] = this.findConsents(agreement.consentId, agreement.version);
+      if (exact && exact.revokeTimestamp === 0) {
         // Already consented, just update the timestamps. No change to counters.
         exact.consentTimestamp = now;
         this.update(txn);
@@ -608,11 +608,11 @@ export class EUser {
       consent.changeUserCount(agreement.version, 1);
 
       // Decrement any counters for older versions of the same consent
-      for (let oldVersion of others) {
-        if (!oldVersion.superceded && !oldVersion.revokeTimestamp) {
+      for (const oldVersion of others) {
+        if (!oldVersion.superseded && !oldVersion.revokeTimestamp) {
           consent.changeUserCount(oldVersion.version, -1);
         }
-        oldVersion.superceded = true;
+        oldVersion.superseded = true;
       }
 
       this.update(txn);
@@ -624,8 +624,8 @@ export class EUser {
   // Records that the user revoked a consent across all versions
   async revokeConsent(consentId: string, txn: Transaction): Promise<void> {
     const consent = await this.parent.requireConsent(consentId, txn);
-    let [, consentRecords] = this.findConsents_(consentId, -1);
-    for (let c of consentRecords) {
+    let [, consentRecords] = this.findConsents(consentId, -1);
+    for (const c of consentRecords) {
       if (c.consentTimestamp && !c.revokeTimestamp) {
         consent.changeUserCount(c.version, -1);
       }
@@ -637,12 +637,12 @@ export class EUser {
   }
 
   // Returns the matching consent, plus any other consents of different versions with the same ID.
-  findConsents_(consentId: string, version: number): [schema.EAgreementInfo|undefined, schema.EAgreementInfo[]] {
+  private findConsents(consentId: string, version: number): [schema.EAgreementInfo|undefined, schema.EAgreementInfo[]] {
     let exact: schema.EAgreementInfo|undefined;  // ID and version match
     const others: schema.EAgreementInfo[] = [];  // only IDs match
-    for (let c of this.info.consents) {
-      if (c.consentId == consentId) {
-        if (c.version == version) {
+    for (const c of this.info.consents) {
+      if (c.consentId === consentId) {
+        if (c.version === version) {
           if (exact) {
             throw new Error(`User ${this.info.euid} has multiple exact consent matches: ${consentId}-${version}`);
           }
@@ -696,7 +696,7 @@ export class EUser {
     const collection = this.parent.getUserTasksSubcollection(this.euid);
     const q = await txn.get(collection.orderBy('order', 'desc').limit(1));
     let order = 0;
-    for (let doc of q.docs) {
+    for (const doc of q.docs) {
       order = doc.data().order;
       break;
     }
@@ -704,7 +704,7 @@ export class EUser {
 
     // Save these new tasks
     const timestamp = Date.now();
-    for (let task of tasks) {
+    for (const task of tasks) {
       const newDoc = collection.doc();
       const info: schema.EUserTaskInfo = {
         id: newDoc.id,
@@ -723,7 +723,7 @@ export class EUser {
     const oldNum = this.getNumTasks(tsid);
     const newNum = this.changeNumTasks(tsid, tasks.length);
     taskSet.info.numAssignedTasks += tasks.length;
-    if (oldNum == 0 && newNum > 0) {
+    if (oldNum === 0 && newNum > 0) {
       taskSet.info.numAssignedUsers++;  // this user didn't have tasks from this taskset before
     }
     taskSet.update(txn);
@@ -733,21 +733,21 @@ export class EUser {
   // Removes the list of tasks from a user and updates the user's task counters.
   async removeTasks(txn: Transaction, idTuples: [string, string][]): Promise<ETaskSet[]> {
     // First load all involved tasksets so we can update their counters.
-    const tasksByParent = await this.loadTaskTuples_(txn, idTuples);
+    const tasksByParent = await this.loadTaskTuples(txn, idTuples);
 
     // Update counters on user and taskset to reflect task changes
-    for (let [taskSet, taskIds] of tasksByParent) {
+    for (const [taskSet, taskIds] of tasksByParent) {
       taskSet.info.numAssignedTasks -= taskIds.length;
       const oldNum = this.getNumTasks(taskSet.info.id);
       const newNum = this.changeNumTasks(taskSet.info.id, -taskIds.length);
       if (oldNum > 0 && newNum <= 0) {
-        // This user has no tasks left from this taskset, so they drop out of of the user counter
+        // This user has no tasks left from this taskset, so they drop out of the user counter
         taskSet.info.numAssignedUsers = Math.max(0, taskSet.info.numAssignedUsers - 1);
       }
     }
 
     // Remove these tasks; the client was supposed to have already checked if they're unrecorded
-    for (let [, taskId] of idTuples) {
+    for (const [, taskId] of idTuples) {
       const taskpath = schema.userTaskPath(this.euid, taskId);
       txn.delete(this.parent.firestore.doc(taskpath));
     }
@@ -757,17 +757,17 @@ export class EUser {
 
     // Update all the involved TaskSets we touched to save their counters
     const result = [...tasksByParent.keys()];
-    for (let taskSet of result) {
+    for (const taskSet of result) {
       taskSet.update(txn);
     }
     return result;
   }
 
   // For each [taskSetId, taskId] tuple, loads the parent TaskSet and organizes all its taskIds in a map.
-  async loadTaskTuples_(txn: Transaction, idTuples: [string, string][]): Promise<Map<ETaskSet, string[]>> {
-    const taskSets: Map<string, ETaskSet> = new Map();
-    const result: Map<ETaskSet, string[]> = new Map();
-    for (let [taskSetId, taskId] of idTuples) {
+  private async loadTaskTuples(txn: Transaction, idTuples: Array<[string, string]>): Promise<Map<ETaskSet, string[]>> {
+    const taskSets = new Map();
+    const result = new Map();
+    for (const [taskSetId, taskId] of idTuples) {
       let taskSet = taskSets.get(taskSetId);
       if (!taskSet) {
         taskSet = await this.parent.requireTaskSet(taskSetId, txn);
@@ -816,7 +816,7 @@ export class ERecording {
   }
 
   async delete(user: EUser, usertask: EUserTask, tsTask: ETask, txn: Transaction): Promise<void> {
-    if (user != this.parent || usertask.info.recordedTimestamp != this.metadata.timestamp) {
+    if (user !== this.parent || usertask.info.recordedTimestamp !== this.metadata.timestamp) {
       throw new Error(`Unexpected wrong user/task update: ${user.euid}: ${this.metadata.timestamp}`);
     }
     // The user's recording and task count should decline by one
@@ -907,20 +907,20 @@ export class ETaskSet {
 
   // Adds or removes TaskSet rules in memory; be sure to update(txn) after this.
   changeRules(addrules: schema.EAssignmentRule[], delrules: number[]): void {
-    if (addrules.length == 0 && delrules.length == 0) {
+    if (addrules.length === 0 && delrules.length === 0) {
       throw new ParamError('No rule changes specified');
     }
 
     // Splice out unwanted rules from the list
     const rules = this.info.rules;
-    for (let rule of rules) {
-      if (delrules.indexOf(rule.id) != -1) {
+    for (const rule of rules) {
+      if (delrules.indexOf(rule.id) !== -1) {
         rules.splice(rules.indexOf(rule), 1);
       }
     }
 
     // Add any desired new rules to the list
-    for (let rule of addrules) {
+    for (const rule of addrules) {
       rules.push(rule);
     }
   }
@@ -932,9 +932,9 @@ export class ETaskSet {
   }
 
   // Tries to create new unique prompts. Duplicate prompts are prohibited.
-  async addPromptTasks(tasks: [number, string][]): Promise<ETask[]> {
+  async addPromptTasks(tasks: Array<[number, string]>): Promise<ETask[]> {
     const tasksSubcollection = this.parent.getTasksSubcollection(this.info.id);
-    for (let [order, prompt] of tasks) {
+    for (const [order, prompt] of tasks) {
       if (!prompt || !order || isNaN(order)) {
         throw new ParamError(`Missing required fields: ${order}:${prompt}`);
       }
@@ -983,7 +983,7 @@ export class ETaskSet {
       throw new ParamError('Malformed selection rule');
     }
 
-    if (tasks.length == 0) {
+    if (tasks.length === 0) {
       throw new NotFoundError('No tasks to assign');
     }
 
@@ -1045,7 +1045,7 @@ export class EConsent {
   // Returns the latest live version, unless no version is live yet.
   getLiveVersion(now: number): schema.EConsentVersion|undefined {
     let latest: schema.EConsentVersion|undefined;
-    for (let version of this.info.versions) {
+    for (const version of this.info.versions) {
       if (version.liveTimestamp <= now && (!latest || latest.version < version.version)) {
         latest = version;
       }
@@ -1056,7 +1056,7 @@ export class EConsent {
   // Returns the array index of the given consent version, or -1 if not found.
   getVersionIndex(version: number) {
     for (let i = 0; i < this.info.versions.length; i++) {
-      if (this.info.versions[i].version == version) {
+      if (this.info.versions[i].version === version) {
         return i;
       }
     }
@@ -1066,7 +1066,7 @@ export class EConsent {
   // Changes the per-user counters on a particular consent version in the consent info.
   changeUserCount(version: number, incr: number) {
     const idx = this.getVersionIndex(version);
-    if (idx == -1) {
+    if (idx === -1) {
       throw new NotFoundError(`No such consent version: ${this.info.id}-${version}`);
     }
     this.info.versions[idx].numUsers += incr;
@@ -1092,7 +1092,7 @@ export class EConsent {
   // Deletes a version and commits the transaction.
   async deleteVersion(version: number, txn: Transaction): Promise<void> {
     const idx = this.getVersionIndex(version);
-    if (idx == -1) {
+    if (idx === -1) {
       throw new NotFoundError(`No such consent version: ${this.info.id}-${version}`);
     }
 

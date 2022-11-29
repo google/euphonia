@@ -37,7 +37,7 @@ export class Deps {
 }
 
 class FakeFirestore {
-  collections: Map<string, FakeFirestoreCollection> = new Map();
+  collections = new Map<string, FakeFirestoreCollection>();
   
   // Helpers to create fake data
   async createTestConsent(infoJson: string) {
@@ -54,7 +54,7 @@ class FakeFirestore {
   doc(path: string): FakeFirestoreDoc {
     console.log(`FakeFirestore.doc: ${path}`);
     const pathIdx = path.lastIndexOf('/');
-    if (pathIdx == -1) {
+    if (pathIdx === -1) {
       throw new Error(`invalid doc path: ${path}`);
     }
     const cpath = path.substring(0, pathIdx);
@@ -81,7 +81,7 @@ class FakeFirestore {
 class FakeFirestoreCollection {
   path: string;
   parent: FakeFirestore;
-  docs: Map<string, FakeFirestoreDoc> = new Map();
+  docs = new Map<string, FakeFirestoreDoc>();
 
   constructor(parent: FakeFirestore, path: string) {
     console.log(`FakeFirestoreCollection.new: ${path}`);
@@ -103,18 +103,18 @@ class FakeFirestoreCollection {
   }
 
   where(field: string, op: string, value: any) {
-    const results = [...this.get().docs.values()].filter(d => this.filter_(d, field, op, value));
+    const results = [...this.get().docs.values()].filter(d => this.filter(d, field, op, value));
     console.log(`FakeFirestoreCollection.where: ${this.path}: ${field} ${op} ${value} => ${results.length} results`);
     return new FakeFirestoreQuery(results);
   }
 
-  filter_(doc: FakeFirestoreDoc, field: string, op: string, value: any) {
+  private filter(doc: FakeFirestoreDoc, field: string, op: string, value: any) {
     const dv = doc.data_[field];
-    if (op == 'in') {
+    if (op === 'in') {
       const ins = value as any[];
-      return ins.indexOf(dv) != -1;
-    } else if (op == '==') {
-      return dv == value;
+      return ins.indexOf(dv) !== -1;
+    } else if (op === '==') {
+      return dv === value;
     } else {
       throw new Error(`Unsupported where op: ${op}`);
     }
@@ -125,15 +125,15 @@ class FakeFirestoreCollection {
     const sortByField = (a: any, b: any): number => {
       const av = a[field];
       const bv = b[field];
-      if (av == bv) {
+      if (av === bv) {
         return 0;
       } else if (av == undefined) {
         return ascending ? -1 : 1;
       } else if (bv == undefined) {
         return ascending ? 1 : -1;
-      } else if (typeof av == 'number' && typeof bv == 'number') {
+      } else if (typeof av === 'number' && typeof bv === 'number') {
         return ascending ? av - bv : bv - av;
-      } else if (typeof av == 'string' && typeof bv == 'string') {
+      } else if (typeof av === 'string' && typeof bv === 'string') {
         return ascending ? av.localeCompare(bv) : bv.localeCompare(av);
       } else {
         throw new Error(`Unsupported field comparison: ${field} is of types ${typeof av} and ${typeof bv}`);
@@ -238,7 +238,7 @@ class FakeFirestoreTransaction {
     console.log(`FakeFirestoreTransaction.update ${doc.path}`);
     const existing = doc.parent.docs.get(doc.path);
     if (existing) {
-      for (let field in fields) {
+      for (const field in fields) {
         existing.data_[field] = fields[field];
       }
     } else {
@@ -255,9 +255,7 @@ class FakeFirestoreTransaction {
 }
 
 class FakeStorage {
-  buckets: Map<string, FakeStorageBucket> = new Map();
-  constructor() {
-  }
+  buckets = new Map<string, FakeStorageBucket>();
 
   bucket(name: string) {
     let b = this.buckets.get(name);
@@ -271,7 +269,7 @@ class FakeStorage {
 
 class FakeStorageBucket {
   parent: FakeStorage;
-  files: Map<string, any> = new Map();
+  files = new Map<string, any>();
 
   constructor(parent: FakeStorage) {
     this.parent = parent;

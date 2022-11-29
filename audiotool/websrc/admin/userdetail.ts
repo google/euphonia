@@ -47,18 +47,18 @@ export class UserDetailView {
     this.div.eadd('<h2 />').etext('Assigned Tasks');
     this.workTable = this.div.eadd('<table class=userwork />');
 
-    this.fillUserInfo_();
+    this.fillUserInfo();
   }
 
   // Fills in the user details
-  fillUserInfo_() {
+  private fillUserInfo() {
     this.userinfo.empty();
     this.userinfo.eadd('<div class=euid />').etext(`User ${this.user.euid}`);
     const table = this.userinfo.eadd('<table />');
-    table.eaddtr([$('<span class=label />').etext('Name:'), $('<span />').etext(`${this.getNameInfo_()}`)]);
+    table.eaddtr([$('<span class=label />').etext('Name:'), $('<span />').etext(`${this.getNameInfo()}`)]);
     table.eaddtr([$('<span class=label />').etext('Email:'), $('<span />').etext(`${this.user.email}`)]);
-    table.eaddtr([$('<span class=label />').etext('Assistant:'), $('<span />').etext(`${this.getHelperInfo_()}`)]);
-    table.eaddtr([$('<span class=label />').etext('Location:'), $('<span />').etext(`${this.getLocationInfo_()}`)]);
+    table.eaddtr([$('<span class=label />').etext('Assistant:'), $('<span />').etext(`${this.getHelperInfo()}`)]);
+    table.eaddtr([$('<span class=label />').etext('Location:'), $('<span />').etext(`${this.getLocationInfo()}`)]);
     table.eaddtr([$('<span class=label />').etext('Language:'), $('<span />').etext(`${this.user.language}`)]);
     table.eaddtr([$('<span class=label />').etext('Tags:'), $('<span />').etext(`${this.user.tags.join(' ')}`)]);
     table.eaddtr([$('<span class=label />').etext('Signed up:'), $('<span />').etext(`${formatTimestamp(this.user.signupTimestamp, 'never')}`)]);
@@ -66,18 +66,18 @@ export class UserDetailView {
     const [, consentNode] = table.eaddtr([$('<span class=label />').etext('Consents:'), $('<div class=consent />')]);
 
     // Add consent details
-    if (this.user.consents.length == 0) {
+    if (this.user.consents.length === 0) {
       consentNode.addClass('noconsent');
       consentNode.text(`No consents`);
     }
-    for (let consent of this.user.consents) {
+    for (const consent of this.user.consents) {
       const revoked = consent.revokeTimestamp ? `, revoked ${consent.revokeTimestamp}` : '';
       const cts = formatTimestamp(consent.consentTimestamp);
       consentNode.eadd('<div class=consent />').text(`${consent.consentId} (${consent.version}): ${cts}${revoked}`);
     }
 
     // Notes and demographics
-    table.eaddtr([$('<span class=label />').etext('Other info:'), $('<span />').etext(`${this.getDemographicsInfo_()}`)]);
+    table.eaddtr([$('<span class=label />').etext('Other info:'), $('<span />').etext(`${this.getDemographicsInfo()}`)]);
     table.eaddtr([$('<span class=label />').etext('Notes:'), $('<span />').etext(`${this.user.notes}`)]);
 
     // Controls
@@ -88,17 +88,17 @@ export class UserDetailView {
     this.parent.app.setNav(`/user/${this.user.euid}`);
   }
 
-  getNameInfo_(): string {
+  private getNameInfo(): string {
     const fn = this.user.fbname;
     const dn = this.user.name;
-    if (fn && dn && fn.trim() != dn.trim()) {
+    if (fn && dn && fn.trim() !== dn.trim()) {
       return `${dn} (Signed in as ${fn})`;
     } else {
       return dn;
     }
   }
 
-  getHelperInfo_(): string {
+  private getHelperInfo(): string {
     const d = this.user.demographics;
     if (!d || !d.hasHelper) {
       return 'Unassisted';
@@ -116,7 +116,7 @@ export class UserDetailView {
     return result;
   }
 
-  getLocationInfo_(): string {
+  private getLocationInfo(): string {
     const d = this.user.demographics;
     let result = '';
     if (d && d.city) {
@@ -128,10 +128,10 @@ export class UserDetailView {
     if (d && d.country) {
       result += d.country + ' ';
     }
-    return result == '' ? 'unknown' : result;
+    return result === '' ? 'unknown' : result;
   }
 
-  getDemographicsInfo_(): string {
+  private getDemographicsInfo(): string {
     const d = this.user.demographics;
     let result = '';
     if (d && d.accent) {
@@ -174,7 +174,7 @@ export class UserDetailView {
     if (user) {
       this.user = user;
     }
-    this.fillUserInfo_();
+    this.fillUserInfo();
   }
 
   // Fills in the user's recordings and tasks
@@ -182,13 +182,13 @@ export class UserDetailView {
     await Spinner.waitFor(async () => {
       const recs = new Map<number, ERecordingMetadata>();
       [this.tasks, this.recordings] = await this.parent.app.data.loadUserWork(this.user.euid);
-      for (let rec of this.recordings) {
+      for (const rec of this.recordings) {
         recs.set(rec.timestamp, rec);
       }
 
       // Update the GUI with these lists
       this.workTable.html(`<tr><th>Taskset</th><th>Prompt</th><th>Assigned</th><th>Completed</th><th>Recording</th></tr>`);
-      for (let task of this.tasks) {
+      for (const task of this.tasks) {
         const rec = recs.get(task.recordedTimestamp);
         const tr = this.workTable.eadd('<tr />');
         tr.eadd('<td class=taskset />').text(task.taskSetId);
@@ -212,11 +212,11 @@ export class UserDetailView {
   // Confirms that we should unassign all unrecorded tasks, and then do so
   async unassignAll() {
     const confirm = await ChoiceDialog.choose('Unassigning all unrecorded tasks?', 'Unassign', 'Cancel');
-    if (confirm != 'Unassign') {
+    if (confirm !== 'Unassign') {
       return;
     }
-    const tasks = this.tasks!.filter(task => task.recordedTimestamp == 0);
-    if (tasks.length == 0) {
+    const tasks = this.tasks!.filter(task => task.recordedTimestamp === 0);
+    if (tasks.length === 0) {
       toast('No unrecorded tasks');
       return;
     }

@@ -77,7 +77,7 @@ export class ConsentsView {
     this.table.html(`<thead><tr><th>ID</th><th>Description</th><th>Language</th>
     <th class=date>Created</th><th>Users</th></tr></thead>`);
     const tbody = this.table.eadd('<tbody />');
-    for (let [, consent] of this.app.data.consents) {
+    for (const [, consent] of this.app.data.consents) {
       const tr = tbody.eadd('<tr />');
       tr.eadd('<td class=consentid />').eadd(`<a href="#/consent/${consent.id}" />`).etext(consent.id);
       tr.eadd('<td class=name />').text(consent.name);

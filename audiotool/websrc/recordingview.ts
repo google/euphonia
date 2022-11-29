@@ -68,7 +68,7 @@ export class RecordingView {
   constructor(app: App) {
     this.app = app;
     this.data = app.data;
-    [this.taskPos, this.task] = this.findFirstTask_();
+    [this.taskPos, this.task] = this.findFirstTask();
 
     this.div = app.main.eadd('<div id=recordingview />');
     this.div.hide();
@@ -78,16 +78,16 @@ export class RecordingView {
     this.prevCardDiv = this.cardRibbon.eadd('<div class="card prevcard" />');
     this.cardDiv = this.cardRibbon.eadd('<div class="card thiscard" />');
     this.nextCardDiv = this.cardRibbon.eadd('<div class="card nextcard" />');
-    this.prevCardDiv.on('click', async e => await this.gotoTask_(this.taskPos - 1, true));
-    this.nextCardDiv.on('click', async e => await this.gotoTask_(this.taskPos + 1, true));
+    this.prevCardDiv.on('click', async e => await this.gotoTask(this.taskPos - 1, true));
+    this.nextCardDiv.on('click', async e => await this.gotoTask(this.taskPos + 1, true));
 
     // Card navigation controls
     const navBox = this.div.eadd('<div class=navpanel />');
     this.prevButton = navBox.eadd('<button>Previous card</button>');
     this.positionText = navBox.eadd('<div class=position />');
     this.nextButton = navBox.eadd('<button>Next card</button>');
-    this.prevButton.on('click', async e => await this.gotoTask_(this.taskPos - 1, true));
-    this.nextButton.on('click', async e => await this.gotoTask_(this.taskPos + 1, true));
+    this.prevButton.on('click', async e => await this.gotoTask(this.taskPos - 1, true));
+    this.nextButton.on('click', async e => await this.gotoTask(this.taskPos + 1, true));
 
     // Progress and status
     const statusBox = this.div.eadd('<div class=statuspanel />');
@@ -100,15 +100,15 @@ export class RecordingView {
     this.deleteButton = this.buttonBox.eadd('<button class=delete>Delete</button>');
     this.recordButton = this.buttonBox.eadd('<button class=record>Record</button>');
     this.cancelButton = this.buttonBox.eadd('<button class=cancel>Cancel</button>');
-    this.recordButton.on('click', async e => await this.toggleRecord_());
-    this.cancelButton.on('click', async e => await this.toggleRecord_(false));
-    this.deleteButton.on('click', async e => await this.handleDelete_());
-    this.listenButton.on('click', async e => await this.toggleListen_());
+    this.recordButton.on('click', async e => await this.toggleRecord());
+    this.cancelButton.on('click', async e => await this.toggleRecord(false));
+    this.deleteButton.on('click', async e => await this.handleDelete());
+    this.listenButton.on('click', async e => await this.toggleListen());
   }
 
   // Hides or shows the whole display
   async eshow(show: boolean): Promise<void> {
-    if (this.isShown == show) {
+    if (this.isShown === show) {
       return;  // already in the correct state
     }
     this.isShown = show;
@@ -116,8 +116,8 @@ export class RecordingView {
     this.div.eshow(show);
     if (show) {
       this.seenRecording = true;
-      [this.taskPos, this.task] = this.findFirstTask_();
-      await this.gotoTask_(this.taskPos, false);
+      [this.taskPos, this.task] = this.findFirstTask();
+      await this.gotoTask(this.taskPos, false);
     }
   }
 
@@ -129,16 +129,16 @@ export class RecordingView {
 
     if (this.taskPos >= this.data.tasks.length) {
       // Tasks have disappeared?? Jump to anywhere valid
-      [this.taskPos, this.task] = this.findFirstTask_();
-      await this.gotoTask_(this.taskPos, true);
+      [this.taskPos, this.task] = this.findFirstTask();
+      await this.gotoTask(this.taskPos, true);
     } else if (0 <= this.taskPos) {
       this.task = this.data.tasks[this.taskPos];
     }
-    this.updateGUI_();
+    this.updateGUI();
   }
 
   // Updates the current card and all the GUI elements based on current task and state
-  updateGUI_() {
+  private updateGUI() {
     const hasTasks = this.data.tasks.length > 0;
     const canNavigate = !this.isRecording && hasTasks && !this.isStoppingRecord && !this.isDeleting;
     const isFirst = this.taskPos <= 0;
@@ -210,10 +210,10 @@ export class RecordingView {
   }
 
   // Returns the first task the user hasn't recorded yet
-  findFirstTask_(): [number, schema.EUserTaskInfo?] {
+  private findFirstTask(): [number, schema.EUserTaskInfo?] {
     let pos = 0;
-    for (let task of this.data.tasks) {
-      if (task.recordedTimestamp == 0) {
+    for (const task of this.data.tasks) {
+      if (task.recordedTimestamp === 0) {
         return [pos, task];
       }
       pos++;
@@ -227,7 +227,7 @@ export class RecordingView {
   }
 
   // Navigates to the given task by position in the Data.tasks array
-  async gotoTask_(pos: number, animate: boolean): Promise<void> {
+  private async gotoTask(pos: number, animate: boolean): Promise<void> {
     if (this.isRecording || this.isStoppingRecord) {
       return;  // Don't navigate while we're recording or uploading
     }
@@ -235,17 +235,17 @@ export class RecordingView {
     const oldPos = this.taskPos;
     this.taskPos = Math.min(Math.max(pos, 0), this.data.tasks.length - 1);
     this.task = this.data.tasks.length > 0 ? this.data.tasks[this.taskPos] : undefined;
-    if (animate && oldPos != this.taskPos && oldPos != -1 && this.taskPos != -1) {
-      await this.animateCardChange_(oldPos < this.taskPos);
+    if (animate && oldPos !== this.taskPos && oldPos !== -1 && this.taskPos !== -1) {
+      await this.animateCardChange(oldPos < this.taskPos);
     }
-    this.updateGUI_();
+    this.updateGUI();
     if (animate && this.task) {
-      await this.animateCardText_();
+      await this.animateCardText();
     }
   }
 
   // Animates the cards sliding left or right
-  async animateCardChange_(advance: boolean) {
+  private async animateCardChange(advance: boolean) {
     this.cardRibbon.css('margin-left', '0');
     this.cardRibbon.css('transition', 'margin-left 0.3s ease-in');
     await sleepFrame();
@@ -256,7 +256,7 @@ export class RecordingView {
   }
 
   // Animates the card text fading in
-  async animateCardText_() {
+  private async animateCardText() {
     this.cardDiv.css('transition', '');
     this.cardDiv.css('color', 'rgba(0,0,80,0)');
     await sleepFrame();
@@ -267,7 +267,7 @@ export class RecordingView {
   }
 
   // Starts or stops recording, optionally canceling the upload
-  async toggleRecord_(wantUpload: boolean = true) {
+  private async toggleRecord(wantUpload: boolean = true) {
     if (this.isStoppingRecord) {
       return;  // We're already in the middle of stopping, do nothing
     
@@ -278,36 +278,36 @@ export class RecordingView {
       }
       this.isCanceling = !wantUpload;
       this.isStoppingRecord = true;
-      this.updateGUI_();
+      this.updateGUI();
       this.mediaRecorder.stop();  // This fires the stop event, see below
 
     } else if (this.task) {
       // Start a new recording
-      await this.startRecording_();
+      await this.startRecording();
     }
   }
 
   // Starts a new recording
-  async startRecording_() {
+  private async startRecording() {
     if (this.mediaRecorder || this.isRecording || this.isStoppingRecord) {
       throw new Error('Unexpectedly already recording');
     }
     this.isStoppingRecord = false;
     this.isRecording = true;
     this.isCanceling = false;
-    this.updateGUI_();
+    this.updateGUI();
 
     this.stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
     this.chunks = [];
     this.mediaRecorder = new MediaRecorder(this.stream, {mimeType: 'audio/webm'});
-    this.mediaRecorder.addEventListener('dataavailable', e => this.handleRecordChunks_(e));
-    this.mediaRecorder.addEventListener('stop', async e => await this.handleStopRecording_());
-    this.updateGUI_();
+    this.mediaRecorder.addEventListener('dataavailable', e => this.handleRecordChunks(e));
+    this.mediaRecorder.addEventListener('stop', async e => await this.handleStopRecording());
+    this.updateGUI();
     this.mediaRecorder.start();
   }
 
   // Called when a chunk of recorded audio data arrives from the media recorder.
-  handleRecordChunks_(e: any) {
+  private handleRecordChunks(e: any) {
     if (!this.isRecording) {
       throw new Error('Unexpected chunk when not recording');
     }
@@ -317,30 +317,30 @@ export class RecordingView {
   }
 
   // Called when the user clicks delete on an already-recorded card
-  async handleDelete_() {
+  private async handleDelete() {
     if (this.task) {
       this.isDeleting = true;
-      this.updateGUI_();
+      this.updateGUI();
       try {
         await this.data.deleteAudio(this.task);
         this.app.showMessage('Recording deleted.');
       } finally {
         this.isDeleting = false;
       }
-      this.updateGUI_();
+      this.updateGUI();
     } else {
       this.app.showMessage('No recording to delete.');
     }
   }
 
   // Called when the user clicks listen / stop listening on an already-recorded card
-  async toggleListen_() {
-    if (this.replayer && this.replayingTask && this.replayingTask == this.task) {
+  private async toggleListen() {
+    if (this.replayer && this.replayingTask && this.replayingTask === this.task) {
       // We're currently playing, stop
       this.replayer.remove();
       this.replayingTask = undefined;
       this.replayer = undefined;
-      this.updateGUI_();
+      this.updateGUI();
       return;
     }
 
@@ -350,9 +350,9 @@ export class RecordingView {
       this.replayer = undefined;
     }
 
-    if (!this.task || this.task.recordedTimestamp == 0) {
+    if (!this.task || this.task.recordedTimestamp === 0) {
       this.app.showMessage('No recording to play.');
-      this.updateGUI_();
+      this.updateGUI();
       return;
     }
 
@@ -368,18 +368,18 @@ export class RecordingView {
       }
       this.replayingTask = undefined;
       this.replayer = undefined;
-      this.updateGUI_();
+      this.updateGUI();
     });
     const p = this.replayer.get(0);
     if (p) {
       p.play();
     }
-    this.updateGUI_();
+    this.updateGUI();
   }
 
   // Called by media recorder when it slews to a stop and no more data is coming.
-  async handleStopRecording_() {
-    this.updateGUI_();
+  private async handleStopRecording() {
+    this.updateGUI();
     this.mediaRecorder = undefined;
 
     let uploaded = false;
@@ -398,7 +398,7 @@ export class RecordingView {
       }
 
     } finally {
-      // Stop the stream if possible, to try to persuade the browser to stop showing the listenning thing
+      // Stop the stream if possible, to try to persuade the browser to stop showing the listening thing
       if (this.stream) {
         this.stream.getTracks().forEach(async track => {
           track.stop();
@@ -411,22 +411,22 @@ export class RecordingView {
     }
 
     if (canceled) {
-      this.updateGUI_();
+      this.updateGUI();
       this.app.showMessage('Recording canceled', 'error');
     } else if (!uploaded) {
-      this.updateGUI_();
+      this.updateGUI();
       this.app.showMessage('Upload failed, your audio may not be saved.', 'error');
     } else {
-      await this.autoAdvance_();
+      await this.autoAdvance();
     }
   }
 
   // Auto-advance to the next card, or congratulate
-  async autoAdvance_() {
+  private async autoAdvance() {
     const user = this.data.user;
     if (this.taskPos < this.data.tasks.length - 1) {
       this.app.showMessage(`Recording uploaded! Here's the next card.`);
-      await this.gotoTask_(this.taskPos + 1, true);
+      await this.gotoTask(this.taskPos + 1, true);
 
     } else if (user && user.numCompletedTasks >= user.numTasks) {
       // TODO: congratulations screen
@@ -434,8 +434,8 @@ export class RecordingView {
 
     } else if (user) {
       this.app.showMessage(`Recording uploaded! Here's one we missed.`);
-      const [firstSkipped, ] = this.findFirstTask_();
-      await this.gotoTask_(firstSkipped, true);
+      const [firstSkipped, ] = this.findFirstTask();
+      await this.gotoTask(firstSkipped, true);
     }
   }
 }

@@ -72,31 +72,31 @@ export class ConsentView {
     this.consents = await this.data.listConsents(this.language, this.tags);
 
     if (this.consents.length < 1) {
-      this.displayError_();
+      this.displayError();
     } else {
-      await this.displayConsentIdx_(0);
+      await this.displayConsentIdx(0);
     }
   }
 
   // Shows an error if there are no consents to load
-  displayError_() {
+  private displayError() {
     this.consentDiv.addClass('consenterror');
     this.consentDiv.text('Unfortunately enrollment is not configured. Please check the URL or contact your program administrator.');
   }
 
   // Returns true if this user has already agreed to this consent
-  hasAgreement_(consent: schema.EConsentInfo): boolean {
+  private hasAgreement(consent: schema.EConsentInfo): boolean {
     if (!this.data.user) {
       return false;  // No prior agreements of any sort
     }
-    if (consent.versions.length != 1) {
+    if (consent.versions.length !== 1) {
       throw new Error(`Unexpected multiple live versions for consent: ${consent.id}`);
     }
-    for (let agreement of this.data.user.consents) {
-      if (agreement.consentId == consent.id &&
-          agreement.version == consent.versions[0].version &&
-          agreement.revokeTimestamp == 0 &&
-          agreement.consentTimestamp != 0) {
+    for (const agreement of this.data.user.consents) {
+      if (agreement.consentId === consent.id &&
+          agreement.version === consent.versions[0].version &&
+          agreement.revokeTimestamp === 0 &&
+          agreement.consentTimestamp !== 0) {
         return true;  // The user agreed to this already
       }
     }
@@ -104,16 +104,16 @@ export class ConsentView {
   }
 
   // Updates the consent scrollthrough view with the given consent item from the array.
-  async displayConsentIdx_(idx: number) {
+  private async displayConsentIdx(idx: number) {
     const consentCount = this.consents!.length;
     const consent = this.consents![idx];
     const isFirst = idx <= 0;
     const isLast = idx + 1 >= consentCount;
-    const isAgreed = this.hasAgreement_(consent);
-    if (consent.versions.length != 1) {
+    const isAgreed = this.hasAgreement(consent);
+    if (consent.versions.length !== 1) {
       throw new Error(`Unexpected applicable versions for consent: ${consent.id}: ${consent.versions.length} versions`);
     }
-    if (idx != 0 || !isLast) {
+    if (idx !== 0 || !isLast) {
       $('#consentcounter').html(`&nbsp;(Agreement ${idx + 1} of ${consentCount})`);
     }
 
@@ -142,10 +142,10 @@ export class ConsentView {
       });
       await Spinner.waitFor(async () => {
         if (isLast) {
-          await this.doSaveAgreement_();
+          await this.doSaveAgreement();
           await this.app.navigateTo('/instructions');
         } else {
-          await this.displayConsentIdx_(idx + 1);
+          await this.displayConsentIdx(idx + 1);
         }
       });
     });
@@ -155,14 +155,14 @@ export class ConsentView {
         await this.app.navigateTo('/interest');
       } else {
         await Spinner.waitFor(async () => {
-          await this.displayConsentIdx_(idx - 1);
+          await this.displayConsentIdx(idx - 1);
         });
       }
     });
   }
 
   // Signs the user up for the program.
-  async doSaveAgreement_() {
+  private async doSaveAgreement() {
     if (!this.data.user) {
       // Enroll a new user
       const demographics = this.data.loadDemographics();
