@@ -28,7 +28,7 @@ export function formatDateCode(date: Date) {
 export function formatDate(date: Date) {
   // Destructure the date
   const f = new Intl.DateTimeFormat('en-us', { dateStyle: 'short', timeStyle: 'long' });
-  const parts = {year:'', month:'', day:'', hour:'', minute:'', dayPeriod:'', timeZoneName:''};
+  const parts: any = {year:'', month:'', day:'', hour:'', minute:'', dayPeriod:'', timeZoneName:''};
   for (const {type, value} of f.formatToParts(date)) {
     parts[type] = value;
   }
