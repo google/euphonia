@@ -212,7 +212,7 @@ class AddRuleDialog extends Dialog {
     // Radio buttons
     const choices = this.addFormField('Assignment Action:', '<div class=choices />');
     this.allChoice = choices.eadd('<input type=radio class=radio name=action value=all id=allradio />');
-    this.allChoice.prop('checked', true);
+    this.allChoice.echecked(true);
     choices.eadd('<label for=allradio />').text('Assign all tasks from this taskset');
     choices.eadd('<br />');
     this.sampleChoice = choices.eadd('<input type=radio class=radio name=action value=sample id=sampleradio />');

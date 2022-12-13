@@ -155,8 +155,8 @@ class EditConsentDialog extends Dialog {
     nameField.val(parent.consent.name);
     languageField.val(parent.consent.language);
     tagsField.val(parent.consent.tags.join(' '));
-    optionalField.prop('checked', parent.consent.optional);
-    activeField.prop('checked', parent.consent.active);
+    optionalField.echecked(parent.consent.optional);
+    activeField.echecked(parent.consent.active);
 
     const buttonTd = this.formTable!.eadd('<tr />').eadd('<td colspan=2 class=buttonbox />');
     buttonTd.eadd('<button>Save</button>').on('click', async e => {

@@ -258,7 +258,7 @@ export class BulkAssignDialog extends Dialog {
 
   // Called when the user picks a different task set, so we can load its prompts
   private async loadTaskSet(tsid: string) {
-    this.allChoice.prop('checked', true);
+    this.allChoice.echecked(true);
     await Spinner.waitFor(async () => {
       this.taskTicks.clear();
       const tasks = await this.app.data.loadTasksetTasks(tsid);
@@ -286,7 +286,7 @@ export class BulkAssignDialog extends Dialog {
   private toggleTickAll() {
     const checked = $('#tickalltasks').is(':checked');
     for (const [tick, ] of this.taskTicks) {
-      tick.prop('checked', checked);
+      tick.echecked(checked);
     }
     this.updateGUI();
   }

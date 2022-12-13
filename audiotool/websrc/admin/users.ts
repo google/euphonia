@@ -126,7 +126,7 @@ export class UsersView {
   toggleTickAll() {
     const checked = $('#tickallusers').is(':checked');
     for (const [, input] of this.ticks) {
-      input.prop('checked', checked);
+      input.echecked(checked);
     }
   }
 

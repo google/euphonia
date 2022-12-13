@@ -124,7 +124,7 @@ export class ConsentView {
     const consentBox = this.consentDiv.eadd('<div class=consentbox />');
     const cb = consentBox.eadd('<input type=checkbox id=agreementcheckbox />');
     consentBox.eadd('<label for=agreementcheckbox />').etext('I agree to the terms above');
-    cb.prop('checked', isAgreed);
+    cb.echecked(isAgreed);
 
     const buttonBox = this.consentDiv.eadd('<div class=buttonbox />');
     const nextButton = buttonBox.eadd('<button class=next />');

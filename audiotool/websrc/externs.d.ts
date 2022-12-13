@@ -24,10 +24,12 @@ interface JQuery {
   eshow(wanted: boolean): void;
   evisible(wanted: boolean): void;
   eenable(wanted: boolean): void;
+  echecked(isChecked: boolean): void;
   eclass(cname: string|undefined, wanted: boolean): void;
   efade(wanted: boolean): void;
   eaddtr(cellNodes: Array<JQuery<HTMLElement>>, rowClass?: string): Array<JQuery<HTMLElement>>;
   etext(cellText: string): JQuery<HTMLElement>;
+  ehtml(cellText: string): JQuery<HTMLElement>;
   evalue(inputValue: string): JQuery<HTMLElement>;
 }
 

@@ -33,6 +33,12 @@ $.fn.etext = function(text): JQuery<HTMLElement> {
   return this;
 };
 
+// Sets the HTML contents of this node and returns it
+$.fn.ehtml = function(text): JQuery<HTMLElement> {
+  this.html(text);
+  return this;
+};
+
 // Sets the textual value of this input node and returns it
 $.fn.evalue = function(text): JQuery<HTMLElement> {
   this.val(text);
@@ -58,6 +64,11 @@ $.fn.evisible = function(show) {
 $.fn.eenable = function(enabled: boolean) {
   this.prop('disabled', !enabled);
 };
+
+$.fn.echecked = function(isChecked: boolean) {
+  this.prop('checked', isChecked);
+};
+
 
 $.fn.eclass = function(className: string|undefined, wanted: boolean) {
   if (!className) {
@@ -103,6 +114,11 @@ export function sleep(ms: number) {
 // Awaits the browser's next animation frame.
 export function sleepFrame() { 
   return new Promise(requestAnimationFrame); 
+}
+
+// Runs an async function next time the event loop finishes; does not await it.
+export function fork<X>(fn: () => Promise<X>): void {
+  setTimeout(fn, 1);
 }
 
 // Eases an opacity change one div over time.

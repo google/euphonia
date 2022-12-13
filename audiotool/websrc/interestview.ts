@@ -118,7 +118,7 @@ export class InterestView {
   // Fills the form elements with the given pre-existing demographics struct
   private fill(d: UserDemographics) {
     const setText = (id: string, t: string|undefined) => $(id).val(t ? t : '');
-    const setBool = (id: string, val: boolean) => $(id).prop('checked', val);
+    const setBool = (id: string, val: boolean) => $(id).echecked(val);
 
     // Identity and simple text demographic fields
     setText('#ifname', d.name);
@@ -166,8 +166,8 @@ export class InterestView {
     $('#helpersection').eshow(!!d.hasHelper);
 
     // Never restore the consent stuff, always require it be re-entered
-    $('#ifformconsent').prop('checked', false);
-    $('#ifformtos').prop('checked', false);
+    $('#ifformconsent').echecked(false);
+    $('#ifformtos').echecked(false);
     setText('#ifconsentinitials', '');
 
     // Auto-set defaults from Firestore Auth if the user hasn't entered anything
