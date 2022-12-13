@@ -16,7 +16,7 @@
 
 import {Data} from './data';
 import {App} from './app';
-import {sleep, sleepFrame} from './util';
+import {sleep, sleepFrame, fork} from './util';
 import {ProgressWidget} from './progresswidget';
 import * as schema from '../commonsrc/schema';
 
@@ -34,6 +34,7 @@ export class RecordingView {
   nextButton: JQuery<HTMLElement>;
   progressText: JQuery<HTMLElement>;
   progressBar: ProgressWidget;
+  helpButton: JQuery<HTMLElement>;
 
   // GUI visibility tracking vs. other app views
   isShown = false;
@@ -100,10 +101,12 @@ export class RecordingView {
     this.deleteButton = this.buttonBox.eadd('<button class=delete>Delete</button>');
     this.recordButton = this.buttonBox.eadd('<button class=record>Record</button>');
     this.cancelButton = this.buttonBox.eadd('<button class=cancel>Cancel</button>');
+    this.helpButton = this.buttonBox.eadd('<button class=help>?</button>');
     this.recordButton.on('click', async e => await this.toggleRecord());
     this.cancelButton.on('click', async e => await this.toggleRecord(false));
     this.deleteButton.on('click', async e => await this.handleDelete());
     this.listenButton.on('click', async e => await this.toggleListen());
+    this.helpButton.on('click', async e => await this.toggleHelp());
   }
 
   // Hides or shows the whole display
@@ -115,9 +118,14 @@ export class RecordingView {
 
     this.div.eshow(show);
     if (show) {
-      this.seenRecording = true;
-      [this.taskPos, this.task] = this.findFirstTask();
-      await this.gotoTask(this.taskPos, false);
+      if (this.data.hasMicrophonePermission !== 'yes') {
+        // The record view requires the microphone permission to work, so try to get it
+        fork(async () => await this.app.navigateTo('/setup?passive=true'));
+      } else {
+        this.seenRecording = true;
+        [this.taskPos, this.task] = this.findFirstTask();
+        await this.gotoTask(this.taskPos, false);
+      }
     }
   }
 
@@ -172,7 +180,8 @@ export class RecordingView {
 
     // We allow recording to be canceled if it's running
     this.cancelButton.eenable(this.isRecording && !this.isStoppingRecord);
-    this.cancelButton.evisible(this.isRecording && !this.isStoppingRecord);
+    this.cancelButton.eshow(this.isRecording && !this.isStoppingRecord);
+    this.helpButton.eshow(!this.isRecording && !this.isStoppingRecord);
 
     // Change the prev/next cards depending on whether they're recorded
     this.prevCardDiv.evisible(hasTasks && !isFirst);
@@ -297,13 +306,51 @@ export class RecordingView {
     this.isCanceling = false;
     this.updateGUI();
 
-    this.stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+    this.stream = await this.getAudioStream();
     this.chunks = [];
     this.mediaRecorder = new MediaRecorder(this.stream, {mimeType: 'audio/webm'});
     this.mediaRecorder.addEventListener('dataavailable', e => this.handleRecordChunks(e));
     this.mediaRecorder.addEventListener('stop', async e => await this.handleStopRecording());
     this.updateGUI();
     this.mediaRecorder.start();
+  }
+
+  private async getAudioStream(): Promise<MediaStream> {
+    const options = {video: false};
+    const deviceId = this.data.loadMicrophoneChoice();
+    if (deviceId == '') {
+      // Take the default audio input device
+      options['audio'] = true;
+    } else {
+      // Request a specific device
+      options['audio'] = {
+        'deviceId': {
+          'exact': deviceId
+        }
+      };
+    }
+    try {
+      return await navigator.mediaDevices.getUserMedia(options);
+
+    } catch (e) {
+      if (e instanceof OverconstrainedError) {
+        // We failed to use the desired microphone, try the default
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({audio: true, video: false});
+
+          // That worked, remove the user's choice and warn them we picked the default.
+          this.app.showMessage(`Configured microphone seems unavailable, using the default recording settings.`);
+          this.data.saveMicrophoneChoice('');
+          return stream;
+
+        } catch (e2) {
+          this.app.showMessage(`Unable to record, check microphone permissions?`, 'error');
+          throw e2;
+        }
+      } else {
+        throw e;
+      }
+    }
   }
 
   // Called when a chunk of recorded audio data arrives from the media recorder.
@@ -375,6 +422,11 @@ export class RecordingView {
       p.play();
     }
     this.updateGUI();
+  }
+
+  // Called when the user clicks listen / stop listening on an already-recorded card
+  private async toggleHelp() {
+    await this.app.navigateTo('/instructions')
   }
 
   // Called by media recorder when it slews to a stop and no more data is coming.

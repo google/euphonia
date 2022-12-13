@@ -25,6 +25,7 @@ export class Data {
   user?: schema.EUserInfo;  // set once the user has a server entry, post-consent
   consented: boolean = false;  // Set when the server thinks this user has all required agreements
   consentCheckTimestamp: number = 0;  // Last time we checked agreements
+  hasMicrophonePermission: 'yes'|'no'|'maybe' = 'maybe';  // Maybe means we won't know until we request.
 
   // The user's currently assigned tasks, if any
   tasks: schema.EUserTaskInfo[] = [];
@@ -38,6 +39,7 @@ export class Data {
   // Called when Firebase gets a sign-in
   async handleUserAuth(fbuser: FBUser): Promise<void> {
     this.fbuser = fbuser;
+    await this.checkPermissions();
     if (this.fbuser == null) {
       await this.listener.handleUpdate();
 
@@ -137,6 +139,17 @@ export class Data {
     }
   }
 
+  // Stores the user's microphone choice on this browser, or '' for default device.
+  saveMicrophoneChoice(deviceId: string) {
+    localStorage.setItem('microphone', deviceId);
+  }
+
+  // Returns the selected microphone, or '' if the default should be used.
+  loadMicrophoneChoice(): string {
+    const deviceId = localStorage.getItem('microphone');
+    return deviceId ? deviceId : '';
+  }
+
   // Returns true if all required fields in the demographics struct are complete.
   isCompletedDemographics(): boolean {
     let d: schema.UserDemographics;
@@ -170,6 +183,24 @@ export class Data {
     this.tasksById.set(task.id, task);  // Replace only one task
     this.tasks = [...this.tasksById.values()];  // Rebuild the array
     await this.listener.handleUpdate();
+  }
+
+  // Queries for the microphone permission and updates status bits.
+  private async checkPermissions() {
+    try {
+      const p = await navigator.permissions.query({name: 'microphone' as PermissionName});
+      if (!p || !p.state || `${p.state}` === 'ask' || `${p.state}` === 'prompt') {
+        this.hasMicrophonePermission = 'maybe';
+      } else if (p.state === 'granted') {
+        this.hasMicrophonePermission = 'yes';
+      } else if (p.state === 'denied') {
+        this.hasMicrophonePermission = 'no';
+      }
+    } catch (e) {
+      // The Permission API for microphone is unsupported on Firefox, so we just have to try it.
+      console.log(`Failed to query microphone permission, assuming we'll have to ask.`);
+      this.hasMicrophonePermission = 'maybe';
+    }
   }
 }
 

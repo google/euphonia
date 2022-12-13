@@ -90,6 +90,7 @@ Signup splash page
   margin: 20px;
   overflow: hidden;
   color: #333;
+  font-size: 16px;
 
   display: flex;
   flex-direction: column;
@@ -98,7 +99,7 @@ Signup splash page
 #signupview .title {
   color: #111;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 24px;
   margin-bottom: 10px;
 }
 
@@ -115,6 +116,9 @@ Signup splash page
   display: grid;
   grid-template-columns: 1em 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
+  column-gap: 5px;
+  align-items: start;
+  justify-items: start;
 }
 
 #signupview .questionbox .questiontext {
@@ -135,16 +139,15 @@ Signup splash page
 
 #signupview .questionbox INPUT {
   grid-column: 1;
-  align-self: center;
 }
 
 #signupview .questionbox INPUT.checkbox {
-  width: 14px;
+  margin-top: 8px;
+  width: 20px;
 }
 
 #signupview .questionbox LABEL {
   grid-column: 2;
-  align-self: center;
   margin-left: 10px;
 }
 
@@ -152,16 +155,27 @@ Signup splash page
   grid-row: 4;
   grid-column: 1 / span 2;
   margin-top: 10px;
-  justify-self: start;
   padding: 4px 15px 4px 15px;
+
+  font-weight: bold;
+  font-size: 20px;
 }
 
 #signupview .questionbox .accountexplain {
   margin-top: 10px;
   grid-row: 5;
   grid-column: 1 / span 2;
-  font-size: 12px;
+  font-size: 14px;
   color: #555;
+}
+
+/* Signup page for phones */
+@media (orientation: portrait) {
+  #signupview {
+    max-width: 100vw;
+    border: 0;
+    margin: 0;
+  }  
 }
 
 /*
@@ -187,14 +201,13 @@ Interest form
 #interestform .title {
   color: #111;
   font-weight: bold;
-  font-size: 20px;
-  margin-bottom: 10px;
+  font-size: 24px;
 }
 
 #interestform .sectiontitle {
   margin: 20px 0 5px 0;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 #interestform .formbox {
@@ -205,43 +218,48 @@ Interest form
 }
 
 #interestform .forminfobox {
-  margin-bottom: 15px;
-  padding: 12px 0 12px 0;
+  margin-bottom: 10px;
 }
 
 #interestform .fieldname {
-  margin-bottom: 3px;
+  margin-bottom: 5px;
   font-weight: bold;
-  font-size: 13px;
+  font-size: 16px;
   color: #000;
 }
 
 #interestform .required {
-  margin-left: 3px;
+  margin-left: 5px;
   color: #c00;
 }
 
 #interestform .optional {
   margin-left: 3px;
-  font-size: 11px;
+  font-size: 13px;
   font-style: italic;
   color: #333;
 }
 
 #interestform .fielddescription {
   margin-bottom: 5px; 
-  font-size: 11px;
+  font-size: 13px;
   color: #555;
 }
 
 #interestform INPUT.formtext {
   width: 35em;
   padding: 5px;
-  font-size: 13px;
+  font-size: 16px;
+}
+
+#interestform .checkboxrow {
+  display: flex;
+  column-gap: 5px;
+  align-items: start;
 }
 
 #interestform .checkboxrow LABEL {
-  font-size: 13px;
+  font-size: 16px;
   color: #000;
 }
 
@@ -259,13 +277,27 @@ Interest form
   margin-right: 10px;
   padding-left: 8px;
   padding-right: 8px;
-  font-size: 18px;
+  font-size: 14px;
 }
 
 #interestform .ifbuttons BUTTON.next {
   margin-right: 20px;
   font-size: 22px;
   font-weight: bold;
+}
+
+/* Interest form page for phones */
+@media (orientation: portrait) {
+  #interestform {
+    max-width: 100vw;
+    border: 0;
+    padding: 10px;
+    margin: 0;
+  }
+
+  #interestform INPUT.formtext {
+    width: calc(100vw - 44px);
+  }
 }
 
 /*
@@ -296,7 +328,7 @@ Consent forms
 
 #consentview .wholine {
   color: #555;
-  font-size: 13px;
+  font-size: 14px;
   margin-bottom: 10px;
 }
 
@@ -306,11 +338,10 @@ Consent forms
   overflow: hidden;
 }
 
-
 #consentview .consentarea .consentscroll {
   flex-grow: 1;
   border: 1px solid #aaa;
-  width: 90vw;
+  width: calc(100vw - 96px);
   overflow: scroll;
   background-color: #fff;
   color: #000;
@@ -344,6 +375,27 @@ Consent forms
   font-weight: bold;
 }
 
+/* Consent form page for phones */
+@media (orientation: portrait) {
+  #consentview {
+    width: 100vw;
+    border: 0;
+    padding: 5px;
+    margin: 0;
+  }  
+
+  #consentview .consentarea .consentscroll {
+    width: calc(100vw - 10px);
+  }
+
+  #consentview .consentarea .consentbox {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+}
+
 /*
 ==================================================================================
 Instructions view
@@ -369,11 +421,18 @@ Instructions view
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 4px;
+  text-align: center;
 }
 
 #instructionview .helptext {
   font-size: 18px;
   margin-bottom: 10px;
+  text-align: center;
+}
+
+#instructionview .video IFRAME {
+  width: calc(min(560px, 100vw - 40px));
+  height: calc(min(315px, 0.5625 * (100vw - 40px)));
 }
 
 #instructionview button {
@@ -381,7 +440,227 @@ Instructions view
   margin-top: 10px;
 }
 
+#instructionview BUTTON {
+  margin-top: 10px;
 
+  height: 50px;
+  border-radius: 25px;
+  padding: 0 30px 0 30px;
+  font-size: 22px;
+  font-weight: bold;
+  border: 3px solid #66e;
+  background-color: #00b;
+  color: #fff;
+}
+
+/* Instructions page for phones */
+@media (orientation: portrait) {
+  #instructionview {
+    width: 100vw;
+    padding: 10px 0 10px 0;
+    margin: 0;
+  }
+
+  #instructionview .title,#instructionview .helptext {
+    margin-left: 10px;
+    margin-right: 10px;
+    align-self: center;
+  }
+  
+  #instructionview .video IFRAME {
+    width: 100vw;
+    height: calc(0.5625 * 100vw);
+  }
+}
+
+/*
+==================================================================================
+Setup and permissions view
+==================================================================================
+*/
+
+#setupview {
+  max-width: 90vw;
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+  padding: 20px;
+  margin: 20px;
+  overflow: hidden;
+  color: #222;
+  background-color: #fff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#setupview.askingpermission {
+  margin-top: 25vh;
+}
+
+#setupview.success {
+  background-color: #eef;
+  color: #008;
+}
+
+#setupview.blocked {
+  background-color: #fec;
+  color: #400;
+}
+
+#setupview .title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+#setupview .buttonrow {
+  display: flex;
+  column-gap: 15px;
+  row-gap: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#setupview BUTTON {
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  box-sizing: border-box;
+  font-weight: bold;
+}
+
+#setupview BUTTON:disabled {
+  cursor: not-allowed;
+}
+
+#setupview BUTTON.start {
+  min-width: 15vw;
+  height: 50px;
+  border-radius: 25px;
+  padding: 0 30px 0 30px;
+  font-size: 22px;
+  border: 3px solid #66e;
+  background-color: #00b;
+  color: #fff;
+}
+
+#setupview BUTTON.start:disabled {
+  border: 3px solid #eee;
+  background-color: #ccc;
+  color: #fff;
+}
+
+#setupview BUTTON.settings {
+  height: 30px;
+  min-width: 10em;
+  border-radius: 15px;
+  padding: 0 20px 0 20px;
+  font-size: 14px;
+  border: 2px solid #aaa;
+  background-color: #ccc;
+  color: #333;
+}
+
+#setupview BUTTON.ask {
+  width: 15vw;
+  min-width: 10em;
+  height: 50px;
+  border-radius: 25px;
+  padding: 0 20px 0 20px;
+  font-size: 20px;
+  border: 3px solid #d62;
+  background-color: #a52;
+  color: #fee;
+}
+
+#setupview .requesttext {
+  color: #000;
+  margin: 10px 0 10px 0;
+
+  padding: 40px;
+  font-size: 20px;
+}
+
+#setupview .deniedtext {
+  margin: 10px 0 10px 0;
+  font-size: 18px;
+  padding: 40px;
+}
+
+#setupview .successtext {
+  padding: 40px;
+  font-size: 18px;
+}
+
+#setupview .micsettings {
+  color: #000;
+
+  padding: 40px;
+  font-size: 18px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+#setupview .micsettings .devices.disabled {
+  color: #aaa;
+}
+
+#setupview .micsettings .devices {
+  margin: 10px 0 0 15px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+
+#setupview .micsettings .savebuttonrow {
+  margin-top: 35px;
+
+  display: flex;
+  column-gap: 15px;
+  row-gap: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#setupview .micsettings .savebuttonrow BUTTON.save,#setupview .micsettings .savebuttonrow BUTTON.cancel {
+  height: 30px;
+  min-width: 10em;
+  border-radius: 15px;
+  padding: 0 20px 0 20px;
+  font-size: 15px;
+  border: 2px solid #aaa;
+  background-color: #ccc;
+  color: #333;
+}
+
+#setupview .micsettings .savebuttonrow BUTTON.save {
+  height: 30px;
+  min-width: 10em;
+  border-radius: 15px;
+  padding: 0 20px 0 20px;
+  font-size: 15px;
+  border: 2px solid #00f;
+  background-color: #00a;
+  color: #fff;
+}
+
+#setupview .micsettings .savebuttonrow BUTTON:disabled {
+  border: 2px solid #ddd;
+  background-color: #999;
+  color: #fff;
+}
+
+/* Mic settings page for phones */
+@media (orientation: portrait) {
+  #setupview .micsettings {
+    padding: 20px 0 20px 0;
+  }  
+}
 
 /*
 ==================================================================================
@@ -471,7 +750,7 @@ Recording view
 
 #recordingview .navpanel BUTTON {
   width: 12em;
-  height: 5vh;
+  min-height: 5vh;
 
   padding: 1vh 3vw 1vh 3vw;
   border-radius: 1vh;
@@ -480,6 +759,7 @@ Recording view
   color: #446;
   font-weight: bold;
   font-size: 2vh;
+  white-space: normal;
 }
 
 #recordingview .navpanel BUTTON:disabled {
@@ -513,6 +793,19 @@ Recording view
   display: flex;
   justify-content: flex-start;
   align-items: center;
+}
+
+#recordingview BUTTON.help {
+  margin: 0 1vw 0 1vw;
+  width: calc(min(6vh, 6vw));
+  min-width: 1em;
+  height: calc(min(6vh, 6vw));
+  border-radius: 3vh;
+  font-size: calc(min(2vh, 2vw));
+
+  border: 2px solid #ccc;
+  background-color: #ddd;
+  color: #555;
 }
 
 #recordingview BUTTON.listen,#recordingview BUTTON.delete {

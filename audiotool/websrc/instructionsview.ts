@@ -23,7 +23,6 @@ export class InstructionsView {
   data: Data;
   div: JQuery<HTMLElement>;
   doneButton: JQuery<HTMLElement>;
-  
 
   constructor(app: App) {
     this.app = app;
@@ -35,15 +34,18 @@ export class InstructionsView {
     this.div.eadd('<div class=title />').text(`Thanks for signing up for Project Euphonia!`);
     this.div.eadd('<div class=helptext />').text(`Here's a short video to help you get started:`);
     this.div.eadd('<div class=video />').html(`
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/e6z5rEgoqnI" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/e6z5rEgoqnI" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     `);
-    this.doneButton = this.div.eadd('<button>Start recording!</button>');
-    this.doneButton.on('click', async e => await this.app.navigateTo('/record'));
+    this.doneButton = this.div.eadd('<button>Get Started</button>');
+    this.doneButton.on('click', async e => await this.app.navigateTo('/setup?passive=true'));
   }
 
   // Hides or shows the whole display
   async eshow(show: boolean): Promise<void> {
     this.div.eshow(show);
+
+    const hasRecordings = this.data.user && this.data.user.numRecordings > 0;
+    this.doneButton.etext(hasRecordings ? 'Continue recording' : 'Get Started');
   }
 
   // Handles data update
