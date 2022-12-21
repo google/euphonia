@@ -80,5 +80,6 @@ functions/lib
 # dotenv environment variables file
 .env
 
-# Don't check in key files
+# Don't check in key files and local notes
 test_key.json
+TODOs.md
