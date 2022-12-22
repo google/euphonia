@@ -170,10 +170,13 @@ export class RecordingView {
 
     // Update the recording button state
     this.recordButton.eenable(hasTasks && !this.isStoppingRecord && !this.isDeleting);
+    this.recordButton.eclass('recording', this.isRecording && !this.isStoppingRecord);
     if (this.isStoppingRecord) {
       this.recordButton.text(this.isCanceling ? 'Canceling...' : 'Uploading...');
     } else if (this.isRecording) {
-      this.recordButton.text('Done Recording');
+      this.recordButton.empty();
+      this.recordButton.eadd('<div class=label />').etext('Recording...');
+      this.recordButton.eadd('<div class=recordlight />');
     } else {
       this.recordButton.text(isRecorded ? 'Record Again' : 'Record');
     }

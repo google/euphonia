@@ -857,6 +857,22 @@ Recording view
   font-size: calc(min(2vh, 2vw));
 }
 
+#recordingview BUTTON.record.recording {
+  display: flex;
+  column-gap: 1em;
+  align-items: center;
+  justify-content: center;
+}
+
+#recordingview BUTTON.record.recording .recordlight {
+  width: calc(min(3vh, 3vw));
+  height: calc(min(3vh, 3vw));
+  border-radius: calc(min(1.5vh, 1.5vw));
+  background: linear-gradient(45deg, #800, #f44);
+  border: 1px solid #faa;
+  filter: drop-shadow(0 0 1vw #fdd);
+}
+
 #recordingview BUTTON.record:hover {
   background-color: #33d;
 }
@@ -868,7 +884,7 @@ Recording view
 }
 
 #recordingview .controlpanel BUTTON.cancel {
-  height: calc(min(6vh, 6vw));
+  min-height: calc(min(6vh, 6vw));
 
   margin: 0 0 0 1vw;
   padding: 1vh 3vw 1vh 3vw;
