@@ -40,7 +40,7 @@ export class SignupView {
     this.page1Div.eadd('<div class=title />').text(`Welcome to Project Euphonia!`);
     const introDiv = this.page1Div.eadd('<div class=intro />');
     introDiv.eadd('<div />').text(`We're exploring how Google products and services
-        that use speech as an input method could work better for more users. We're seeking
+        that use speech as an input method could work better for more people. We're seeking
         voice contributions from adults who have difficulty being understood by others.
         Voice samples can help us improve how Google understands individuals with speech
         impairments.`);
