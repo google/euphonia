@@ -749,17 +749,17 @@ Recording view
 }
 
 #recordingview .navpanel BUTTON {
-  width: 12em;
+  width: calc(12em + 3vw);
   min-height: 5vh;
 
-  padding: 1vh 3vw 1vh 3vw;
+  padding: 1vh 1.5vw 1vh 1.5vw;
   border-radius: 1vh;
   border: 2px solid #bbd;
   background-color: #ddf;
   color: #446;
   font-weight: bold;
   font-size: 2vh;
-  white-space: normal;
+  white-space: nowrap;
 }
 
 #recordingview .navpanel BUTTON:disabled {
@@ -769,8 +769,9 @@ Recording view
 }
 
 #recordingview .progresswidget {
-  width: 50vw;
-  min-width: 50vw;
+  box-sizing: border-box;
+  width: 80vw;
+  min-width: 80vw;
   padding: 0;
   margin: 2vh 0 0 0;
   border: 1px solid #aae;
@@ -778,18 +779,27 @@ Recording view
 }
 
 #recordingview .progressleft {
+  white-space: nowrap;
   background-color: #aaf;
-}
-
-#recordingview .progresstext {
-  margin: 0.5vh 0 0 0;
-  font-size: 1.2vh;
-  color: #448;
+  font-size: calc(min(1.6vh, 1.6vw));
+  padding: calc(min(0.5vh, 0.5vw));
 }
 
 #recordingview .controlpanel {
   margin: 5vh 0 0 0;
   width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#recordingview .controlpanel .secondarybuttons {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#recordingview .controlpanel .mainbuttons {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -852,25 +862,43 @@ Recording view
 #recordingview .controlpanel.recorded BUTTON.record {
   width: 20vw;
   min-width: 10em;
-  height: calc(min(6vh, 6vw));
+  height: 6vh;
   border-radius: 3vh;
   font-size: calc(min(2vh, 2vw));
 }
 
 #recordingview BUTTON.record.recording {
-  display: flex;
-  column-gap: 1em;
+  display: grid;
   align-items: center;
-  justify-content: center;
+  grid-template-columns: calc(5vh + 3vw) 1fr calc(5vh + 3vw);
+  column-gap: 1vw;
+}
+
+#recordingview BUTTON.record.recording .label {
+  justify-self: center;
 }
 
 #recordingview BUTTON.record.recording .recordlight {
-  width: calc(min(3vh, 3vw));
-  height: calc(min(3vh, 3vw));
-  border-radius: calc(min(1.5vh, 1.5vw));
+  width: 3vw;
+  height: 3vw;
+  border-radius: 1.5vw;
   background: linear-gradient(45deg, #800, #f44);
   border: 1px solid #faa;
   filter: drop-shadow(0 0 1vw #fdd);
+  justify-self: end;
+  margin-right: 3vh;
+}
+
+#recordingview .controlpanel.recorded BUTTON.record.recording {
+  grid-template-columns: calc(3vh + 2vw) 1fr calc(3vh + 2vw);
+  column-gap: 1vw;
+}
+
+#recordingview  .controlpanel.recorded BUTTON.record.recording .recordlight {
+  width: 2vw;
+  height: 2vw;
+  border-radius: 1vw;
+  margin-right: 2vh;
 }
 
 #recordingview BUTTON.record:hover {
@@ -898,4 +926,119 @@ Recording view
 
 #recordingview BUTTON.cancel:hover {
   background-color: #c33;
+}
+
+
+
+/* Recording screen layout for phones */
+@media (orientation: portrait) {
+  #recordingview .cardribbon {
+    margin-top: 2vh;
+  }
+  
+  #recordingview .cardribbon .thiscard {
+    font-size: 8vw;
+  }
+  
+  #recordingview .navpanel {
+    width: 95vw;
+  }
+  
+  #recordingview .navpanel BUTTON {
+    width: 30vw;
+    height: 5vh;
+    padding: 1vh 1.5vw 1vh 1.5vw;
+    font-size: 1.5vh;
+  }
+
+  #recordingview .progresswidget {
+    width: 95vw;
+    min-width: 95vw;
+  }
+  
+  #recordingview .progressleft {
+    font-size: 1.6vh;
+    padding: 0.5vh;
+  }
+  
+  #recordingview .controlpanel {
+    margin: 2vh 0 0 0;
+    flex-direction: column;
+    row-gap: 2vh;
+  }
+  
+  #recordingview BUTTON.record {
+    margin: 0 1vw 0 1vw;
+    width: 50vw;
+    height: 8vh;
+    min-width: calc(6em + 8vh);
+  
+    border-radius: 4vh;
+    font-size: 3vh;
+  }
+  
+  #recordingview .controlpanel.newcard BUTTON.record {
+    margin-left: calc(4vh + 2vw);
+  }
+
+  #recordingview .controlpanel BUTTON.record.recording {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 2vw;
+    margin-left: 21vw;
+  }
+
+  #recordingview BUTTON.record.recording .recordlight {
+    width: 3vh;
+    height: 3vh;
+    min-width: 3vh;
+    min-height: 3vh;
+    border-radius: 1.5vh;
+    margin-right: 0;
+  }
+  
+  #recordingview .controlpanel BUTTON.cancel {
+    width: 20vw;
+    min-height: 5vh;
+    border-radius: 2.5vh;
+    font-size: 1.5vh;
+  }
+
+  #recordingview BUTTON.help {
+    margin: 0 1vw 0 1vw;
+    width: 4vh;
+    min-width: 4vh;
+    height: 4vh;
+    border-radius: 2vh;
+    font-size: 1.5vh;
+  }
+
+  #recordingview BUTTON.listen,#recordingview BUTTON.delete {
+    margin: 0 1vw 0 1vw;
+    width: 13vw;
+    min-width: calc(7em + 5vh);
+    height: 5vh;
+    border-radius: 2.5vh;
+    font-size: 1.7vh;
+  }
+  
+  #recordingview .controlpanel.recorded BUTTON.record {
+    width: 20vw;
+    min-width: calc(10em + 6vh);
+    height: 6vh;
+    border-radius: 3vh;
+    font-size: 2vh;
+    margin-left: calc(4vh + 2vw);
+  }
+  
+  #recordingview  .controlpanel.recorded BUTTON.record.recording .recordlight {
+    width: 2vh;
+    height: 2vh;
+    min-width: 2vh;
+    min-height: 2vh;
+    border-radius: 1vh;
+    margin-left: 3vw;
+    margin-right: -10vw;
+  }
 }

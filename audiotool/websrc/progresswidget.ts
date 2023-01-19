@@ -19,6 +19,7 @@ export class ProgressWidget {
   parent: JQuery<HTMLElement>;
   div: JQuery<HTMLElement>;
   ratio: number = 0;
+  html: string = '';
 
   constructor(parent: JQuery<HTMLElement>, cssClass?: string) {
     this.parent = parent;
@@ -32,10 +33,16 @@ export class ProgressWidget {
     this.draw();
   }
 
+  setHtml(html: string) {
+    this.html = html;
+    this.draw();
+  }
+
   private draw() {
     this.div.empty();
     const left = this.div.eadd('<div class=progressleft>&nbsp;</div>');
     left.css('width', `${Math.round(this.ratio * 100)}%`);
     left.css('min-width', `${Math.round(this.ratio * 100)}%`);
+    left.html(this.html);
   }
 }

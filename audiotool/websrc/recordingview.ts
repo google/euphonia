@@ -32,7 +32,6 @@ export class RecordingView {
   positionText: JQuery<HTMLElement>;
   prevButton: JQuery<HTMLElement>;
   nextButton: JQuery<HTMLElement>;
-  progressText: JQuery<HTMLElement>;
   progressBar: ProgressWidget;
   helpButton: JQuery<HTMLElement>;
 
@@ -82,6 +81,10 @@ export class RecordingView {
     this.prevCardDiv.on('click', async e => await this.gotoTask(this.taskPos - 1, true));
     this.nextCardDiv.on('click', async e => await this.gotoTask(this.taskPos + 1, true));
 
+    // Progress and status
+    const statusBox = this.div.eadd('<div class=statuspanel />');
+    this.progressBar = new ProgressWidget(statusBox);
+
     // Card navigation controls
     const navBox = this.div.eadd('<div class=navpanel />');
     this.prevButton = navBox.eadd('<button>Previous card</button>');
@@ -90,18 +93,15 @@ export class RecordingView {
     this.prevButton.on('click', async e => await this.gotoTask(this.taskPos - 1, true));
     this.nextButton.on('click', async e => await this.gotoTask(this.taskPos + 1, true));
 
-    // Progress and status
-    const statusBox = this.div.eadd('<div class=statuspanel />');
-    this.progressBar = new ProgressWidget(statusBox);
-    this.progressText = statusBox.eadd('<div class=progresstext />');
-
     // Record controls at the bottom
     this.buttonBox = this.div.eadd('<div class=controlpanel />');
-    this.listenButton = this.buttonBox.eadd('<button class=listen>Replay</button>');
-    this.deleteButton = this.buttonBox.eadd('<button class=delete>Delete</button>');
-    this.recordButton = this.buttonBox.eadd('<button class=record>Record</button>');
-    this.cancelButton = this.buttonBox.eadd('<button class=cancel>Cancel</button>');
-    this.helpButton = this.buttonBox.eadd('<button class=help>?</button>');
+    const secondaryControls = this.buttonBox.eadd('<div class=secondarybuttons />');
+    const mainControls = this.buttonBox.eadd('<div class=mainbuttons />');
+    this.listenButton = secondaryControls.eadd('<button class=listen>Replay</button>');
+    this.deleteButton = secondaryControls.eadd('<button class=delete>Delete</button>');
+    this.recordButton = mainControls.eadd('<button class=record>Record</button>');
+    this.cancelButton = mainControls.eadd('<button class=cancel>Cancel</button>');
+    this.helpButton = mainControls.eadd('<button class=help>?</button>');
     this.recordButton.on('click', async e => await this.toggleRecord());
     this.cancelButton.on('click', async e => await this.toggleRecord(false));
     this.deleteButton.on('click', async e => await this.handleDelete());
@@ -175,6 +175,7 @@ export class RecordingView {
       this.recordButton.text(this.isCanceling ? 'Canceling...' : 'Uploading...');
     } else if (this.isRecording) {
       this.recordButton.empty();
+      this.recordButton.eadd('<div class=spacer />');
       this.recordButton.eadd('<div class=label />').etext('Recording...');
       this.recordButton.eadd('<div class=recordlight />');
     } else {
@@ -213,9 +214,9 @@ export class RecordingView {
     // Show progress indicators and card text
     if (this.data.user) {
       if (this.data.user.numCompletedTasks > 0) {
-        this.progressText.html(`<b>${this.data.user.numCompletedTasks}</b> of <b>${this.data.user.numTasks}</b> cards <b>done</b>`);
+        this.progressBar.setHtml(`<b>${this.data.user.numCompletedTasks}</b> of <b>${this.data.user.numTasks}</b> cards <b>done</b>`);
       } else {
-        this.progressText.text('Ready to get started!');
+        this.progressBar.setHtml('Ready to get started!');
       }
       this.progressBar.setRatio(this.data.user.numCompletedTasks / this.data.user.numTasks);
     }
@@ -311,6 +312,15 @@ export class RecordingView {
 
     this.stream = await this.getAudioStream();
     this.chunks = [];
+
+    // TODO - MediaRecorder does compressed audio, we can use AudioWorklet.
+
+    // basic structure
+    // - create a worklet, has to be in a separate file for the browser to load
+    // - fill a buffer, this will run in a separate thread
+    // - post the data on a "port", which the node can receive back in the main thread
+    // - send the data someplace
+
     this.mediaRecorder = new MediaRecorder(this.stream, {mimeType: 'audio/webm'});
     this.mediaRecorder.addEventListener('dataavailable', e => this.handleRecordChunks(e));
     this.mediaRecorder.addEventListener('stop', async e => await this.handleStopRecording());
