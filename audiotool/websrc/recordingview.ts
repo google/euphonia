@@ -270,11 +270,13 @@ export class RecordingView {
 
   // Animates the card text fading in
   private async animateCardText() {
+    const isRecorded = !!this.task && this.task.recordedTimestamp > 0;
+    const rgb = isRecorded ? '60,60,60' : '0,0,80';
     this.cardDiv.css('transition', '');
-    this.cardDiv.css('color', 'rgba(0,0,80,0)');
+    this.cardDiv.css('color', `rgba(${rgb},0)`);
     await sleepFrame();
     this.cardDiv.css('transition', 'color 0.3s ease-in');
-    this.cardDiv.css('color', 'rgba(0,0,80,1)');
+    this.cardDiv.css('color', `rgba(${rgb},1)`);
     await sleep(300);
     this.cardDiv.css('transition', '');
   }

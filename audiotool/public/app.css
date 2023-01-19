@@ -739,6 +739,7 @@ Recording view
 }
 
 #recordingview .card.recorded {
+  color: rgba(60,60,60,1);
   background-color: #eeeef4;
   border-color: #bbbbc2;
 }
