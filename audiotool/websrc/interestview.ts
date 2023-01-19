@@ -31,7 +31,8 @@ export class InterestView {
     this.div = app.main.eadd('<div id=interestform />');
     this.div.hide();
 
-    this.div.html(InterestView.FORM_HTML);
+    const insetBox = this.div.eadd('<div class=interestformscroll />');
+    insetBox.html(InterestView.FORM_HTML);
     $('#helpersection').hide();
 
     // Wiring needed for conditionals and form validation
@@ -44,7 +45,7 @@ export class InterestView {
     const buttons = this.div.eadd('<div class=ifbuttons />');
     const nextButton = buttons.eadd('<button class=next>Next</button>');
     const backButton = buttons.eadd('<button>Go Back</button>');
-    const clearButton = buttons.eadd('<button>Clear form and start over</button>');
+    const clearButton = buttons.eadd('<button>Reset form and start over</button>');
     backButton.on('click', async e => {
       const d = this.collect();
       this.data.saveDemographics(d);

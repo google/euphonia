@@ -185,8 +185,19 @@ Interest form
 */
 
 #interestform {
+  width: 100%;
   flex-grow: 1;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  align-items: center;
+}
+
+.interestformscroll {
+  flex-grow: 1;
   box-sizing: border-box;
   max-width: 50em;
   border: 1px solid #aaa;
@@ -288,13 +299,13 @@ Interest form
 
 /* Interest form page for phones */
 @media (orientation: portrait) {
-  #interestform {
+  .interestformscroll {
     max-width: 100vw;
     border: 0;
     padding: 10px;
     margin: 0;
   }
-
+  
   #interestform INPUT.formtext {
     width: calc(100vw - 44px);
   }
