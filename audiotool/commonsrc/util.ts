@@ -78,8 +78,8 @@ export function normalizeTags(tags: string[]) {
   return [...tags.filter(tag => tag ? tag.trim() !== '' : false).map(tag => normalizeTag(tag))];
 }
 
-// Shuffles a given array using https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle.
-export function shuffle<X>(list: X[]): void {
+// Shuffles a given array in place using https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle.
+export function shuffle<X>(list: X[]): X[] {
   const len = list.length;
   const len1 = len - 1;
   for (let i = 0; i < len1; i++) {
@@ -88,6 +88,7 @@ export function shuffle<X>(list: X[]): void {
     list[i] = list[j];
     list[j] = tmp;
   }
+  return list;
 }
 
 // Removes all matching items from an array, and returns the number removed.
