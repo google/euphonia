@@ -22,6 +22,7 @@ import {InstructionsView} from './instructionsview';
 import {SetupView} from './setupview';
 import {ConsentView} from './consentview';
 import {RecordingView} from './recordingview';
+import {DoneView} from './doneview';
 import {Spinner, animateCss, sleep, fadeIn} from './util';
 
 // Implements all participant UX.
@@ -34,6 +35,7 @@ export class App implements Listener {
   instructionsView: InstructionsView;
   setupView: SetupView;
   recordingView: RecordingView;
+  doneView: DoneView;
 
   // Shown on the initial load
   waitingDiv: JQuery<HTMLElement>;
@@ -55,6 +57,7 @@ export class App implements Listener {
     this.instructionsView = new InstructionsView(this);
     this.setupView = new SetupView(this);
     this.recordingView = new RecordingView(this);
+    this.doneView = new DoneView(this);
     this.messageBox = this.main.eadd('<div id=messagebox style="opacity: 0;" />');
 
     // Default spinner view, so we don't draw the GUI until we've seen one update.
@@ -104,6 +107,8 @@ export class App implements Listener {
       return '/consent';  // They need to consent, or re-consent, and then create their records.
     } else if (this.data.user.numRecordings === 0 && !this.recordingView.seenRecording) {
       return '/instructions';  // Show them instructions since they haven't recorded yet.
+    } else if (this.data.user.numCompletedTasks >= this.data.user.numTasks) {
+      return '/done';  // Nothing left to do!
     } else if (this.data.hasMicrophonePermission != 'yes') {
       return '/setup?passive=true';  // Test or prompt for the microphone permission
     } else {
@@ -125,6 +130,8 @@ export class App implements Listener {
       window.location.hash = `#${path}`;
     } else if (path.startsWith('/record')) {
       window.location.hash = `#/record`;
+    } else if (path.startsWith('/done')) {
+      window.location.hash = `#/done`;
     } else {
       await this.navigateTo(this.chooseBestNav());
     }
@@ -145,6 +152,7 @@ export class App implements Listener {
     await this.consentView.handleUpdate();
     await this.instructionsView.handleUpdate();
     await this.recordingView.handleUpdate();
+    await this.doneView.handleUpdate();
     await this.setupView.handleUpdate();
 
     // Switch to the requested view, or based on the user's state now
@@ -172,13 +180,17 @@ export class App implements Listener {
 
     } else if (path.startsWith('/record')) {
       await this.showView(this.recordingView);
+
+    } else if (path.startsWith('/done')) {
+      await this.showView(this.doneView);
+
     } else {
       throw new Error(`Invalid view: ${path}`);
     }
   }
 
   // Shows the given view and hides the rest.
-  private async showView(view: SignupView|InterestView|ConsentView|InstructionsView|SetupView|RecordingView): Promise<void> {
+  private async showView(view: SignupView|InterestView|ConsentView|InstructionsView|SetupView|RecordingView|DoneView): Promise<void> {
     this.clearMessage();
     await Spinner.waitFor(async () => {
       await this.signupView.eshow(view === this.signupView);
@@ -187,6 +199,7 @@ export class App implements Listener {
       await this.instructionsView.eshow(view === this.instructionsView);
       await this.setupView.eshow(view === this.setupView);
       await this.recordingView.eshow(view === this.recordingView);
+      await this.doneView.eshow(view === this.doneView);
     });
   }
 }
