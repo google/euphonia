@@ -415,6 +415,7 @@ Instructions view
 
 #instructionview {
   flex-grow: 1;
+  max-width: 50em;
   box-sizing: border-box;
   border: 1px solid #aaa;
   padding: 20px;
@@ -438,7 +439,12 @@ Instructions view
 #instructionview .helptext {
   font-size: 18px;
   margin-bottom: 10px;
-  text-align: center;
+  text-align: left;
+}
+
+#instructionview .helptext LI {
+  font-size: 18px;
+  margin-bottom: 4px;
 }
 
 #instructionview .video IFRAME {
@@ -467,6 +473,7 @@ Instructions view
 /* Instructions page for phones */
 @media (orientation: portrait) {
   #instructionview {
+    max-width: 100vw;
     width: 100vw;
     padding: 10px 0 10px 0;
     margin: 0;

@@ -32,9 +32,14 @@ export class InstructionsView {
 
     // Instructions view, shown after signup but before recording
     this.div.eadd('<div class=title />').text(`Thanks for signing up for Project Euphonia!`);
-    this.div.eadd('<div class=helptext />').text(`Here's a short video to help you get started:`);
-    this.div.eadd('<div class=video />').html(`
-    <iframe src="https://www.youtube.com/embed/e6z5rEgoqnI" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    this.div.eadd('<div class=helptext />').ehtml(`
+    <ul>
+    <li>On the next screen, you'll see <b>cards</b> to read aloud.</li>
+    <li>You'll press the blue Record button, and then <b>read the
+    card aloud</b>, as accurately as possible.</li>
+    <li>You'll want to be in a <b>quiet setting</b> and avoid any background noise.</li>
+    <li>When you are <b>finished speaking</b>, press the blue button again to stop recording.</li>
+    <li>When you finish recording all the cards, you're done!</li>
     `);
     this.doneButton = this.div.eadd('<button>Get Started</button>');
     this.doneButton.on('click', async e => await this.app.navigateTo('/setup?passive=true'));
