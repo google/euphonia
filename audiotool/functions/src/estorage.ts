@@ -702,9 +702,9 @@ export class EUser {
     }
     order += 1;
 
-    // Save these new tasks
+    // Save these new tasks, in shuffled order.
     const timestamp = Date.now();
-    for (const task of tasks) {
+    for (const task of shuffle([...tasks])) {
       const newDoc = collection.doc();
       const info: schema.EUserTaskInfo = {
         id: newDoc.id,
