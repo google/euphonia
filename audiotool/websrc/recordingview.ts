@@ -155,7 +155,8 @@ export class RecordingView {
 
     // Navigation is allowed if we're not recording
     this.prevButton.eenable(canNavigate && !isFirst);
-    this.nextButton.eenable(canNavigate && !isLast);
+    this.nextButton.eenable(canNavigate);
+    this.nextButton.text(isLast ? 'Next' : 'Next card');
 
     // Listening and deleting are allowed on already-recorded cards
     this.buttonBox.eclass('recorded', isRecorded);
@@ -249,6 +250,13 @@ export class RecordingView {
       return;  // Don't navigate while we're recording or uploading
     }
     this.app.clearMessage();
+
+    if (pos >= this.data.tasks.length) {
+      // Go off the end of the cards instead
+      await this.app.navigateTo('/done');
+      return;
+    }
+
     const oldPos = this.taskPos;
     this.taskPos = Math.min(Math.max(pos, 0), this.data.tasks.length - 1);
     this.task = this.data.tasks.length > 0 ? this.data.tasks[this.taskPos] : undefined;
