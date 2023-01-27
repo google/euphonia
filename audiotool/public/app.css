@@ -753,11 +753,11 @@ Recording view
   align-items: center;
 }
 
-#recordingview .navpanel .position {
+#recordingview .navpanel .donetext {
   margin: 0 1vw 0 1vw;
-  font-size: 2.2vh;
+  font-size: 2vh;
   color: #777;
-  white-space: nowrap;
+  text-align: center;
 }
 
 #recordingview .navpanel BUTTON {
@@ -788,12 +788,13 @@ Recording view
   margin: 2vh 0 0 0;
   border: 1px solid #aae;
   background-color: #eee;
+  user-select: none;
 }
 
 #recordingview .progressleft {
   white-space: nowrap;
   background-color: #aaf;
-  font-size: calc(min(1.6vh, 1.6vw));
+  font-size: calc(min(2vh, 2vw));
   padding: calc(min(0.5vh, 0.5vw));
 }
 
@@ -969,7 +970,7 @@ Recording view
   }
   
   #recordingview .progressleft {
-    font-size: 1.6vh;
+    font-size: 2vh;
     padding: 0.5vh;
   }
   

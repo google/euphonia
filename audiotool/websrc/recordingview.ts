@@ -29,7 +29,7 @@ export class RecordingView {
 
   // GUI elements
   div: JQuery<HTMLElement>;
-  positionText: JQuery<HTMLElement>;
+  doneText: JQuery<HTMLElement>;
   prevButton: JQuery<HTMLElement>;
   nextButton: JQuery<HTMLElement>;
   progressBar: ProgressWidget;
@@ -88,7 +88,7 @@ export class RecordingView {
     // Card navigation controls
     const navBox = this.div.eadd('<div class=navpanel />');
     this.prevButton = navBox.eadd('<button>Previous card</button>');
-    this.positionText = navBox.eadd('<div class=position />');
+    this.doneText = navBox.eadd('<div class=donetext />');
     this.nextButton = navBox.eadd('<button>Next card</button>');
     this.prevButton.on('click', async e => await this.gotoTask(this.taskPos - 1, true));
     this.nextButton.on('click', async e => await this.gotoTask(this.taskPos + 1, true));
@@ -203,8 +203,7 @@ export class RecordingView {
       // Show the current card(s)
       this.cardDiv.eclass('recorded', isRecorded);
       this.cardDiv.text(this.task.task.prompt);
-      const doneText = isRecorded ? ' (done)' : '';
-      this.positionText.html(`Card <b>${this.taskPos + 1}</b> of <b>${this.data.tasks.length}</b>${doneText}`);
+      this.doneText.html(isRecorded ? '(this card is done)' : '');
 
     } else {
       // Show an empty view
