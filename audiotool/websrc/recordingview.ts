@@ -25,7 +25,7 @@ export class RecordingView {
   app: App;
   data: Data;
   taskPos: number = -1;  // Which task to show the user
-  task?: schema.EUserTaskInfo;
+  task?: schema.EUserTaskInfo;  // The current card
 
   // GUI elements
   div: JQuery<HTMLElement>;
@@ -211,13 +211,18 @@ export class RecordingView {
     }
 
     // Show progress indicators and card text
-    if (this.data.user) {
-      if (this.data.user.numCompletedTasks > 0) {
-        this.progressBar.setHtml(`<b>${this.data.user.numCompletedTasks}</b> of <b>${this.data.user.numTasks}</b> cards <b>done</b>`);
+    const user = this.data.user;
+    if (user) {
+      const isDone = user.numCompletedTasks >= user.numTasks;
+      if (isDone) {
+        this.progressBar.setHtml(`Congratulations! You're all done!`);
+      } else if (user.numCompletedTasks > 0) {
+        this.progressBar.setHtml(`<b>${user.numCompletedTasks}</b> of <b>${user.numTasks}</b> cards <b>done</b>`);
       } else {
         this.progressBar.setHtml('Ready to get started!');
       }
-      this.progressBar.setRatio(this.data.user.numCompletedTasks / this.data.user.numTasks);
+      this.progressBar.setRatio(user.numCompletedTasks / user.numTasks);
+      this.progressBar.div.eclass('done', isDone);
     }
   }
 
@@ -489,19 +494,18 @@ export class RecordingView {
 
   // Auto-advance to the next card, or congratulate
   private async autoAdvance() {
-    const user = this.data.user;
-    if (this.taskPos < this.data.tasks.length - 1) {
-      this.app.showMessage(`Recording uploaded! Here's the next card.`);
-      await this.gotoTask(this.taskPos + 1, true);
-
-    } else if (user && user.numCompletedTasks >= user.numTasks) {
-      // TODO: congratulations screen
-      this.app.showMessage('Congratulations! All tasks completed.');
-
-    } else if (user) {
-      this.app.showMessage(`Recording uploaded! Here's one we missed.`);
-      const [firstSkipped, ] = this.findFirstTask();
-      await this.gotoTask(firstSkipped, true);
+    // Find the next un-recorded card
+    for (let pos = this.taskPos + 1; pos < this.data.tasks.length; pos++) {
+      const task = this.data.tasks[pos];
+      if (!!task && !task.recordedTimestamp) {
+        this.app.showMessage(`Recording uploaded! Here's the next card.`);
+        await this.gotoTask(pos, true);
+        return;
+      }
     }
+
+    // This was the last card, congratulate, or explain missed cards.
+    this.app.showMessage(`Recording uploaded!`);
+    await this.app.navigateTo('/done');
   }
 }

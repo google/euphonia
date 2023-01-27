@@ -799,10 +799,21 @@ Recording view
 }
 
 #recordingview .progressleft {
+  box-sizing: border-box;
   white-space: nowrap;
   background-color: #aaf;
   font-size: calc(min(2vh, 2vw));
   padding: calc(min(0.5vh, 0.5vw));
+}
+
+#recordingview .progresswidget.done .progressleft {
+  text-align: center;
+  font-size: 3vh;
+  font-weight: bold;
+  color: #420;
+  background-color: #fe9;
+  filter: drop-shadow(0 0 calc(max(2vh, 2vw)) #fe9);
+  white-space: normal;
 }
 
 #recordingview .controlpanel {
@@ -885,6 +896,10 @@ Recording view
   height: 6vh;
   border-radius: 3vh;
   font-size: calc(min(2vh, 2vw));
+
+  border: 2px solid #cce;
+  background-color: #ddf;
+  color: #339;
 }
 
 #recordingview BUTTON.record.recording {
@@ -981,6 +996,10 @@ Recording view
     padding: 0.5vh;
   }
   
+  #recordingview .progresswidget.done .progressleft {
+    font-size: 2vh;
+  }
+
   #recordingview .controlpanel {
     margin: 2vh 0 0 0;
     flex-direction: column;
