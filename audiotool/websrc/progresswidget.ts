@@ -41,6 +41,7 @@ export class ProgressWidget {
   private draw() {
     this.div.empty();
     const left = this.div.eadd('<div class=progressleft>&nbsp;</div>');
+    left.eclass('zero', this.ratio <= 0);
     left.css('width', `${Math.round(this.ratio * 100)}%`);
     left.css('min-width', `${Math.round(this.ratio * 100)}%`);
     left.html(this.html);

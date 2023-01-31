@@ -806,6 +806,10 @@ Recording view
   padding: calc(min(0.5vh, 0.5vw));
 }
 
+#recordingview .progressleft.zero {
+  background-color: #0000;
+}
+
 #recordingview .progresswidget.done .progressleft {
   text-align: center;
   font-size: 3vh;
