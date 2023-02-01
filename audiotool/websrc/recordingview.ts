@@ -53,10 +53,11 @@ export class RecordingView {
   deleteButton: JQuery<HTMLElement>;
 
   // Recording state tracking
-  isRecording: boolean = false;
-  isStoppingRecord: boolean = false;
-  isCanceling: boolean = false;
-  isDeleting: boolean = false;
+  isRecording: boolean = false;  // the microphone is active
+  isStoppingRecord: boolean = false;  // we just finished recording and are uploading or canceling
+  isUploadingNew: boolean = false;  // the current upload is for new audio, not replacing a prior recording
+  isCanceling: boolean = false;  // the user canceled the recording and we're waiting for Recorder to stop
+  isDeleting: boolean = false;  // the user deleted the recording and we're waiting for the server to do it
   stream?: MediaStream;
   mediaRecorder?: MediaRecorder;
   chunks: Blob[] = [];
@@ -176,18 +177,21 @@ export class RecordingView {
     const isLast = !nextTask;
     const isRecorded = !!this.task && this.task.recordedTimestamp > 0;
 
+    // This hack prevents the card UI from flickering during "upload and advance"
+    const showRecordedCardControls = isRecorded && !this.isUploadingNew;
+
     // Navigation is allowed if we're not recording
     this.prevButton.eenable(canNavigate && !isFirst);
     this.nextButton.eenable(canNavigate);
     this.nextButton.text(isLast ? 'Next' : 'Next card');
 
     // Listening and deleting are allowed on already-recorded cards
-    this.buttonBox.eclass('recorded', isRecorded);
-    this.buttonBox.eclass('newcard', !isRecorded);
-    this.deleteButton.eshow(isRecorded);
-    this.listenButton.eshow(isRecorded);
-    this.deleteButton.eenable(canNavigate && isRecorded);
-    this.listenButton.eenable(canNavigate && isRecorded);
+    this.buttonBox.eclass('recorded', showRecordedCardControls);
+    this.buttonBox.eclass('newcard', !showRecordedCardControls);
+    this.deleteButton.eshow(showRecordedCardControls);
+    this.listenButton.eshow(showRecordedCardControls);
+    this.deleteButton.eenable(canNavigate && showRecordedCardControls);
+    this.listenButton.eenable(canNavigate && showRecordedCardControls);
     this.deleteButton.text(this.isDeleting ? 'Deleting...' : 'Delete');
     this.listenButton.text(this.replayingTask ? 'Stop' : 'Replay');
     this.listenButton.eclass('playing', !!this.replayingTask);
@@ -203,7 +207,7 @@ export class RecordingView {
       this.recordButton.eadd('<div class=label />').etext('Recording...');
       this.recordButton.eadd('<div class=recordlight />');
     } else {
-      this.recordButton.text(isRecorded ? 'Record Again' : 'Record');
+      this.recordButton.text(showRecordedCardControls ? 'Record Again' : 'Record');
     }
 
     // We allow recording to be canceled if it's running
@@ -226,9 +230,9 @@ export class RecordingView {
     this.cardDiv.eclass('nocards', !hasTasks);
     if (this.task) {
       // Show the current card(s)
-      this.cardDiv.eclass('recorded', isRecorded);
+      this.cardDiv.eclass('recorded', showRecordedCardControls);
       this.cardDiv.text(this.task.task.prompt);
-      this.doneText.html(isRecorded ? '(this card is done)' : '');
+      this.doneText.html(showRecordedCardControls ? '(this card is done)' : '');
 
     } else {
       // Show an empty view
@@ -523,6 +527,7 @@ export class RecordingView {
 
     let uploaded = false;
     let canceled = false;
+    let success = false;
     const uploadData = new Blob(this.chunks);
     this.chunks = [];
     try {
@@ -530,11 +535,13 @@ export class RecordingView {
         throw new Error('Unexpected missing task, could not save audio.');
       }
       if (!this.isCanceling) {
+        this.isUploadingNew = !this.task.recordedTimestamp;
         await this.data.saveAudio(this.task, uploadData);
         uploaded = true;
       } else {
         canceled = true;
       }
+      success = true;
 
     } finally {
       // Stop the stream if possible, to try to persuade the browser to stop showing the listening thing
@@ -547,6 +554,11 @@ export class RecordingView {
       this.isStoppingRecord = false;
       this.isRecording = false;
       this.isCanceling = false;
+      this.isUploadingNew = false;
+
+      if (!success) {
+        this.updateGUI();  // An exception happened, try to update the GUI nicely as we crash
+      }
     }
 
     if (canceled) {
