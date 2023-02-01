@@ -35,7 +35,10 @@ export class InterestView {
     insetBox.html(InterestView.FORM_HTML);
     $('#helpersection').hide();
 
-    // Wiring needed for conditionals and form validation
+    // State/country box conditional wiring
+    $('#ifcountry').on('change', e => $('#usstatebox').eshow($('#ifcountry').val() === 'USA'));
+
+    // Helper box conditional wiring
     const helperchangefn = e => {
       $('#helpersection').eshow($('#ifhelperyes').is(':checked'));
     };
@@ -134,6 +137,9 @@ export class InterestView {
     setText('#ifassistantrelationship', d.helperRelationship);
     setText('#ifotherinfo', d.otherInfo);
 
+    // Optional state field
+    $('#usstatebox').eshow(d.country === 'USA');
+
     // Gender radio buttons
     setBool('#ifgenderfemale', 'female' === d.gender);
     setBool('#ifgendermale', 'male' === d.gender);
@@ -183,7 +189,7 @@ export class InterestView {
     return {
       name: this.collectText('#ifname'),
       country: this.collectText('#ifcountry'),
-      state: this.collectText('#ifstate'),
+      state: this.collectText('#ifcountry') === 'USA' ? this.collectText('#ifstate') : undefined,
       city: this.collectText('#ifcity'),
       accent: this.collectText('#ifaccent'),
       referral: this.collectText('#ifreferral'),
@@ -482,8 +488,8 @@ export class InterestView {
       </select>
 </div>
 
-<div class=formbox>
-  <div class=fieldname><label for=ifstate>What state (USA) do you reside in?</label><span class=required>*</span></div>
+<div class=formbox id=usstatebox>
+  <div class=fieldname><label for=ifstate>What state or territory do you reside in?</label><span class=required>*</span></div>
   <select id=ifstate class=formselect>
     <option value=""></option>
     <option value="">N/A</option>
@@ -491,12 +497,14 @@ export class InterestView {
     <option value="AK">Alaska</option>
     <option value="AZ">Arizona</option>
     <option value="AR">Arkansas</option>
+    <option value="AS">American Samoa</option>
     <option value="CA">California</option>
     <option value="CO">Colorado</option>
     <option value="CT">Connecticut</option>
     <option value="DE">Delaware</option>
     <option value="FL">Florida</option>
     <option value="GA">Georgia</option>
+    <option value="GU">Guam</option>
     <option value="HI">Hawaii</option>
     <option value="ID">Idaho</option>
     <option value="IL">Illinois</option>
@@ -521,15 +529,18 @@ export class InterestView {
     <option value="NY">New York</option>
     <option value="NC">North Carolina</option>
     <option value="ND">North Dakota</option>
+    <option value="MP">Northern Mariana Islands</option>
     <option value="OH">Ohio</option>
     <option value="OK">Oklahoma</option>
     <option value="OR">Oregon</option>
     <option value="PA">Pennsylvania</option>
+    <option value="PR">Puerto Rico</option>
     <option value="RI">Rhode Island</option>
     <option value="SC">South Carolina</option>
     <option value="SD">South Dakota</option>
     <option value="TN">Tennessee</option>
     <option value="TX">Texas</option>
+    <option value="VI">U.S. Virgin Islands</option>
     <option value="UT">Utah</option>
     <option value="VT">Vermont</option>
     <option value="VA">Virginia</option>
