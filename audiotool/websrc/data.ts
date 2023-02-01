@@ -124,6 +124,17 @@ export class Data {
     });
   }
 
+  // Returns true if the user has a previously stored eligibilty marker.
+  loadEligibility(): boolean {
+    const d: string|null = localStorage.getItem('eligible');
+    return !!d && d === 'yes';
+  }
+
+  // Stores the user's eligibility response so they can skip the signup form next time
+  saveEligibility() {
+    localStorage.setItem('eligible', 'yes');
+  }
+
   // Stores demographics locally, for later submission when we enroll the person
   saveDemographics(d: schema.UserDemographics) {
     localStorage.setItem('demographics', JSON.stringify(d));

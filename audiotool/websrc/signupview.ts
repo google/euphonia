@@ -25,20 +25,24 @@ export class SignupView {
   div: JQuery<HTMLElement>;
 
   // Pre-login experience: eligibility and signin
-  eligible: boolean = false;
-  page1Div: JQuery<HTMLElement>;
+  eligible: boolean;
   signinDiv: JQuery<HTMLElement>;
+  checkbox1: JQuery<HTMLElement>;
+  checkbox2: JQuery<HTMLElement>;
+  nextButton: JQuery<HTMLElement>;
+  authExplain: JQuery<HTMLElement>;
   
   constructor(app: App) {
     this.app = app;
     this.data = app.data;
+    this.eligible = app.data.loadEligibility();
     this.div = app.main.eadd('<div id=signupview />');
     this.div.hide();
 
     // Page 1: Introduction and eligibility checkboxes
-    this.page1Div = this.div.eadd('<div class=page1 />');
-    this.page1Div.eadd('<div class=title />').text(`Welcome to Project Euphonia!`);
-    const introDiv = this.page1Div.eadd('<div class=intro />');
+    const page1Div = this.div.eadd('<div class=page1 />');
+    page1Div.eadd('<div class=title />').text(`Welcome to Project Euphonia!`);
+    const introDiv = page1Div.eadd('<div class=intro />');
     introDiv.eadd('<div />').text(`We're exploring how Google products and services
         that use speech as an input method could work better for more people. We're seeking
         voice contributions from adults who have difficulty being understood by others.
@@ -56,43 +60,57 @@ export class SignupView {
     this.signinDiv.eshow(firebase.auth().currentUser == null);
     
     // confirm basic eligibility
-    const questionBox1 = this.page1Div.eadd('<div class=questionbox />');
+    const questionBox1 = page1Div.eadd('<div class=questionbox />');
     questionBox1.eadd('<div class=questiontext />').etext('To get started, please confirm your eligibility:');
-    const cb1 = questionBox1.eadd('<input class=checkbox type=checkbox id=strangerscheckbox class=row1 />');
+    this.checkbox1 = questionBox1.eadd('<input class=checkbox type=checkbox id=strangerscheckbox class=row1 />');
     questionBox1.eadd('<label for=strangerscheckbox class=row1 />').etext(`Strangers or people I just
         met find it difficult to understand my speech (not because of an accent)`);
-    const cb2 = questionBox1.eadd('<input class=checkbox type=checkbox id=agecheckbox class=row2 />');
+    this.checkbox2 = questionBox1.eadd('<input class=checkbox type=checkbox id=agecheckbox class=row2 />');
     questionBox1.eadd('<label for=agecheckbox class=row2 />').etext('I am at least 18 years of age');
 
     // Let them continue to the next page, or sign in
-    const nextButton = questionBox1.eadd('<button>Sign in and continue</button>');
-    questionBox1.eadd('<div class=accountexplain />').etext(`You will need to sign in with your Google
+    this.nextButton = questionBox1.eadd('<button>Sign in and continue</button>');
+    this.authExplain = questionBox1.eadd('<div class=accountexplain />').etext(`You will need to sign in with your Google
         Account to contribute to the project. If you do not have a Google Account, you can
         create one when you click to continue.`);
-    nextButton.on('click', async e => {
-      if (!cb1.is(':checked') || !cb2.is(':checked')) {
-        this.app.showMessage('You must confirm your eligibility to continue.', 'error');
-        return;
-      }
+    this.nextButton.on('click', async e => this.handleNext());
 
-      this.eligible = true;
-      if (firebase.auth().currentUser == null) {
-        // Have them sign in, so that we can more quickly notice if they are
-        // already signed up. They'll come back here once logged in.
-        await this.login(false);
-      }
-      await this.app.navigateTo('/interest');
-    });
+    // If they previously answered, load their answers
+    this.checkbox1.echecked(this.eligible);
+    this.checkbox2.echecked(this.eligible);
+  }
+
+  // Called when the user clicks the next button.
+  private async handleNext(): Promise<void> {
+    if (!this.checkbox1.is(':checked') || !this.checkbox2.is(':checked')) {
+      this.app.showMessage('You must confirm your eligibility to continue.', 'error');
+      return;
+    }
+
+    this.eligible = true;
+    this.data.saveEligibility();
+    if (firebase.auth().currentUser == null) {
+      // Have them sign in, so that we can more quickly notice if they are
+      // already signed up. They'll come back here once logged in.
+      await this.login(false);
+    }
+    await this.app.navigateTo('/interest');
   }
 
   // Hides or shows the whole display
   async eshow(show: boolean): Promise<void> {
     this.div.eshow(show);
+    if (show && this.eligible) {
+      this.app.showMessage('You previously indicated that you are eligible.');
+    }
   }
 
   // Hide or show the signin link if The signed-in state changed
   async handleUpdate() {
-    this.signinDiv.eshow(firebase.auth().currentUser == null);
+    const hasUser = firebase.auth().currentUser != null;
+    this.signinDiv.eshow(!hasUser);
+    this.nextButton.text(hasUser ? 'Continue' : 'Sign in and continue');
+    this.authExplain.eshow(!hasUser);
   }
 
   // Runs the Firebase login flow when the user clicks next.

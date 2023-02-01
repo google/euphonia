@@ -101,8 +101,10 @@ export class App implements Listener {
 
   // Decides where the user should be based on their current state
   private chooseBestNav() {
-    if (!this.data.fbuser || !this.data.isCompletedDemographics()) {
-      return '/enroll';  // They need to enroll and/or complete the interest form
+    if (!this.data.fbuser || !this.signupView.eligible) {
+      return '/enroll';  // They need to sign-in before we can do anything with them
+    } else if (!this.data.isCompletedDemographics()) {
+      return '/interest';  // They need to complete the interest form
     } else if (!this.data.consented || !this.data.user) {
       return '/consent';  // They need to consent, or re-consent, and then create their records.
     } else if (this.data.user.numRecordings === 0 && !this.recordingView.seenRecording) {
