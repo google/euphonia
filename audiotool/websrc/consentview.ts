@@ -69,12 +69,17 @@ export class ConsentView {
     if (show && this.data.user && this.data.consented) {
       this.app.showMessage('You have already consented.');
     }
+
+    await this.handleUpdate();
   }
 
   // React to any changes to the user's account or enrollment
   async handleUpdate() {
     if (!this.data.fbuser) {
       return;  // Don't try to set up until the user signs in
+    }
+    if (!this.isShown) {
+      return;  // Don't waste time downloading consents until we are displayed.
     }
     
     $('#whoisenrolling').text(this.data.fbuser.email);
