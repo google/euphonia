@@ -26,6 +26,7 @@ export class ConsentView {
   app: App;
   data: Data;
   div: JQuery<HTMLElement>;
+  isShown = false;
   consentDiv: JQuery<HTMLElement>;
   language: string;
   tags: string[];
@@ -59,7 +60,15 @@ export class ConsentView {
 
   // Hides or shows the whole display
   async eshow(show: boolean): Promise<void> {
+    if (show == this.isShown) {
+      return;  // already in the right state
+    }
+    this.isShown = show;
+
     this.div.eshow(show);
+    if (show && this.data.user && this.data.consented) {
+      this.app.showMessage('You have already consented.');
+    }
   }
 
   // React to any changes to the user's account or enrollment
@@ -117,9 +126,10 @@ export class ConsentView {
       $('#consentcounter').html(`&nbsp;(Agreement ${idx + 1} of ${consentCount})`);
     }
 
+    const consentText = await this.data.loadConsentText(consent.id, consent.versions[0].version);
     this.consentDiv.empty();
     const textDiv = this.consentDiv.eadd('<div class=consentscroll />');
-    textDiv.html(await this.data.loadConsentText(consent.id, consent.versions[0].version));
+    textDiv.html(consentText);
 
     const consentBox = this.consentDiv.eadd('<div class=consentbox />');
     const cb = consentBox.eadd('<input type=checkbox id=agreementcheckbox />');
@@ -152,12 +162,12 @@ export class ConsentView {
     const backButton = buttonBox.eadd('<button>Go Back</button>');
     backButton.on('click', async e => {
       if (isFirst) {
-        await this.app.navigateTo('/interest');
-      } else {
-        await Spinner.waitFor(async () => {
+      await this.app.navigateTo('/interest');
+    } else {
+      await Spinner.waitFor(async () => {
           await this.displayConsentIdx(idx - 1);
-        });
-      }
+      });
+    }
     });
   }
 

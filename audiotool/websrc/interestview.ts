@@ -70,6 +70,10 @@ export class InterestView {
       return;  // Don't need any other GUI changes for now
     }
 
+    if (show && this.data.user) {
+      this.app.showMessage('You have already completed this form.');
+    }
+    
     // Populate the interest form with any saved choices the user made
     this.fill(this.data.loadDemographics());
   }
