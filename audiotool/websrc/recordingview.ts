@@ -24,8 +24,8 @@ import * as schema from '../commonsrc/schema';
 export class RecordingView {
   app: App;
   data: Data;
-  taskPos: number = -1;  // Which task to show the user
-  task?: schema.EUserTaskInfo;  // The current card
+  task?: schema.EUserTaskInfo;  // The current card, if any
+  taskOrder: string[];  // All task IDs, in display order; this gets compacted on start
 
   // GUI elements
   div: JQuery<HTMLElement>;
@@ -68,7 +68,8 @@ export class RecordingView {
   constructor(app: App) {
     this.app = app;
     this.data = app.data;
-    [this.taskPos, this.task] = this.findFirstTask();
+    this.taskOrder = this.buildTaskOrder();
+    this.task = undefined;
 
     this.div = app.main.eadd('<div id=recordingview />');
     this.div.hide();
@@ -78,8 +79,8 @@ export class RecordingView {
     this.prevCardDiv = this.cardRibbon.eadd('<div class="card prevcard" />');
     this.cardDiv = this.cardRibbon.eadd('<div class="card thiscard" />');
     this.nextCardDiv = this.cardRibbon.eadd('<div class="card nextcard" />');
-    this.prevCardDiv.on('click', async e => await this.gotoTask(this.taskPos - 1, true));
-    this.nextCardDiv.on('click', async e => await this.gotoTask(this.taskPos + 1, true));
+    this.prevCardDiv.on('click', async e => await this.gotoTask('prev', true));
+    this.nextCardDiv.on('click', async e => await this.gotoTask('next', true));
 
     // Progress and status
     const statusBox = this.div.eadd('<div class=statuspanel />');
@@ -90,8 +91,8 @@ export class RecordingView {
     this.prevButton = navBox.eadd('<button>Previous card</button>');
     this.doneText = navBox.eadd('<div class=donetext />');
     this.nextButton = navBox.eadd('<button>Next card</button>');
-    this.prevButton.on('click', async e => await this.gotoTask(this.taskPos - 1, true));
-    this.nextButton.on('click', async e => await this.gotoTask(this.taskPos + 1, true));
+    this.prevButton.on('click', async e => await this.gotoTask('prev', true));
+    this.nextButton.on('click', async e => await this.gotoTask('next', true));
 
     // Record controls at the bottom
     this.buttonBox = this.div.eadd('<div class=controlpanel />');
@@ -123,8 +124,8 @@ export class RecordingView {
         fork(async () => await this.app.navigateTo('/setup?passive=true'));
       } else {
         this.seenRecording = true;
-        [this.taskPos, this.task] = this.findFirstTask();
-        await this.gotoTask(this.taskPos, false);
+        this.taskOrder = this.buildTaskOrder();  // on first display, compact the recorded tasks to the front
+        await this.gotoTask('first', false);  // default to the first unrecorded task
       }
     }
   }
@@ -135,22 +136,44 @@ export class RecordingView {
       return;  // Only react to changes after the user is enrolled
     }
 
-    if (this.taskPos >= this.data.tasks.length) {
-      // Tasks have disappeared?? Jump to anywhere valid
-      [this.taskPos, this.task] = this.findFirstTask();
-      await this.gotoTask(this.taskPos, true);
-    } else if (0 <= this.taskPos) {
-      this.task = this.data.tasks[this.taskPos];
+    // Merge any new tasks into the current task order.
+    for (const task of this.data.tasks) {
+      if (this.task && this.task.id == task.id) {
+        this.task = task;  // update the current task
+      }
+
+      if (this.taskOrder.indexOf(task.id) == -1) {
+        // Here's a new task to merge in; new cards go to the back, recorded tasks go into the front
+        if (task.recordedTimestamp) {
+          this.taskOrder.unshift(task.id);
+        } else {
+          this.taskOrder.push(task.id);
+        }
+      }
+    }
+
+    // If the task we were looking at has dissappeared, jump them to any valid card
+    if (this.task && !this.data.tasksById.has(this.task.id)) {
+      await this.gotoTask('first', true);
     }
     this.updateGUI();
+  }
+
+  // Returns the ID order of the tasks as an array, putting recorded cards first.
+  private buildTaskOrder() {
+    const tasks = [...this.data.tasks];
+    tasks.sort((a, b) => b.recordedTimestamp - a.recordedTimestamp);
+    return tasks.map(task => task.id);
   }
 
   // Updates the current card and all the GUI elements based on current task and state
   private updateGUI() {
     const hasTasks = this.data.tasks.length > 0;
     const canNavigate = !this.isRecording && hasTasks && !this.isStoppingRecord && !this.isDeleting;
-    const isFirst = this.taskPos <= 0;
-    const isLast = this.taskPos >= this.data.tasks.length - 1;
+    const prevTask = this.findTask(this.task, -1);
+    const nextTask = this.findTask(this.task, +1);
+    const isFirst = !prevTask;
+    const isLast = !nextTask;
     const isRecorded = !!this.task && this.task.recordedTimestamp > 0;
 
     // Navigation is allowed if we're not recording
@@ -186,16 +209,17 @@ export class RecordingView {
     // We allow recording to be canceled if it's running
     this.cancelButton.eenable(this.isRecording && !this.isStoppingRecord);
     this.cancelButton.eshow(this.isRecording && !this.isStoppingRecord);
-    this.helpButton.eshow(!this.isRecording && !this.isStoppingRecord);
+    this.helpButton.eshow(!this.isRecording || this.isStoppingRecord);
+    this.helpButton.eenable(!this.isRecording && !this.isStoppingRecord);
 
     // Change the prev/next cards depending on whether they're recorded
     this.prevCardDiv.evisible(hasTasks && !isFirst);
     this.nextCardDiv.evisible(hasTasks && !isLast);
     if (hasTasks && !isFirst) {
-      this.prevCardDiv.eclass('recorded', this.data.tasks[this.taskPos - 1].recordedTimestamp > 0);
+      this.prevCardDiv.eclass('recorded', prevTask.recordedTimestamp > 0);
     }
     if (hasTasks && !isLast) {
-      this.nextCardDiv.eclass('recorded', this.data.tasks[this.taskPos + 1].recordedTimestamp > 0);
+      this.nextCardDiv.eclass('recorded', nextTask.recordedTimestamp > 0);
     }
 
     // Update the look of the current card
@@ -217,56 +241,92 @@ export class RecordingView {
       const isDone = user.numCompletedTasks >= user.numTasks;
       if (isDone) {
         this.progressBar.setHtml(`Congratulations! You're all done!`);
-      } else if (user.numCompletedTasks > 0) {
-        this.progressBar.setHtml(`<b>${user.numCompletedTasks}</b> of <b>${user.numTasks}</b> cards <b>done</b>`);
       } else {
-        this.progressBar.setHtml('Ready to get started!');
+        this.progressBar.setHtml(`<b>${user.numCompletedTasks}</b> of <b>${user.numTasks}</b> cards <b>done</b>`);
       }
       this.progressBar.setRatio(user.numCompletedTasks / user.numTasks);
       this.progressBar.div.eclass('done', isDone);
     }
   }
 
-  // Returns the first task the user hasn't recorded yet
-  private findFirstTask(): [number, schema.EUserTaskInfo?] {
-    let pos = 0;
-    for (const task of this.data.tasks) {
-      if (task.recordedTimestamp === 0) {
-        return [pos, task];
+  // Returns the first valid, unrecorded task in the order, or the first task otherwise.
+  private findFirstTask(): schema.EUserTaskInfo|undefined {
+    let first: schema.EUserTaskInfo|undefined = undefined;
+    for (const taskId of this.taskOrder) {
+      const task = this.data.tasksById.get(taskId);
+      if (!first) {
+        first = task;
       }
-      pos++;
+      if (task && !task.recordedTimestamp) {
+        return task;
+      }
     }
-    if (this.data.tasks.length > 0) {
-      pos = this.data.tasks.length - 1;
-      return [pos, this.data.tasks[pos]];
-    } else {
-      return [-1, undefined];
-    }
+    return first;  // no unrecorded tasks, default to whatever the first valid task was
   }
 
-  // Navigates to the given task by position in the Data.tasks array
-  private async gotoTask(pos: number, animate: boolean): Promise<void> {
+  // Steps from the given task in the desired direction until we find a valid task, or returns any task.
+  private findTask(fromTask: schema.EUserTaskInfo|undefined, step: number, unrecorded = false): schema.EUserTaskInfo|undefined {
+    const isValidTask = fromTask && this.data.tasksById.get(fromTask.id) && this.taskOrder.indexOf(fromTask.id) != -1;
+    if (!isValidTask) {
+      return this.findFirstTask();
+    }
+
+    const lastPos = this.taskOrder.length - 1;
+    const fromPos = this.taskOrder.indexOf(fromTask.id);
+
+    // And search from there;
+    for (let i = fromPos + step; 0 <= i && i <= lastPos; i += step) {
+      const task = this.data.tasksById.get(this.taskOrder[i]);
+      if (!task) {
+        continue;  // task was deleted
+      }
+      if (unrecorded && task.recordedTimestamp) {
+        continue;  // we only want a recorded timestamp
+      }
+      return task;  // here we are
+    }
+    return undefined;  // this is the end/start
+  }
+
+  // Navigates to the desired task, optionally with an animation, returning true if we landed on a valid card.
+  private async gotoTask(where: 'next'|'prev'|'first', animate: boolean): Promise<boolean> {
     if (this.isRecording || this.isStoppingRecord) {
-      return;  // Don't navigate while we're recording or uploading
+      return false;  // Don't navigate while we're recording or uploading
     }
     this.app.clearMessage();
 
-    if (pos >= this.data.tasks.length) {
-      // Go off the end of the cards instead
-      await this.app.navigateTo('/done');
-      return;
+    if (this.taskOrder.length < 1) {
+      return false;  // nothing to do if there are no tasks
     }
 
-    const oldPos = this.taskPos;
-    this.taskPos = Math.min(Math.max(pos, 0), this.data.tasks.length - 1);
-    this.task = this.data.tasks.length > 0 ? this.data.tasks[this.taskPos] : undefined;
-    if (animate && oldPos !== this.taskPos && oldPos !== -1 && this.taskPos !== -1) {
-      await this.animateCardChange(oldPos < this.taskPos);
+    // Choose which task we're going to, and how it will look
+    let animateForward = true;
+    if (where == 'first') {
+      this.task = this.findFirstTask();  // first unrecorded task
+
+    } else if (where == 'prev') {
+      animateForward = false;
+      this.task = this.findTask(this.task, -1);
+
+    } else if (where == 'next') {
+      animateForward = true;
+      this.task = this.findTask(this.task, +1);
+
+      if (!this.task) {
+        // This was the endof the cards, navigate to the done screen instead.
+        await this.app.navigateTo('/done');
+        return false;
+      }
+    }
+
+    if (animate) {
+      await this.animateCardChange(animateForward);
     }
     this.updateGUI();
     if (animate && this.task) {
       await this.animateCardText();
     }
+    return !!this.task;
   }
 
   // Animates the cards sliding left or right
@@ -496,24 +556,8 @@ export class RecordingView {
       this.updateGUI();
       this.app.showMessage('Upload failed, your audio may not be saved.', 'error');
     } else {
-      await this.autoAdvance();
+      const isValidCard = await this.gotoTask('next', true);
+      this.app.showMessage(`Recording uploaded!${isValidCard ? ` Here's the next card.` : ''}`);
     }
-  }
-
-  // Auto-advance to the next card, or congratulate
-  private async autoAdvance() {
-    // Find the next un-recorded card
-    for (let pos = this.taskPos + 1; pos < this.data.tasks.length; pos++) {
-      const task = this.data.tasks[pos];
-      if (!!task && !task.recordedTimestamp) {
-        this.app.showMessage(`Recording uploaded! Here's the next card.`);
-        await this.gotoTask(pos, true);
-        return;
-      }
-    }
-
-    // This was the last card, congratulate, or explain missed cards.
-    this.app.showMessage(`Recording uploaded!`);
-    await this.app.navigateTo('/done');
   }
 }
