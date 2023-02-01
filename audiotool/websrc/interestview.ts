@@ -86,13 +86,13 @@ export class InterestView {
 
     // Validate required fields
     try {
-      this.checkRequired('Country is required.', !!d.country);
-      this.checkRequired('State is required.', d.country !== 'USA' || !!d.state);
-      this.checkRequired('Please tell us if someone will be helping you record.', d.hasHelper != undefined);
-      this.checkRequired('Please tell us how to email the person helping you.', !d.hasHelper || !!d.helperEmail);
-      this.checkRequired(`You'll need to give consent to proceed.`, !!d.consentStorage);
-      this.checkRequired(`Please write your initials next to your consent.`, !!d.consentInitials);
-      this.checkRequired(`You'll need to accept the terms to proceed.`, !!d.acceptTos);
+      this.checkRequired('#ifcountry', 'Country is required.', !!d.country);
+      this.checkRequired('#ifstate', 'State is required.', d.country !== 'USA' || !!d.state);
+      this.checkRequired('#helperbox', 'Please tell us if someone will be helping you record.', d.hasHelper != undefined);
+      this.checkRequired('#ifassistantemail', 'Please tell us how to email the person helping you.', !d.hasHelper || !!d.helperEmail);
+      this.checkRequired('#ifformconsent', `You'll need to give consent to proceed.`, !!d.consentStorage);
+      this.checkRequired('#ifconsentinitials', `Please write your initials next to your consent.`, !!d.consentInitials);
+      this.checkRequired('#ifformtos', `You'll need to accept the terms to proceed.`, !!d.acceptTos);
 
     } catch (e) {
       if (e instanceof Error && e.message === 'form incomplete') {
@@ -112,9 +112,16 @@ export class InterestView {
     this.fill({});
   }
 
-  private checkRequired(message: string, check: boolean) {
+  // Focuses and styles the given selector with an error class if the given condition is false.
+  private checkRequired(selector: string, message: string, check: boolean) {
+    const elem = $(selector);
+    elem.eclass('formerror', !check);
     if (!check) {
       this.app.showMessage(message, 'error');
+      if (elem.get(0)) {
+        elem.get(0)!.scrollIntoView();
+      }
+      elem.focus();
       throw new Error('form incomplete');
     }
   }
@@ -123,6 +130,15 @@ export class InterestView {
   private fill(d: UserDemographics) {
     const setText = (id: string, t: string|undefined) => $(id).val(t ? t : '');
     const setBool = (id: string, val: boolean) => $(id).echecked(val);
+
+    // Clear error states
+    $('#ifcountry').eclass('formerror', false);
+    $('#ifstate').eclass('formerror', false);
+    $('#helperbox').eclass('formerror', false);
+    $('#ifassistantemail').eclass('formerror', false);
+    $('#ifformconsent').eclass('formerror', false);
+    $('#ifconsentinitials').eclass('formerror', false);
+    $('#ifformtos').eclass('formerror', false);
 
     // Identity and simple text demographic fields
     setText('#ifname', d.name);
@@ -492,7 +508,6 @@ export class InterestView {
   <div class=fieldname><label for=ifstate>What state or territory do you reside in?</label><span class=required>*</span></div>
   <select id=ifstate class=formselect>
     <option value=""></option>
-    <option value="">N/A</option>
     <option value="AL">Alabama</option>
     <option value="AK">Alaska</option>
     <option value="AZ">Arizona</option>
@@ -620,7 +635,7 @@ export class InterestView {
   </div>
 </div>
 
-<div class=formbox>
+<div class=formbox id=helperbox>
   <div class=fieldname>Will someone be helping you record speech samples?<span class=required>*</span></div>
   <div class=fielddescription>For example, a family member, speech therapist, or other person</div>
   <div class=checkboxrow>

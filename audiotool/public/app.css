@@ -188,6 +188,7 @@ Interest form
   width: 100%;
   flex-grow: 1;
   overflow-y: scroll;
+  scroll-behavior: smooth;
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -277,6 +278,16 @@ Interest form
 #interestform .checkboxrow .formtext {
   width: 25em;
   padding: 2px;
+}
+
+#interestform .formerror {
+  border: 2px solid #c00;
+  filter: drop-shadow(0 0 20px #f99);
+}
+
+#interestform INPUT[type=checkbox].formerror {
+  border: 2px solid #c00;
+  filter: drop-shadow(0 0 3px #f00);
 }
 
 #interestform .ifbuttons {
