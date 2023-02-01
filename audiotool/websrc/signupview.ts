@@ -73,7 +73,7 @@ export class SignupView {
     this.authExplain = questionBox1.eadd('<div class=accountexplain />').etext(`You will need to sign in with your Google
         Account to contribute to the project. If you do not have a Google Account, you can
         create one when you click to continue.`);
-    this.nextButton.on('click', async e => this.handleNext());
+    this.nextButton.on('click', async e => await this.handleNext());
 
     // If they previously answered, load their answers
     this.checkbox1.echecked(this.eligible);
