@@ -92,9 +92,10 @@ export class SignupView {
     if (firebase.auth().currentUser == null) {
       // Have them sign in, so that we can more quickly notice if they are
       // already signed up. They'll come back here once logged in.
-      await this.login(false);
+      await this.login(true);
+    } else {
+      await this.app.navigateTo('/interest');
     }
-    await this.app.navigateTo('/interest');
   }
 
   // Hides or shows the whole display
@@ -115,14 +116,14 @@ export class SignupView {
 
   // Runs the Firebase login flow when the user clicks next.
   private async login(autoNavigate: boolean) {
-    const cred = await Spinner.waitFor(async () => {
+    await Spinner.waitFor(async () => {
       // If they already have an account, they'll go straight to the app after this. See Data.handleUserAuth
-      return await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+      const cred = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+      await this.app.data.handleUserAuth(cred ? cred.user : null);
+      if (autoNavigate) {
+        // pick the best screen based on their account state
+        await this.app.navigateTo('');
+      }
     });
-    await this.app.data.handleUserAuth(cred ? cred.user : null);
-    if (autoNavigate) {
-      // pick the best screen based on their account state
-      await this.app.navigateTo('');
-    }
   }
 }
