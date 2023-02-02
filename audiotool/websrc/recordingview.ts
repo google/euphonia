@@ -120,9 +120,14 @@ export class RecordingView {
 
     this.div.eshow(show);
     if (show) {
-      if (this.data.hasMicrophonePermission !== 'yes') {
+      if (!this.data.user || !this.data.consented) {
+        // Not ready to record; bound the user to the right screen
+        fork(async () => await this.app.navigateTo(''));
+
+      } else if (this.data.hasMicrophonePermission !== 'yes') {
         // The record view requires the microphone permission to work, so try to get it
         fork(async () => await this.app.navigateTo('/setup?passive=true'));
+
       } else {
         this.seenRecording = true;
         this.taskOrder = this.buildTaskOrder();  // on first display, compact the recorded tasks to the front
