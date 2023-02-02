@@ -187,7 +187,8 @@ export class App implements Listener {
       await this.showView(this.doneView);
 
     } else {
-      throw new Error(`Invalid view: ${path}`);
+      // On garbage, redirect to the best valid location
+      await this.navigateTo(this.chooseBestNav());
     }
   }
 
