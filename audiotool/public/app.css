@@ -361,6 +361,7 @@ Consent forms
 }
 
 #consentview .consentarea .consentscroll {
+  box-sizing: border-box;
   flex-grow: 1;
   border: 1px solid #aaa;
   width: calc(100vw - 96px);
@@ -411,7 +412,6 @@ Consent forms
   }
 
   #consentview .consentarea .consentbox {
-    margin: 0;
     display: flex;
     align-items: center;
     justify-content: flex-start;
