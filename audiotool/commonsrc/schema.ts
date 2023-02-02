@@ -16,6 +16,8 @@
 
 // Just the type definitions for the schema we store and transmit.
 
+export const MAX_DELETABLE_RECORDING_AGE_MS = 24 * 3600 * 1000;  // 24 hours
+
 // Supported languages
 export const SUPPORTED_LANGUAGES = new Set([
   'en-US', 'en-GB', 'fr-FR'

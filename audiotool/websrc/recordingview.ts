@@ -181,6 +181,8 @@ export class RecordingView {
     const isFirst = !prevTask;
     const isLast = !nextTask;
     const isRecorded = !!this.task && this.task.recordedTimestamp > 0;
+    const editDeadline = Date.now() - schema.MAX_DELETABLE_RECORDING_AGE_MS;
+    const isOldRecording = isRecorded && this.task!.recordedTimestamp < editDeadline;
 
     // This hack prevents the card UI from flickering during "upload and advance"
     const showRecordedCardControls = isRecorded && !this.isUploadingNew;
@@ -195,14 +197,14 @@ export class RecordingView {
     this.buttonBox.eclass('newcard', !showRecordedCardControls);
     this.deleteButton.eshow(showRecordedCardControls);
     this.listenButton.eshow(showRecordedCardControls);
-    this.deleteButton.eenable(canNavigate && showRecordedCardControls);
+    this.deleteButton.eenable(canNavigate && showRecordedCardControls && !isOldRecording);
     this.listenButton.eenable(canNavigate && showRecordedCardControls);
     this.deleteButton.text(this.isDeleting ? 'Deleting...' : 'Delete');
     this.listenButton.text(this.replayingTask ? 'Stop' : 'Replay');
     this.listenButton.eclass('playing', !!this.replayingTask);
 
     // Update the recording button state
-    this.recordButton.eenable(hasTasks && !this.isStoppingRecord && !this.isDeleting);
+    this.recordButton.eenable(hasTasks && !this.isStoppingRecord && !this.isDeleting && !isOldRecording);
     this.recordButton.eclass('recording', this.isRecording && !this.isStoppingRecord);
     if (this.isStoppingRecord) {
       this.recordButton.text(this.isCanceling ? 'Canceling...' : 'Uploading...');

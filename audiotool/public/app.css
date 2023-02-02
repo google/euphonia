@@ -917,6 +917,12 @@ Recording view
   color: #339;
 }
 
+#recordingview .controlpanel.recorded BUTTON.record:disabled {
+  border: 2px solid #bbb;
+  background-color: #888;
+  color: #bbb;
+}
+
 #recordingview BUTTON.record.recording {
   display: grid;
   align-items: center;
