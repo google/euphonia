@@ -124,8 +124,11 @@ export class Data {
     });
   }
 
-  // Returns true if the user has a previously stored eligibilty marker.
+  // Returns true if the user has a previously stored eligibilty marker, or if they have consented.
   loadEligibility(): boolean {
+    if (this.user) {
+      return true;  // they have a user so they must have already gotten past the signup flow
+    }
     const d: string|null = localStorage.getItem('eligible');
     return !!d && d === 'yes';
   }

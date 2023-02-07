@@ -108,6 +108,7 @@ export class SignupView {
 
   // Hide or show the signin link if The signed-in state changed
   async handleUpdate() {
+    this.eligible = this.app.data.loadEligibility();
     const hasUser = firebase.auth().currentUser != null;
     this.signinDiv.eshow(!hasUser);
     this.nextButton.text(hasUser ? 'Continue' : 'Sign in and continue');
