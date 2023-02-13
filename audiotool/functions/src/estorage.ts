@@ -234,7 +234,7 @@ export class EStorage {
 
   // Writes audio to GCS for the given user, and creates a JSON as well as a Firestore record.
   async createRecording(user: EUser, task: schema.EUserTaskInfo, localDate: string,
-      tzOffset: number, audioData: Buffer): Promise<[EUser, EUserTask, ERecording]> {
+      tzOffset: number, mimeType: string, audioData: Buffer): Promise<[EUser, EUserTask, ERecording]> {
     const euid = user.euid;
     const taskId = task.id;
     const timestamp = Date.now();
@@ -248,7 +248,8 @@ export class EStorage {
       localDate,
       utcOffset: tzOffset,
       consents: user.info.consents,
-      fileSize: audioData.length
+      fileSize: audioData.length,
+      mimeType
     };
 
     // Store the recording in GCS

@@ -226,6 +226,18 @@ export function errorToast(message: string) {
   toast(message, 3000, 'toast errortoast');
 }
 
+export function isIOS() {
+  return [
+    'iPad Simulator',
+    'iPhone Simulator',
+    'iPod Simulator',
+    'iPad',
+    'iPhone',
+    'iPod'
+  ].includes(navigator.platform) || (navigator.userAgent.includes("Mac") && "ontouchend" in document); // iPad on iOS 13 detection
+}
+
+
 // Blocks out the UI with a global modal spinner
 export class Spinner {
   waiters: number = 0;

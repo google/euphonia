@@ -273,10 +273,11 @@ export class AudioApi {
     const task = requireParam(JSON.parse(this.req.query.task as string)) as schema.EUserTaskInfo;
     const localdate = requireParam(this.req.query.localdate as string);
     const tzo = requireInt(this.req.query.tzo as string);
+    const mimeType = requireParam(this.req.query.mimeType as string);
 
     // Save the new recording and return the final versions of all data
     const user = await this.requireUserByFBUID();
-    const [euser, etask, recording] = await this.storage.createRecording(user, task, localdate, tzo, this.req.body);
+    const [euser, etask, recording] = await this.storage.createRecording(user, task, localdate, tzo, mimeType, this.req.body);
     return [euser.info, etask.info, recording.metadata];
   }
 
@@ -284,14 +285,29 @@ export class AudioApi {
   async runApiGetAudio() {
     const ts = requireInt(this.req.query.ts as string);
 
-    const [user, basename] = await this.storage.run(async txn => {
+    const [user, basename, mimeType] = await this.storage.run(async txn => {
       const user = await this.requireUserByFBUID(txn);
       const rec = await user.loadRecording(txn, ts);
-      return [user, rec.metadata.name];
+      return [user, rec.metadata.name, rec.metadata.mimeType];
     });
 
     const [wavFile, ] = this.storage.findRecordingFiles(user.euid, basename);
-    return ['audio/wav', wavFile.createReadStream()];
+    const contentType = this.getServingType(mimeType);
+    return [contentType, wavFile.createReadStream()];
+  }
+
+  // Parses the correct mime type from the metadata (if present)
+  private getServingType(mimeType: string) {
+    if (!mimeType) {
+      return 'application/octet-stream';  // Legacy stream, we don't know what it is actually!
+    }
+    
+    const codecParts = mimeType.split(';');
+    if (codecParts.length > 1) {
+      return codecParts[0].trim();  // dont serve back the codec hint since that's not a valid content type
+    } else {
+      return mimeType;
+    }
   }
 
   // Let's a user delete to their own audio, and returns the changed user and task

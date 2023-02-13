@@ -136,6 +136,7 @@ export interface ERecordingMetadata {
   localDate: string;  // A string of the browser time
   utcOffset: number;  // The numeric time zone offset from the browser
   fileSize: number;  // The size of the .wav file on GCS
+  mimeType: string;  // The MIME type configured during recording, with optional "; codec=blah" extension
   consents: EAgreementInfo[];  // The user's consents at the time of recording
 }
 

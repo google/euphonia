@@ -16,7 +16,7 @@
 
 import {Data} from './data';
 import {App} from './app';
-import {sleep, sleepFrame, fork} from './util';
+import {sleep, sleepFrame, fork, isIOS} from './util';
 import {ProgressWidget} from './progresswidget';
 import * as schema from '../commonsrc/schema';
 
@@ -168,7 +168,16 @@ export class RecordingView {
   // Returns the ID order of the tasks as an array, putting recorded cards first.
   private buildTaskOrder() {
     const tasks = [...this.data.tasks];
-    tasks.sort((a, b) => b.recordedTimestamp - a.recordedTimestamp);
+    const orderFn = (a: schema.EUserTaskInfo, b: schema.EUserTaskInfo) => {
+      const aHasRecorded = a.recordedTimestamp > 0 ? 1 : 0;
+      const bHasRecorded = b.recordedTimestamp > 0 ? 1 : 0;
+      if (aHasRecorded != bHasRecorded) {
+        return bHasRecorded - aHasRecorded;
+      } else {
+        return a.recordedTimestamp - b.recordedTimestamp;
+      }
+    };
+    tasks.sort(orderFn);
     return tasks.map(task => task.id);
   }
 
@@ -406,11 +415,51 @@ export class RecordingView {
     // - post the data on a "port", which the node can receive back in the main thread
     // - send the data someplace
 
-    this.mediaRecorder = new MediaRecorder(this.stream, {mimeType: 'audio/webm'});
+    this.mediaRecorder = new MediaRecorder(this.stream, RecordingView.pickRecordingOptions());
     this.mediaRecorder.addEventListener('dataavailable', e => this.handleRecordChunks(e));
     this.mediaRecorder.addEventListener('stop', async e => await this.handleStopRecording());
     this.updateGUI();
     this.mediaRecorder.start();
+  }
+
+  private static getSupportedCodecs() {
+    return [
+      'audio/webm; codecs=pcm',
+      'audio/webm; codecs=opus',
+      'audio/webm',
+      'audio/mp4',
+    ].filter(t => isIOS() ? false : MediaRecorder.isTypeSupported(t));    
+  }
+
+  // Returns the options struct for the media recorder, or undefined if necessary.
+  private static pickRecordingOptions() {
+    const supportedCodecs = RecordingView.getSupportedCodecs();
+    if (isIOS() || supportedCodecs.length == 0) {
+      return undefined;  // old browser? Let it do the default
+
+    } else if (supportedCodecs.length == 1 && supportedCodecs[0] == 'audio/mp4') {
+      return undefined;  // only Safari does this, and it ignores the request anyway. The actual type is audio/aac :P
+
+    } else {
+      return {mimeType: supportedCodecs[0]};  // use the most preferred codec
+    }
+  }
+
+  // Returns the upload type of streams from this browser.
+  private static getUploadAudioMimeType() {
+    const supportedCodecs = RecordingView.getSupportedCodecs();
+    if (isIOS()) {
+      return 'audio/aac';  // iOS only does AAC audio
+
+    } else if (supportedCodecs.length == 1 && supportedCodecs[0] == 'audio/mp4') {
+      return 'audio/aac';  // Safari actually records in AAC even though it claims to support MP4
+
+    } else if (supportedCodecs.length == 0) {
+      return 'application/octet-stream';  // old browser? Let it do the default
+
+    } else {
+      return supportedCodecs[0];  // Otherwise report which codec we used
+    }
   }
 
   private async getAudioStream(): Promise<MediaStream> {
@@ -543,7 +592,7 @@ export class RecordingView {
       }
       if (!this.isCanceling) {
         this.isUploadingNew = !this.task.recordedTimestamp;
-        await this.data.saveAudio(this.task, uploadData);
+        await this.data.saveAudio(this.task, uploadData, RecordingView.getUploadAudioMimeType());
         uploaded = true;
       } else {
         canceled = true;
