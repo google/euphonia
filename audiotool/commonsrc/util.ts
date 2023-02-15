@@ -120,3 +120,71 @@ export function clone<X>(obj: X): X {
 export function listhas<X>(item: X, ...list: X[]) {
   return list.indexOf(item) !== -1;
 }
+
+// Encodes an array of binary data as a base64 string.
+export function toBase64(buffer: ArrayBuffer): string {
+  let result = '';
+  const bytes = new Uint8Array(buffer);
+  const len = bytes.byteLength;
+  for (var i = 0; i < len; i++) {
+    result += String.fromCharCode(bytes[i]);
+  }
+  return window.btoa(result);
+}
+
+// An accumulator for audio data; encodes a .WAV file at the end.
+export class WavBuilder {
+  chunks: Float32Array[] = [];
+  sampleRate = 0;
+  recordedSize = 0;
+
+  setSampleRate(rate: number) {
+    this.sampleRate = rate;
+  }
+
+  addData(data: Float32Array) {
+    data = new Float32Array(data);  // superstitious coersion for iPad
+    if (data.length > 0) {
+      this.chunks.push(data);
+      this.recordedSize += data.length;
+    }
+  }
+
+  // Returns a ready-to-upload binary wav file.
+  build(): ArrayBuffer {
+    const buffer = new ArrayBuffer(44 + this.recordedSize * 2);
+    const view = new DataView(buffer);
+
+    // Build the boilerplate WAV header
+    this.setText(view, 0, 'RIFF');
+    view.setUint32(4, 36 + this.recordedSize * 2, true);
+    this.setText(view, 8, 'WAVE');
+    this.setText(view, 12, 'fmt ');
+    view.setUint32(16, 16, true);  // sample size (bits)
+    view.setUint16(20, 1, true);  // raw format
+    view.setUint16(22, 1, true);  // 1 channel
+    view.setUint32(24, this.sampleRate, true);
+    view.setUint32(28, this.sampleRate * 2, true);  // byte rate
+    view.setUint16(32, 2, true);  // sample size (bytes)
+    view.setUint16(34, 16, true);  // sample size (bits)
+    this.setText(view, 36, 'data');
+    view.setUint32(40, this.recordedSize * 2, true);
+
+    // Add all the chunks
+    let offset = 44;
+    for (const chunk of this.chunks) {
+      for (let i = 0; i < chunk.length; i++) {
+        const s = Math.max(-1, Math.min(1, chunk[i]));
+        view.setInt16(offset, s < 0 ? s * 32768 : s * 32767, true);
+        offset += 2;
+      }
+    }
+    return view.buffer;
+  }
+
+  private setText(view: DataView, offset: number, str: string): void {
+    for (let pos = 0; pos < str.length; pos++) {
+      view.setUint8(offset + pos, str.charCodeAt(pos));
+    }
+  }
+}
