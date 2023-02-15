@@ -106,6 +106,9 @@ $.fn.eaddtr = function(cellNodes: JQuery<HTMLElement>[], rowClass?: string): JQu
 
 // Awaitable sleep function.
 export function sleep(ms: number) {
+  if (ms < 0) {
+    return;
+  }
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
@@ -201,6 +204,11 @@ export async function authenticatedFetch(path: string, opt_args?: any, opt_metho
       }
     }
   }
+}
+
+// Returns true if the current browser is Safari.
+export function isSafari() {
+  return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 }
 
 // Same as above, but POSTs a JSON body and receives JSON blob, which it parses.
