@@ -16,9 +16,14 @@
 
 import {Data} from './data';
 import {App} from './app';
-import {sleep, sleepFrame, fork, isIOS} from './util';
+import {sleep, sleepFrame, fork, authenticatedFetch, Spinner, isSafari} from './util';
 import {ProgressWidget} from './progresswidget';
 import * as schema from '../commonsrc/schema';
+import {WavBuilder, toBase64} from '../commonsrc/util';
+
+// Suggest that the user wait before speaking
+const MIN_START_DELAY_MS = isSafari() ? 750 : 250;
+const MIN_STOP_DELAY_MS = isSafari() ? 750 : 250;
 
 // Lets the user record cards
 export class RecordingView {
@@ -54,13 +59,19 @@ export class RecordingView {
 
   // Recording state tracking
   isRecording: boolean = false;  // the microphone is active
+  isStartingRecord: boolean = false;  // the browser is setting up the record pipeline; this takes 700ms on safari
   isStoppingRecord: boolean = false;  // we just finished recording and are uploading or canceling
   isUploadingNew: boolean = false;  // the current upload is for new audio, not replacing a prior recording
   isCanceling: boolean = false;  // the user canceled the recording and we're waiting for Recorder to stop
   isDeleting: boolean = false;  // the user deleted the recording and we're waiting for the server to do it
+
+  // Audio stream and recorder
+  audioContext?: AudioContext;
   stream?: MediaStream;
-  mediaRecorder?: MediaRecorder;
-  chunks: Blob[] = [];
+  sourceNode?: MediaStreamAudioSourceNode;
+  gainNode?: GainNode;  // a dummy node is required on iOS or else the script processor won't be called
+  processorNode?: ScriptProcessorNode;
+  recordedWav = new WavBuilder();
 
   // Playback state tracking for review
   replayingTask?: schema.EUserTaskInfo;
@@ -184,7 +195,7 @@ export class RecordingView {
   // Updates the current card and all the GUI elements based on current task and state
   private updateGUI() {
     const hasTasks = this.data.tasks.length > 0;
-    const canNavigate = !this.isRecording && hasTasks && !this.isStoppingRecord && !this.isDeleting;
+    const canNavigate = !this.isRecording && hasTasks && !this.isStartingRecord && !this.isStoppingRecord && !this.isDeleting;
     const prevTask = this.findTask(this.task, -1);
     const nextTask = this.findTask(this.task, +1);
     const isFirst = !prevTask;
@@ -213,9 +224,11 @@ export class RecordingView {
     this.listenButton.eclass('playing', !!this.replayingTask);
 
     // Update the recording button state
-    this.recordButton.eenable(hasTasks && !this.isStoppingRecord && !this.isDeleting && !isOldRecording);
-    this.recordButton.eclass('recording', this.isRecording && !this.isStoppingRecord);
-    if (this.isStoppingRecord) {
+    this.recordButton.eenable(hasTasks && !this.isStartingRecord && !this.isStoppingRecord && !this.isDeleting && !isOldRecording);
+    this.recordButton.eclass('recording', this.isRecording && !this.isStartingRecord && !this.isStoppingRecord);
+    if (this.isStartingRecord) {
+      this.recordButton.text('Starting...');
+    } else if (this.isStoppingRecord) {
       this.recordButton.text(this.isCanceling ? 'Canceling...' : 'Uploading...');
     } else if (this.isRecording) {
       this.recordButton.empty();
@@ -310,7 +323,7 @@ export class RecordingView {
 
   // Navigates to the desired task, optionally with an animation, returning true if we landed on a valid card.
   private async gotoTask(where: 'next'|'prev'|'first', animate: boolean): Promise<boolean> {
-    if (this.isRecording || this.isStoppingRecord) {
+    if (this.isRecording || this.isStartingRecord || this.isStoppingRecord) {
       return false;  // Don't navigate while we're recording or uploading
     }
     this.app.clearMessage();
@@ -375,91 +388,37 @@ export class RecordingView {
 
   // Starts or stops recording, optionally canceling the upload
   private async toggleRecord(wantUpload: boolean = true) {
-    if (this.isStoppingRecord) {
-      return;  // We're already in the middle of stopping, do nothing
+    if (this.isStartingRecord || this.isStoppingRecord) {
+      return;  // We're already in the middle of changing, do nothing
     
     } else if (this.isRecording) {
-      // Stop recording
-      if (!this.mediaRecorder) {
-        throw new Error('Unexpected missing mediaRecorder');
-      }
-      this.isCanceling = !wantUpload;
-      this.isStoppingRecord = true;
-      this.updateGUI();
-      this.mediaRecorder.stop();  // This fires the stop event, see below
+      await this.stopRecording(wantUpload);
 
     } else if (this.task) {
-      // Start a new recording
       await this.startRecording();
     }
   }
 
   // Starts a new recording
   private async startRecording() {
-    if (this.mediaRecorder || this.isRecording || this.isStoppingRecord) {
+    if (this.processorNode || this.isRecording || this.isStoppingRecord) {
       throw new Error('Unexpectedly already recording');
     }
+    const startTime = Date.now();
     this.isStoppingRecord = false;
-    this.isRecording = true;
+    this.isStartingRecord = true;
     this.isCanceling = false;
     this.updateGUI();
+    await sleepFrame();
 
+    // Reset the stream and create the saving processor
     this.stream = await this.getAudioStream();
-    this.chunks = [];
-
-    // TODO - MediaRecorder does compressed audio, we can use AudioWorklet.
-
-    // basic structure
-    // - create a worklet, has to be in a separate file for the browser to load
-    // - fill a buffer, this will run in a separate thread
-    // - post the data on a "port", which the node can receive back in the main thread
-    // - send the data someplace
-
-    this.mediaRecorder = new MediaRecorder(this.stream, RecordingView.pickRecordingOptions());
-    this.mediaRecorder.addEventListener('dataavailable', e => this.handleRecordChunks(e));
-    this.mediaRecorder.addEventListener('stop', async e => await this.handleStopRecording());
+    this.recordedWav = new WavBuilder();
+    this.setupProcessor();
+    await sleep(startTime + MIN_START_DELAY_MS - Date.now());
+    this.isStartingRecord = false;
+    this.isRecording = true;
     this.updateGUI();
-    this.mediaRecorder.start();
-  }
-
-  private static getSupportedCodecs() {
-    return [
-      'audio/webm; codecs=pcm',
-      'audio/webm; codecs=opus',
-      'audio/webm',
-      'audio/mp4',
-    ].filter(t => isIOS() ? false : MediaRecorder.isTypeSupported(t));    
-  }
-
-  // Returns the options struct for the media recorder, or undefined if necessary.
-  private static pickRecordingOptions() {
-    const supportedCodecs = RecordingView.getSupportedCodecs();
-    if (isIOS() || supportedCodecs.length == 0) {
-      return undefined;  // old browser? Let it do the default
-
-    } else if (supportedCodecs.length == 1 && supportedCodecs[0] == 'audio/mp4') {
-      return undefined;  // only Safari does this, and it ignores the request anyway. The actual type is audio/aac :P
-
-    } else {
-      return {mimeType: supportedCodecs[0]};  // use the most preferred codec
-    }
-  }
-
-  // Returns the upload type of streams from this browser.
-  private static getUploadAudioMimeType() {
-    const supportedCodecs = RecordingView.getSupportedCodecs();
-    if (isIOS()) {
-      return 'audio/aac';  // iOS only does AAC audio
-
-    } else if (supportedCodecs.length == 1 && supportedCodecs[0] == 'audio/mp4') {
-      return 'audio/aac';  // Safari actually records in AAC even though it claims to support MP4
-
-    } else if (supportedCodecs.length == 0) {
-      return 'application/octet-stream';  // old browser? Let it do the default
-
-    } else {
-      return supportedCodecs[0];  // Otherwise report which codec we used
-    }
   }
 
   private async getAudioStream(): Promise<MediaStream> {
@@ -467,7 +426,8 @@ export class RecordingView {
     const deviceId = this.data.loadMicrophoneChoice();
     if (deviceId == '') {
       // Take the default audio input device
-      options['audio'] = true;
+      options['audio'] = isSafari() ? {echoCancellation: false} : true;
+
     } else {
       // Request a specific device
       options['audio'] = {
@@ -475,6 +435,9 @@ export class RecordingView {
           'exact': deviceId
         }
       };
+      if (isSafari()) {
+        options['audio']['echoCancellation'] = false;
+      }
     }
     try {
       return await navigator.mediaDevices.getUserMedia(options);
@@ -500,14 +463,51 @@ export class RecordingView {
     }
   }
 
+  // Fix audioContext on iOS
+  private ensureAudioContext(): AudioContext {
+    if (!this.audioContext) {
+      // this member has a different name on iOS
+      const ac = window.AudioContext || (window as any).webkitAudioContext;
+      this.audioContext = new ac();
+    }
+    return this.audioContext!;
+  }
+
+  // Use the deprecated ScriptProcessor API for buffer saving. Works on older devices.
+  private setupProcessor() {
+    // on safari this takes 700ms!!!
+    this.audioContext = this.ensureAudioContext();
+    this.sourceNode = this.audioContext.createMediaStreamSource(this.stream!);
+    this.processorNode = this.audioContext.createScriptProcessor(4096, 1, 1);
+    this.gainNode = this.audioContext.createGain();
+    this.recordedWav.setSampleRate(this.audioContext.sampleRate);
+
+    this.processorNode.onaudioprocess = e => this.handleRecordChunks(e);
+    this.sourceNode.connect(this.gainNode);
+    this.gainNode.connect(this.processorNode);
+    this.processorNode.connect(this.gainNode.context.destination);
+  }
+
   // Called when a chunk of recorded audio data arrives from the media recorder.
   private handleRecordChunks(e: any) {
-    if (!this.isRecording) {
+    if (!this.isRecording && !this.isStartingRecord) {
       throw new Error('Unexpected chunk when not recording');
     }
-    if (e.data.size > 0) {
-      this.chunks.push(e.data);
+    this.recordedWav.addData(e.inputBuffer.getChannelData(0));
+  }
+
+  // Tears down the processors so no more chunks will arrive.
+  private deleteProcessor() {
+    if (!this.sourceNode || !this.processorNode || !this.gainNode) {
+      return;
     }
+
+    this.sourceNode.disconnect(this.gainNode);
+    this.gainNode.disconnect(this.processorNode);
+    this.processorNode.disconnect(this.gainNode.context.destination);
+    this.sourceNode = undefined;
+    this.gainNode = undefined;
+    this.processorNode = undefined;
   }
 
   // Called when the user clicks delete on an already-recorded card
@@ -552,8 +552,8 @@ export class RecordingView {
 
     // Create a player and start it
     this.replayingTask = this.task;
-    const url = new URL(window.location.origin + `/api/getaudio?ts=${this.task.recordedTimestamp}`);
-    this.replayer = $('BODY').eadd(`<audio controls src="${url}" />`) as JQuery<HTMLMediaElement>;
+    const url = await this.getPlaybackURL(this.task);
+    this.replayer = $('BODY').eadd(`<audio controls playsinline src="${url}" />`) as JQuery<HTMLMediaElement>;
     this.replayer.hide();
     this.replayer.on('ended', async e => {
       // Cleanup
@@ -571,28 +571,45 @@ export class RecordingView {
     this.updateGUI();
   }
 
+  // Downloads the audio and returns it as a data URL; we do this to handle authentication correctly.
+  private async getPlaybackURL(task: schema.EUserTaskInfo): Promise<string> {
+    return await Spinner.waitFor(async () => {
+      const rsp = await authenticatedFetch('/api/getaudio', {ts: task.recordedTimestamp});
+      let contentType = rsp.headers.get('Content-Type');
+      if (!contentType || contentType == 'application/octet-stream') {
+        contentType = 'audio/wav';  // here's hoping!
+      }
+      const b64String = toBase64(await rsp.arrayBuffer());
+      return `data:${contentType};base64,${b64String}`;
+    });
+  }
+
   // Called when the user clicks listen / stop listening on an already-recorded card
   private async toggleHelp() {
     await this.app.navigateTo('/instructions')
   }
 
-  // Called by media recorder when it slews to a stop and no more data is coming.
-  private async handleStopRecording() {
+  // Called when the user toggles the stop button, to either upload or cancel.
+  private async stopRecording(wantUpload: boolean) {
+    const stopTime = Date.now();
+    this.isCanceling = !wantUpload;
+    this.isStoppingRecord = true;
     this.updateGUI();
-    this.mediaRecorder = undefined;
+    this.deleteProcessor();
+    await sleep(stopTime + MIN_STOP_DELAY_MS - Date.now());
 
     let uploaded = false;
     let canceled = false;
     let success = false;
-    const uploadData = new Blob(this.chunks);
-    this.chunks = [];
     try {
+      const uploadData = this.recordedWav.build();
+      this.recordedWav = new WavBuilder();
       if (!this.task) {
         throw new Error('Unexpected missing task, could not save audio.');
       }
       if (!this.isCanceling) {
         this.isUploadingNew = !this.task.recordedTimestamp;
-        await this.data.saveAudio(this.task, uploadData, RecordingView.getUploadAudioMimeType());
+        await this.data.saveAudio(this.task, uploadData, 'audio/wav');
         uploaded = true;
       } else {
         canceled = true;
@@ -607,6 +624,7 @@ export class RecordingView {
         });
       }
       this.stream = undefined;
+      this.isStartingRecord = false;
       this.isStoppingRecord = false;
       this.isRecording = false;
       this.isCanceling = false;

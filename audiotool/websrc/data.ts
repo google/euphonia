@@ -98,9 +98,8 @@ export class Data {
   }
 
   // Saves the given audio/transcript pair to the server.
-  async saveAudio(task: schema.EUserTaskInfo, audioData: Blob, mimeType: string) {
+  async saveAudio(task: schema.EUserTaskInfo, audioData: ArrayBuffer, mimeType: string) {
     return await Spinner.waitFor(async () => {
-      const audio = await audioData.arrayBuffer();
       const now = new Date();
       const args = {
         task: JSON.stringify(task),
@@ -108,7 +107,7 @@ export class Data {
         tzo: now.getTimezoneOffset(),
         mimeType
       };
-      const rsp = await authenticatedFetch('/api/uploadaudio', args, 'post', audio);
+      const rsp = await authenticatedFetch('/api/uploadaudio', args, 'post', audioData);
       const [euser, etask, erec] = await rsp.json() as [schema.EUserInfo, schema.EUserTaskInfo, schema.ERecordingMetadata];
       await this.updateTask(euser, etask);
       return erec;
