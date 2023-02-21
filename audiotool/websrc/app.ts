@@ -67,6 +67,9 @@ export class App implements Listener {
 
     // Events
     $(window).on('hashchange', async e => await this.handleHashChange());
+
+    // Capture a global reference to the app so that we can call functions globally
+    window['__audiotool_app'] = this;
   }
 
   // Shows a transient message to the user.
