@@ -34,6 +34,7 @@ export class RecordingView {
 
   // GUI elements
   div: JQuery<HTMLElement>;
+  secondaryControls: JQuery<HTMLElement>;
   doneText: JQuery<HTMLElement>;
   prevButton: JQuery<HTMLElement>;
   nextButton: JQuery<HTMLElement>;
@@ -108,10 +109,10 @@ export class RecordingView {
 
     // Record controls at the bottom
     this.buttonBox = this.div.eadd('<div class=controlpanel />');
-    const secondaryControls = this.buttonBox.eadd('<div class=secondarybuttons />');
+    this.secondaryControls = this.buttonBox.eadd('<div class=secondarybuttons />');
     const mainControls = this.buttonBox.eadd('<div class=mainbuttons />');
-    this.listenButton = secondaryControls.eadd('<button class=listen>Replay</button>');
-    this.deleteButton = secondaryControls.eadd('<button class=delete>Delete</button>');
+    this.listenButton = this.secondaryControls.eadd('<button class=listen>Replay</button>');
+    this.deleteButton = this.secondaryControls.eadd('<button class=delete>Delete</button>');
     this.recordButton = mainControls.eadd('<button class=record>Record</button>');
     this.cancelButton = mainControls.eadd('<button class=cancel>Cancel</button>');
     this.helpButton = mainControls.eadd('<button class=help>?</button>');
@@ -216,7 +217,7 @@ export class RecordingView {
     this.buttonBox.eclass('recorded', showRecordedCardControls);
     this.buttonBox.eclass('newcard', !showRecordedCardControls);
     this.deleteButton.eshow(showRecordedCardControls);
-    this.listenButton.eshow(showRecordedCardControls);
+    this.listenButton.eshow(showRecordedCardControls && !(isSafari() && this.replayer));
     this.deleteButton.eenable(canNavigate && showRecordedCardControls && !isOldRecording);
     this.listenButton.eenable(canNavigate && showRecordedCardControls);
     this.deleteButton.text(this.isDeleting ? 'Deleting...' : 'Delete');
@@ -327,6 +328,7 @@ export class RecordingView {
       return false;  // Don't navigate while we're recording or uploading
     }
     this.app.clearMessage();
+    this.stopPlayback();
 
     if (this.taskOrder.length < 1) {
       return false;  // nothing to do if there are no tasks
@@ -529,19 +531,8 @@ export class RecordingView {
 
   // Called when the user clicks listen / stop listening on an already-recorded card
   private async toggleListen() {
-    if (this.replayer && this.replayingTask && this.replayingTask === this.task) {
-      // We're currently playing, stop
-      this.replayer.remove();
-      this.replayingTask = undefined;
-      this.replayer = undefined;
-      this.updateGUI();
-      return;
-    }
-
-    // Reset the player
-    if (this.replayer) {
-      this.replayer.remove();
-      this.replayer = undefined;
+    if (this.stopPlayback()) {
+      return;  // Toggle off
     }
 
     if (!this.task || this.task.recordedTimestamp === 0) {
@@ -550,25 +541,35 @@ export class RecordingView {
       return;
     }
 
-    // Create a player and start it
+    // Create a player and start it if possible
     this.replayingTask = this.task;
     const url = await this.getPlaybackURL(this.task);
-    this.replayer = $('BODY').eadd(`<audio controls playsinline src="${url}" />`) as JQuery<HTMLMediaElement>;
-    this.replayer.hide();
-    this.replayer.on('ended', async e => {
-      // Cleanup
-      if (this.replayer) {
-        this.replayer.remove();
+    this.replayer = this.secondaryControls.eins(`<audio controls src="${url}" />`) as JQuery<HTMLMediaElement>;
+    if (!isSafari()) {
+      // On safari we leave the widget for the user to click again if they want
+      this.replayer.hide();
+      this.replayer.on('ended', async e => {
+        this.stopPlayback();
+      });
+      const p = this.replayer.get(0);
+      if (p) {
+        p.play();  // autoplay from within an async method doesn't work on iOS
       }
+    }
+    this.updateGUI();
+  }
+
+  // Stops any current playback and clears the replayer; does nothing if there's no playback.
+  private stopPlayback() {
+    if (this.replayer) {
+      // We're currently playing, stop
+      this.replayer.remove();
       this.replayingTask = undefined;
       this.replayer = undefined;
       this.updateGUI();
-    });
-    const p = this.replayer.get(0);
-    if (p) {
-      p.play();
+      return true;
     }
-    this.updateGUI();
+    return false;
   }
 
   // Downloads the audio and returns it as a data URL; we do this to handle authentication correctly.
