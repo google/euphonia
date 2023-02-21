@@ -213,6 +213,7 @@ export class Data {
     } catch (e) {
       // The Permission API for microphone is unsupported on Firefox, so we just have to try it.
       console.log(`Failed to query microphone permission, assuming we'll have to ask.`);
+      console.error(e);
       this.hasMicrophonePermission = 'maybe';
     }
   }

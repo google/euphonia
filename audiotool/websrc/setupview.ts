@@ -147,6 +147,8 @@ export class SetupView {
     } catch (e) {
       // Error accessing media, assume we were denied.
       // TODO: inspect this exception for more details
+      console.log(`Still getting error on microphone query:`);
+      console.error(e);
       this.data.hasMicrophonePermission = 'no';
       stream = undefined;
     }
