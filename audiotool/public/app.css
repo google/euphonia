@@ -708,6 +708,8 @@ Recording view
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  z-index: 80;  /* This seems to persuade Safari iOS 13 to be less buggy */
 }
 
 #recordingview BUTTON {
@@ -1022,9 +1024,11 @@ Recording view
   }
 
   #recordingview .controlpanel {
+    display: grid;
+    grid-template-columns: 1fr;
     margin: 2vh 0 0 0;
-    flex-direction: column;
     row-gap: 2vh;
+    justify-items: center;
   }
   
   #recordingview BUTTON.record {
