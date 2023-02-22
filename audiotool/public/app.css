@@ -909,7 +909,7 @@ Recording view
 
 #recordingview .controlpanel.recorded BUTTON.record {
   width: 20vw;
-  min-width: 10em;
+  min-width: calc(10em + 6vw);
   height: 6vh;
   border-radius: 3vh;
   font-size: calc(min(2vh, 2vw));
@@ -952,7 +952,7 @@ Recording view
   column-gap: 1vw;
 }
 
-#recordingview  .controlpanel.recorded BUTTON.record.recording .recordlight {
+#recordingview .controlpanel.recorded BUTTON.record.recording .recordlight {
   width: 2vw;
   height: 2vw;
   border-radius: 1vw;
