@@ -622,11 +622,11 @@ export class InterestView {
   </div>
   <div class=checkboxrow>
     <input type=checkbox id=ifdeviceandroid />
-    <label for=ifdeviceandroid>An Android phone (like a Samsung, Pixel, Nexus, etc.)</label>
+    <label for=ifdeviceandroid>An Android phone or tablet (like a Samsung, Pixel, Nexus, etc.)</label>
   </div>
   <div class=checkboxrow>
     <input type=checkbox id=ifdeviceiphone />
-    <label for=ifdeviceiphone>An iPhone</label>
+    <label for=ifdeviceiphone>An iPhone or iPad</label>
   </div>
   <div class=checkboxrow>
     <input type=checkbox id=ifdevicenone />
