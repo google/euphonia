@@ -516,6 +516,7 @@ export class RecordingView {
   private async handleDelete() {
     if (this.task) {
       this.isDeleting = true;
+      this.stopPlayback();
       this.updateGUI();
       try {
         await this.data.deleteAudio(this.task);
