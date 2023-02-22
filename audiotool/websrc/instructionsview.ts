@@ -40,6 +40,8 @@ export class InstructionsView {
     <li>You'll want to be in a <b>quiet setting</b> and avoid any background noise.</li>
     <li>When you are <b>finished speaking</b>, press the blue button again to stop recording.</li>
     <li>When you finish recording all the cards, you're done!</li>
+    <li>Having trouble recording? Email us at
+       <a href="mailto:euphonia-project@google.com">euphonia-project@google.com</a> for help.</li>
     `);
     this.doneButton = this.div.eadd('<button>Get Started</button>');
     this.doneButton.on('click', async e => await this.app.navigateTo('/setup?passive=true'));
