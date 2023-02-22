@@ -53,7 +53,7 @@ export class SignupView {
         this form on behalf of someone else, please ensure you have their permission
         to do so.`);
     introDiv.eadd('<div />').html(`Questions?
-        <a target="_blank" href="https://google-health.force.com/s/form?type=euphoniaform">Contact Us</a>`);
+        <a target="_blank" href="mailto:euphonia-project@google.com">Contact Us</a>`);
     this.signinDiv = introDiv.eadd('<div />');
     this.signinDiv.eadd('<span>Already enrolled? &nbsp;</span>');
     this.signinDiv.eadd(`<a href="#">Click to sign in and continue recording</a>`).on('click', async e => await this.login(true));
