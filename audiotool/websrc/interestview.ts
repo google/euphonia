@@ -45,7 +45,7 @@ export class InterestView {
     $('#ifhelperyes').on('change', helperchangefn);
     $('#ifhelperno').on('change', helperchangefn);
 
-    const buttons = this.div.eadd('<div class=ifbuttons />');
+    const buttons = insetBox.eadd('<div class=ifbuttons />');
     const nextButton = buttons.eadd('<button class=next>Next</button>');
     const backButton = buttons.eadd('<button>Go Back</button>');
     const clearButton = buttons.eadd('<button>Reset form and start over</button>');
