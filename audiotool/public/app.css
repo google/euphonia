@@ -544,12 +544,11 @@ Setup and permissions view
 }
 
 #setupview .buttonrow {
-  display: flex;
-  column-gap: 15px;
+  display: grid;
+  grid-template-columns: 1fr;
   row-gap: 15px;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
 }
 
 #setupview BUTTON {
@@ -640,15 +639,16 @@ Setup and permissions view
 
 #setupview .micsettings .devices {
   margin: 10px 0 0 15px;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   row-gap: 5px;
 }
 
 #setupview .micsettings .savebuttonrow {
   margin-top: 35px;
 
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   column-gap: 15px;
   row-gap: 15px;
   justify-content: center;
