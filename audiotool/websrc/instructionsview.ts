@@ -35,9 +35,9 @@ export class InstructionsView {
     this.div.eadd('<div class=helptext />').ehtml(`
     <ul>
     <li>On the next screen, you'll see <b>cards</b> to read aloud.</li>
+    <li>You'll want to be in a <b>quiet setting</b> and avoid any background noise.</li>
     <li>You'll press the blue Record button, and then <b>read the
     card aloud</b>, as accurately as possible.</li>
-    <li>You'll want to be in a <b>quiet setting</b> and avoid any background noise.</li>
     <li>When you are <b>finished speaking</b>, press the blue button again to stop recording.</li>
     <li>When you finish recording all the cards, you're done!</li>
     <li>Having trouble recording? Email us at
