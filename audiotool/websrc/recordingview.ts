@@ -234,7 +234,7 @@ export class RecordingView {
     } else if (this.isRecording) {
       this.recordButton.empty();
       this.recordButton.eadd('<div class=spacer />');
-      this.recordButton.eadd('<div class=label />').etext('Recording...');
+      this.recordButton.eadd('<div class=label />').etext('Done');
       this.recordButton.eadd('<div class=recordlight />');
     } else {
       this.recordButton.text(showRecordedCardControls ? 'Record Again' : 'Record');
@@ -261,7 +261,8 @@ export class RecordingView {
     if (this.task) {
       // Show the current card(s)
       this.cardDiv.eclass('recorded', showRecordedCardControls);
-      this.cardDiv.text(this.task.task.prompt);
+      this.cardDiv.empty();
+      this.cardDiv.eadd('<div class=text />').text(this.task.task.prompt);
       this.doneText.html(showRecordedCardControls ? '(this card is done)' : '');
 
     } else {
@@ -420,6 +421,7 @@ export class RecordingView {
     await sleep(startTime + MIN_START_DELAY_MS - Date.now());
     this.isStartingRecord = false;
     this.isRecording = true;
+    this.app.showMessage(`Now recording...`);
     this.updateGUI();
   }
 
