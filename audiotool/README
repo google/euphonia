@@ -37,3 +37,34 @@ NOTE: To get this demo fully working for yourself, you will need to set up a Goo
 
 1. ./serve.sh
 2. http://localhost:8991
+
+
+# Compatibility
+
+This implementation is intended to work on a broad set of devices and browsers. That said,
+it does use several newer APIs which aren't necessarily supported on every device. Here are some
+notes on compatibility based on my testing:
+
+### Fully supported and tested:
+
+- MacOS 12.X+ (Apple Silicon)
+  - Chrome 110
+  - Safari 16.3
+  - Firefox 110
+- Windows 10
+  - Chrome 110
+  - Edge
+- Android 11+
+  - Chrome 83
+- iOS 13
+  - Safari 13
+
+### Compatibility Workarounds
+
+- iOS 13 Safari
+  - Playback feature not compatible with async methods; implemented a different playback widget on Safari
+  - ScriptProcessorNode does not work unless a GainNode is added to the chain
+
+### Known issues
+
+- iOS 13 + Chrome does not work. Must use Safari on old iOS devices.
