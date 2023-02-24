@@ -40,6 +40,7 @@ export class RecordingView {
   nextButton: JQuery<HTMLElement>;
   progressBar: ProgressWidget;
   helpButton: JQuery<HTMLElement>;
+  keyfn: (e: KeyboardEvent) => Promise<void>;
 
   // GUI visibility tracking vs. other app views
   isShown = false;
@@ -121,6 +122,9 @@ export class RecordingView {
     this.deleteButton.on('click', async e => await this.handleDelete());
     this.listenButton.on('click', async e => await this.toggleListen());
     this.helpButton.on('click', async e => await this.toggleHelp());
+
+    // Keyboard handling
+    this.keyfn = this.handleKey.bind(this);
   }
 
   // Hides or shows the whole display
@@ -132,6 +136,8 @@ export class RecordingView {
 
     this.div.eshow(show);
     if (show) {
+      document.addEventListener('keyup', this.keyfn);
+  
       if (!this.data.user || !this.data.consented) {
         // Not ready to record; bound the user to the right screen
         fork(async () => await this.app.navigateTo(''));
@@ -145,6 +151,8 @@ export class RecordingView {
         this.taskOrder = this.buildTaskOrder();  // on first display, compact the recorded tasks to the front
         await this.gotoTask('first', false);  // default to the first unrecorded task
       }
+    } else {
+      document.removeEventListener('keyup', this.keyfn);
     }
   }
 
@@ -284,6 +292,27 @@ export class RecordingView {
     }
   }
 
+  // Called when a keystroke from the keyboard arrives
+  private async handleKey(e: KeyboardEvent): Promise<void> {
+    if (!this.isShown) {
+      return;  // do nothing when we're not displayed
+    }
+
+    switch (e.key) {
+      case ' ':  // spacebar
+        e.preventDefault();
+        return await this.toggleRecord();
+      case 'ArrowLeft':
+        e.preventDefault();
+        await this.gotoTask('prev', true);
+        return;
+      case 'ArrowRight':
+        e.preventDefault();
+        await this.gotoTask('next', true);
+        return;
+    }
+  }
+
   // Returns the first valid, unrecorded task in the order, or the first task otherwise.
   private findFirstTask(): schema.EUserTaskInfo|undefined {
     let first: schema.EUserTaskInfo|undefined = undefined;
@@ -325,8 +354,8 @@ export class RecordingView {
 
   // Navigates to the desired task, optionally with an animation, returning true if we landed on a valid card.
   private async gotoTask(where: 'next'|'prev'|'first', animate: boolean): Promise<boolean> {
-    if (this.isRecording || this.isStartingRecord || this.isStoppingRecord) {
-      return false;  // Don't navigate while we're recording or uploading
+    if (this.isRecording || this.isStartingRecord || this.isStoppingRecord || this.isCanceling || this.isDeleting) {
+      return false;  // Don't navigate while we're busy
     }
     this.app.clearMessage();
     this.stopPlayback();
@@ -391,9 +420,9 @@ export class RecordingView {
 
   // Starts or stops recording, optionally canceling the upload
   private async toggleRecord(wantUpload: boolean = true) {
-    if (this.isStartingRecord || this.isStoppingRecord) {
+    if (this.isStartingRecord || this.isStoppingRecord || this.isCanceling || this.isDeleting) {
       return;  // We're already in the middle of changing, do nothing
-    
+
     } else if (this.isRecording) {
       await this.stopRecording(wantUpload);
 
@@ -407,6 +436,7 @@ export class RecordingView {
     if (this.processorNode || this.isRecording || this.isStoppingRecord) {
       throw new Error('Unexpectedly already recording');
     }
+    this.stopPlayback();
     const startTime = Date.now();
     this.isStoppingRecord = false;
     this.isStartingRecord = true;
