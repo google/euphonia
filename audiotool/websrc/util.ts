@@ -314,3 +314,62 @@ export class Dropdown {
     this.select.on('change', fn);
   }
 }
+
+// Simple class that notifies listeners of swipe directions
+export class Swiper {
+  div: JQuery<HTMLElement>;
+  lastX?: number;
+  lastY?: number;
+  startX?: number;
+  startY?: number;
+  fn: (e: TouchEvent) => Promise<void>;
+  callback: (direction: string) => Promise<void>;
+
+  constructor(div: JQuery<HTMLElement>, callback: (direction: string) => Promise<void>) {
+    this.div = div;
+    this.callback = callback;
+    this.fn = this.handleTouch.bind(this);
+    this.div.get(0)!.addEventListener('touchstart', this.fn);
+    this.div.get(0)!.addEventListener('touchmove', this.fn);
+    this.div.get(0)!.addEventListener('touchend', this.fn);
+  }
+
+  remove() {
+    this.div.get(0)!.removeEventListener('touchstart', this.fn);
+    this.div.get(0)!.removeEventListener('touchmove', this.fn);
+    this.div.get(0)!.removeEventListener('touchend', this.fn);
+  }
+
+  private async handleTouch(e: TouchEvent): Promise<void> {
+    let x, y;
+    for (let i = 0; i < e.touches.length; i++) {
+      const touch = e.touches.item(i);
+      x = touch!.screenX;
+      y = touch!.screenY;
+      break;
+    }
+
+    if (e.type === 'touchstart' && x != undefined) {
+      this.startX = x;
+      this.startY = y;
+      this.lastX = x;
+      this.lastY = y;
+
+    } else if (e.type === 'touchmove' && x != undefined) {
+      this.lastX = x;
+      this.lastY = y;
+
+    } else if (e.type === 'touchend' &&
+        this.startX != undefined && this.startY != undefined &&
+        this.lastX != undefined && this.lastY != undefined) {
+      // Dispatch touch event
+      const dx = this.lastX - this.startX;
+      const dy = this.lastY - this.startY;
+      if (Math.abs(dx) > Math.abs(dy)) {
+        await this.callback(dx < 0 ? 'left' : 'right');
+      } else {
+        await this.callback(dy < 0 ? 'up' : 'down');
+      }
+    }
+  }
+}

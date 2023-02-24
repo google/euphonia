@@ -16,7 +16,7 @@
 
 import {Data} from './data';
 import {App} from './app';
-import {sleep, sleepFrame, fork, authenticatedFetch, Spinner, isSafari} from './util';
+import {sleep, sleepFrame, fork, authenticatedFetch, Spinner, isSafari, Swiper} from './util';
 import {ProgressWidget} from './progresswidget';
 import * as schema from '../commonsrc/schema';
 import {WavBuilder, toBase64} from '../commonsrc/util';
@@ -92,6 +92,7 @@ export class RecordingView {
     this.cardRibbon = this.div.eadd('<div class=cardribbon />');
     this.prevCardDiv = this.cardRibbon.eadd('<div class="card prevcard" />');
     this.cardDiv = this.cardRibbon.eadd('<div class="card thiscard" />');
+    new Swiper(this.cardDiv, async s => await this.handleSwipe(s));
     this.nextCardDiv = this.cardRibbon.eadd('<div class="card nextcard" />');
     this.prevCardDiv.on('click', async e => await this.gotoTask('prev', true));
     this.nextCardDiv.on('click', async e => await this.gotoTask('next', true));
@@ -123,7 +124,7 @@ export class RecordingView {
     this.listenButton.on('click', async e => await this.toggleListen());
     this.helpButton.on('click', async e => await this.toggleHelp());
 
-    // Keyboard handling
+    // Keyboard and swipe handling
     this.keyfn = this.handleKey.bind(this);
   }
 
@@ -310,6 +311,15 @@ export class RecordingView {
         e.preventDefault();
         await this.gotoTask('next', true);
         return;
+    }
+  }
+
+  private async handleSwipe(direction: string): Promise<void> {
+    if (direction === 'right') {
+      await this.gotoTask('prev', true);
+
+    } else if (direction === 'left') {
+      await this.gotoTask('next', true);
     }
   }
 
