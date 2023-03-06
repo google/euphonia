@@ -280,6 +280,16 @@ Interest form
   padding: 2px;
 }
 
+#interestform input[type=checkbox] {
+  height: 20px;
+  flex: 0 0 20px;
+}
+
+#interestform input[type=radio] {
+  height: 20px;
+  flex: 0 0 20px;
+}
+
 #interestform .formerror {
   border: 2px solid #c00;
   filter: drop-shadow(0 0 20px #f99);
