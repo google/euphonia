@@ -431,7 +431,7 @@ Instructions view
   border: 1px solid #aaa;
   padding: 20px;
   margin: 20px;
-  overflow: hidden;
+  overflow: scroll;
   color: #444;
   background-color: #fff;
 
@@ -449,13 +449,16 @@ Instructions view
 
 #instructionview .helptext {
   font-size: 18px;
-  margin-bottom: 10px;
   text-align: left;
 }
 
 #instructionview .helptext LI {
   font-size: 18px;
   margin-bottom: 4px;
+}
+
+#instructionview .video {
+  margin-top: 15px;
 }
 
 #instructionview .video IFRAME {

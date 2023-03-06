@@ -22,6 +22,7 @@ export class InstructionsView {
   app: App;
   data: Data;
   div: JQuery<HTMLElement>;
+  video: JQuery<HTMLElement>;
   doneButton: JQuery<HTMLElement>;
 
   constructor(app: App) {
@@ -34,6 +35,7 @@ export class InstructionsView {
     this.div.eadd('<div class=title />').text(`Thanks for signing up for Project Euphonia!`);
     this.div.eadd('<div class=helptext />').ehtml(`
     <ul>
+    <li>Please take a moment to watch this video introduction.</li>
     <li>On the next screen, you'll see <b>cards</b> to read aloud.</li>
     <li>You'll want to be in a <b>quiet setting</b> and avoid any background noise.</li>
     <li>You'll press the blue Record button, and then <b>read the
@@ -45,11 +47,23 @@ export class InstructionsView {
     `);
     this.doneButton = this.div.eadd('<button>Get Started</button>');
     this.doneButton.on('click', async e => await this.app.navigateTo('/setup?passive=true'));
+
+    this.video = this.div.eadd('<div class=video />');
   }
 
   // Hides or shows the whole display
   async eshow(show: boolean): Promise<void> {
     this.div.eshow(show);
+
+    if (show) {
+      this.video.html(`
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/sMLED9xrLts"
+              title="YouTube video player" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          `);
+    } else {
+      this.video.empty();
+    }
 
     const hasRecordings = this.data.user && this.data.user.numRecordings > 0;
     this.doneButton.etext(hasRecordings ? 'Continue recording' : 'Get Started');
