@@ -283,11 +283,13 @@ Interest form
 #interestform input[type=checkbox] {
   height: 20px;
   flex: 0 0 20px;
+  margin-right: 5px;
 }
 
 #interestform input[type=radio] {
   height: 20px;
   flex: 0 0 20px;
+  margin-right: 5px;
 }
 
 #interestform .formerror {
