@@ -63,8 +63,8 @@ export class SignupView {
     const questionBox1 = page1Div.eadd('<div class=questionbox />');
     questionBox1.eadd('<div class=questiontext />').etext('To get started, please confirm your eligibility:');
     this.checkbox1 = questionBox1.eadd('<input class=checkbox type=checkbox id=strangerscheckbox class=row1 />');
-    questionBox1.eadd('<label for=strangerscheckbox class=row1 />').etext(`Strangers or people I just
-        met find it difficult to understand my speech (not because of an accent)`);
+    questionBox1.eadd('<label for=strangerscheckbox class=row1 />').etext(`Strangers, or voice technologies like
+        Google Assistant, have difficulty understanding my speech (not because of an accent)`);
     this.checkbox2 = questionBox1.eadd('<input class=checkbox type=checkbox id=agecheckbox class=row2 />');
     questionBox1.eadd('<label for=agecheckbox class=row2 />').etext('I am at least 18 years of age');
 
