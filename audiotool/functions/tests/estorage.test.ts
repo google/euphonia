@@ -95,14 +95,26 @@ registerSuite('server', () => {
       const response0 = await supertestPostJson(testExpress, '/api/getuser', {}).expect(200);
       assert.equal('[]', response0.text);
 
-      // Sign the user up
+      // Sign the user up, reject if demographics are missing
       const data = {
         language: 'en-US',
         tags: [],
-        consents: [{consentId: 'test2', version: 1}]  // these have to match the test consents
+        demographics: undefined,
+        agreements: [{consentId: 'test2', version: 1}]  // these have to match the test consents
+      } as any;
+      await supertestPostJson(testExpress, '/api/signup', data).expect(400);
+
+      // Try again with basic demographics
+      data['demographics'] = {
+          name: 'Testy Tester',
+          country: 'USA',
+          consentStorage: true,
+          consentInitials: 'XXX',
+          acceptTos: true
       };
       const response = await supertestPostJson(testExpress, '/api/signup', data)
           .expect(200);
+
       const [userinfo] = JSON.parse(response.text) as schema.EUserInfo[];
       assert.isNotNull(userinfo);
       assert.isNotNull(userinfo.euid);
