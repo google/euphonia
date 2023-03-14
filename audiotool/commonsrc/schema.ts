@@ -20,7 +20,7 @@ export const MAX_DELETABLE_RECORDING_AGE_MS = 24 * 3600 * 1000;  // 24 hours
 
 // Supported languages
 export const SUPPORTED_LANGUAGES = new Set([
-  'en-US', 'en-GB', 'fr-FR'
+  'en-US', 'en-GB', 'fr-FR', 'es-ES'
 ]);
 
 // Paths of documents, collections, and sub-collections
@@ -228,4 +228,11 @@ export interface EConsentVersion {
   creationTimestamp: number;
   liveTimestamp: number;  // When this version becomes the active consent and supercedes lower versions
   numUsers: number;  // counter for the number of users who consented to this version. Superseding versions detract from this number!
+}
+
+// A GUI string localized to a particular language.
+export interface ELocaleString {
+  key: string;  // The key for this string, which is usually the english version
+  text: string;  // The translation in the local language
+  description: string;  // Documentation for the string, for localizers. This is never displayed.
 }
