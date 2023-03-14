@@ -188,6 +188,16 @@ export const EN_STRINGS: ELocaleString[] = [
           Your microphone is all set! You can start recording as soon as you're ready.`
   },
   {
+    key: `Use the default microphone`,
+    description: `Let's the user choose the browser's default recording device instead of picking one explicitly`,
+    text: `Use the default microphone`
+  },
+  {
+    key: `Save`,
+    description: `Microphone configuration screen, accept changes to microphone device`,
+    text: `Save`
+  },
+  {
     key: `Try again`,
     description: `Microphone permission failure retry button`,
     text: `Try again`
@@ -228,6 +238,11 @@ export const EN_STRINGS: ELocaleString[] = [
     text: `Delete`
   },
   {
+    key: `Deleting...`,
+    description: `Recording screen button, shown briefly while the recording is being deleted`,
+    text: `Deleting...`
+  },
+  {
     key: `Record`,
     description: `Recording screen button, record audio for a card`,
     text: `Record`
@@ -244,8 +259,23 @@ export const EN_STRINGS: ELocaleString[] = [
   },
   {
     key: `Cancel`,
-    description: `Recording screen button, cancel recording and don't upload`,
+    description: `Recording screen button and microphone setting screen button, cancel recording / microphone changes`,
     text: `Cancel`
+  },
+  {
+    key: `Done`,
+    description: `Recording screen button, shown while recording to end the recording and start uploading it`,
+    text: `Done`
+  },
+  {
+    key: `Canceling...`,
+    description: `Recording screen button, shown briefly when the recording is being canceled`,
+    text: `Canceling...`
+  },
+  {
+    key: `Uploading...`,
+    description: `Recording screen button, shown briefly when the recording is being uploaded`,
+    text: `Uploading...`
   },
   {
     key: `?`,
@@ -279,6 +309,18 @@ export const EN_STRINGS: ELocaleString[] = [
             When you're ready, you can click the button below to finish up the rest of the cards.      `,
     description: `Done screen instructions, asks the user to go finish the rest of the cards`,
     text: `          Great work! You've gone through the cards once, and recorded
+            <b class=count>{number_of_completed_cards} cards</b>
+            out of the total (<b>{total_number_of_tasks_needed} cards</b>).
+            When you're ready, you can click the button below to finish up the rest of the cards.      `
+  },
+  {
+    key: `          You're almost done! You've gone through the cards once, and recorded
+            <b class=count>{number_of_completed_cards} cards</b>
+            out of the total (<b>{total_number_of_tasks_needed} cards</b>).
+            When you're ready, you can click the button below to finish up the rest of the cards.      `,
+    description: `Done screen instructions, asks the user to go finish the rest of the cards.
+        This version displays when the user has done more than 75% of the work.`,
+    text: `          You're almost done! You've gone through the cards once, and recorded
             <b class=count>{number_of_completed_cards} cards</b>
             out of the total (<b>{total_number_of_tasks_needed} cards</b>).
             When you're ready, you can click the button below to finish up the rest of the cards.      `
@@ -347,6 +389,11 @@ export const EN_STRINGS: ELocaleString[] = [
     key: `I agree to the terms above`,
     description: `Consent screen, indicates that the participant consents`,
     text: `I agree to the terms above`
+  },
+  {
+    key: `&nbsp;(Agreement {which_agreement_number} of {total_number_of_agreements})`,
+    description: ``,
+    text: `&nbsp;(Agreement {which_agreement_number} of {total_number_of_agreements})`
   },
   {
     key: `Congratulations! You're all done!`,
