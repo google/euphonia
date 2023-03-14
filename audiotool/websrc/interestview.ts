@@ -32,7 +32,7 @@ export class InterestView {
     this.div.hide();
 
     const insetBox = this.div.eadd('<div class=interestformscroll />');
-    insetBox.html(InterestView.FORM_HTML);
+    insetBox.eihtml('__INTEREST_FORM_HTML__');
     $('#helpersection').hide();
 
     // State/country box conditional wiring
@@ -46,9 +46,9 @@ export class InterestView {
     $('#ifhelperno').on('change', helperchangefn);
 
     const buttons = insetBox.eadd('<div class=ifbuttons />');
-    const nextButton = buttons.eadd('<button class=next>Next</button>');
-    const backButton = buttons.eadd('<button>Go Back</button>');
-    const clearButton = buttons.eadd('<button>Reset form and start over</button>');
+    const nextButton = buttons.eadd('<button class=next />').eitext('Next');
+    const backButton = buttons.eadd('<button />').eitext('Go Back');
+    const clearButton = buttons.eadd('<button />').eitext('Reset form and start over');
     backButton.on('click', async e => {
       const d = this.collect();
       this.data.saveDemographics(d);

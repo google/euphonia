@@ -77,7 +77,7 @@ export class App implements Listener {
     const level = opt_level ? opt_level : 'info';
     const isHidden = (this.messageBox.text() === '');
     setTimeout(async () => {
-      this.messageBox.etext(text);
+      this.messageBox.eitext(text);
       this.messageBox.addClass(level);
       if (isHidden) {
         await fadeIn(this.messageBox);

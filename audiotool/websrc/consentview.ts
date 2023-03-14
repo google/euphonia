@@ -52,9 +52,9 @@ export class ConsentView {
     }
 
     // Consent view, shown after signup but before recording
-    this.div.eadd('<div class=title />').etext(`Welcome to Project Euphonia!`);
-    this.div.eadd(`<div class=wholine>You are enrolling as <b id=whoisenrolling>&nbsp;</b>.
-        Please review the following agreement: <span id=consentcounter></span></div>`);
+    this.div.eadd('<div class=title />').eitext(`Welcome to Project Euphonia!`);
+    this.div.eadd('<div class=wholine />').eihtml(`You are enrolling as <b id=whoisenrolling>&nbsp;</b>.
+        Please review the following agreement: <span id=consentcounter></span>`);
     this.consentDiv = this.div.eadd('<div class=consentarea />');
   }
 
@@ -95,7 +95,7 @@ export class ConsentView {
   // Shows an error if there are no consents to load
   private displayError() {
     this.consentDiv.addClass('consenterror');
-    this.consentDiv.text('Unfortunately enrollment is not configured. Please check the URL or contact your program administrator.');
+    this.consentDiv.eitext('Unfortunately enrollment is not configured. Please check the URL or contact your program administrator.');
   }
 
   // Returns true if this user has already agreed to this consent
@@ -128,22 +128,24 @@ export class ConsentView {
       throw new Error(`Unexpected applicable versions for consent: ${consent.id}: ${consent.versions.length} versions`);
     }
     if (idx !== 0 || !isLast) {
-      $('#consentcounter').html(`&nbsp;(Agreement ${idx + 1} of ${consentCount})`);
+      $('#consentcounter').eihtml(
+          `&nbsp;(Agreement {which_agreement_number} of {total_number_of_agreements})`,
+          'which_agreement_number', `${idx + 1}`, 'total_number_of_agreements', `${consentCount}`);
     }
 
     const consentText = await this.data.loadConsentText(consent.id, consent.versions[0].version);
     this.consentDiv.empty();
     const textDiv = this.consentDiv.eadd('<div class=consentscroll />');
-    textDiv.html(consentText);
+    textDiv.html(consentText);  // No need to use i18n, these are already localized documents
 
     const consentBox = this.consentDiv.eadd('<div class=consentbox />');
     const cb = consentBox.eadd('<input type=checkbox id=agreementcheckbox />');
-    consentBox.eadd('<label for=agreementcheckbox />').etext('I agree to the terms above');
+    consentBox.eadd('<label for=agreementcheckbox />').eitext('I agree to the terms above');
     cb.echecked(isAgreed);
 
     const buttonBox = this.consentDiv.eadd('<div class=buttonbox />');
     const nextButton = buttonBox.eadd('<button class=next />');
-    nextButton.etext(isLast ? (isAgreed ? 'Continue' : 'Enroll') : 'Next Agreement');
+    nextButton.eitext(isLast ? (isAgreed ? 'Continue' : 'Enroll') : 'Next Agreement');
     nextButton.on('click', async e => {
       if (!consent.optional && !cb.is(':checked')) {
         this.app.showMessage('You must agree to the terms to continue.', 'error');

@@ -53,29 +53,29 @@ export class DoneView {
     }
 
     if (user.numCompletedTasks >= user.numTasks) {
-      this.title.text('Congratulations!');
-      this.statusText.html(`
+      this.title.eitext('Congratulations!');
+      this.statusText.eihtml(`
           You have completed all your cards! We'll be reviewing them soon, and if everything
           looks good, you'll be receiving an email from rewards@perks.com within the next 7-10
           business days with a link to claim your gift card.
           <br/><br/>
-          <b>Thank you for contributing <b class=count>${user.numCompletedTasks} cards</b> to Project Euphonia!</b>
+          <b>Thank you for contributing <b class=count>{number_of_completed_cards} cards</b> to Project Euphonia!</b>
           <br/><br/>
           (If you wish, you can now go back and review your recordings, but this is not necessary. <b>You're done!</b>)
-      `);
-      this.okButton.text('Review Recordings (optional)');
+      `, 'number_of_completed_cards', `${user.numCompletedTasks}`);
+      this.okButton.eitext('Review Recordings (optional)');
       this.okButton.addClass('review');
 
     } else {
-      this.title.text('Thank you!');
+      this.title.eitext('Thank you!');
       const msg = user.numCompletedTasks >= user.numTasks * 0.75 ? `You're almost done!` : `Great work!`;
-      this.statusText.html(`
+      this.statusText.eihtml(`
           ${msg} You've gone through the cards once, and recorded
-          <b class=count>${user.numCompletedTasks} cards</b>
-          out of the total (<b>${user.numTasks} cards</b>).
+          <b class=count>{number_of_completed_cards} cards</b>
+          out of the total (<b>{total_number_of_tasks_needed} cards</b>).
           When you're ready, you can click the button below to finish up the rest of the cards.
-      `);
-      this.okButton.text('Continue Recording');
+      `, 'number_of_completed_cards', `${user.numCompletedTasks}`, 'total_number_of_tasks_needed', `${user.numTasks}`);
+      this.okButton.eitext('Continue Recording');
     }
   }
 

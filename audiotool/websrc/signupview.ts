@@ -41,38 +41,39 @@ export class SignupView {
 
     // Page 1: Introduction and eligibility checkboxes
     const page1Div = this.div.eadd('<div class=page1 />');
-    page1Div.eadd('<div class=title />').text(`Welcome to Project Euphonia!`);
+    page1Div.eadd('<div class=title />').eitext(`Welcome to Project Euphonia!`);
     const introDiv = page1Div.eadd('<div class=intro />');
-    introDiv.eadd('<div />').text(`We're exploring how Google products and services
+    introDiv.eadd('<div />').eitext(`We're exploring how Google products and services
         that use speech as an input method could work better for more people. We're seeking
         voice contributions from adults who have difficulty being understood by others.
         Voice samples can help us improve how Google understands individuals with speech
         impairments.`);
 
-    introDiv.eadd('<div />').html(`<b>IMPORTANT:</b> If you're filling out
+    introDiv.eadd('<div />').eihtml(`<b>IMPORTANT:</b> If you're filling out
         this form on behalf of someone else, please ensure you have their permission
         to do so.`);
-    introDiv.eadd('<div />').html(`Questions?
+    introDiv.eadd('<div />').eihtml(`Questions?
         <a target="_blank" href="mailto:euphonia-project@google.com">Contact Us</a>`);
     this.signinDiv = introDiv.eadd('<div />');
-    this.signinDiv.eadd('<span>Already enrolled? &nbsp;</span>');
-    this.signinDiv.eadd(`<a href="#">Click to sign in and continue recording</a>`).on('click', async e => await this.login(true));
+    this.signinDiv.eadd('<span />').eihtml('Already enrolled? &nbsp;');
+    this.signinDiv.eadd('<a href="#" />').eitext('Click to sign in and continue recording').on('click', async e => await this.login(true));
     this.signinDiv.eshow(firebase.auth().currentUser == null);
     
     // confirm basic eligibility
     const questionBox1 = page1Div.eadd('<div class=questionbox />');
-    questionBox1.eadd('<div class=questiontext />').etext('To get started, please confirm your eligibility:');
+    questionBox1.eadd('<div class=questiontext />').eitext('To get started, please confirm your eligibility:');
     this.checkbox1 = questionBox1.eadd('<input class=checkbox type=checkbox id=strangerscheckbox class=row1 />');
-    questionBox1.eadd('<label for=strangerscheckbox class=row1 />').etext(`Strangers, or voice technologies like
-        Google Assistant, have difficulty understanding my speech (not because of an accent)`);
+    questionBox1.eadd('<label for=strangerscheckbox class=row1 />').eitext(
+      `Strangers, or voice technologies like Google Assistant, have difficulty understanding my speech (not because of an accent)`);
     this.checkbox2 = questionBox1.eadd('<input class=checkbox type=checkbox id=agecheckbox class=row2 />');
-    questionBox1.eadd('<label for=agecheckbox class=row2 />').etext('I am at least 18 years of age');
+    questionBox1.eadd('<label for=agecheckbox class=row2 />').eitext('I am at least 18 years of age');
 
     // Let them continue to the next page, or sign in
-    this.nextButton = questionBox1.eadd('<button>Sign in and continue</button>');
-    this.authExplain = questionBox1.eadd('<div class=accountexplain />').etext(`You will need to sign in with your Google
-        Account to contribute to the project. If you do not have a Google Account, you can
-        create one when you click to continue.`);
+    this.nextButton = questionBox1.eadd('<button />').eitext('Sign in and continue');
+    this.authExplain = questionBox1.eadd('<div class=accountexplain />').eitext(
+      `You will need to sign in with your Google
+       Account to contribute to the project. If you do not have a Google Account, you can
+       create one when you click to continue.`);
     this.nextButton.on('click', async e => await this.handleNext());
 
     // If they previously answered, load their answers
@@ -111,7 +112,7 @@ export class SignupView {
     this.eligible = this.app.data.loadEligibility();
     const hasUser = firebase.auth().currentUser != null;
     this.signinDiv.eshow(!hasUser);
-    this.nextButton.text(hasUser ? 'Continue' : 'Sign in and continue');
+    this.nextButton.eitext(hasUser ? 'Continue' : 'Sign in and continue');
     this.authExplain.eshow(!hasUser);
   }
 

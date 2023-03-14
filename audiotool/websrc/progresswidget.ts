@@ -20,6 +20,7 @@ export class ProgressWidget {
   div: JQuery<HTMLElement>;
   ratio: number = 0;
   html: string = '';
+  l10nArgs: string[] = [];
 
   constructor(parent: JQuery<HTMLElement>, cssClass?: string) {
     this.parent = parent;
@@ -33,8 +34,9 @@ export class ProgressWidget {
     this.draw();
   }
 
-  setHtml(html: string) {
+  setEIHtml(html: string, ...args: string[]) {
     this.html = html;
+    this.l10nArgs = args;
     this.draw();
   }
 
@@ -44,6 +46,6 @@ export class ProgressWidget {
     left.eclass('zero', this.ratio <= 0);
     left.css('width', `${Math.round(this.ratio * 100)}%`);
     left.css('min-width', `${Math.round(this.ratio * 100)}%`);
-    left.html(this.html);
+    left.eihtml(this.html, ...this.l10nArgs);
   }
 }

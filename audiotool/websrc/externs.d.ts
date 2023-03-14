@@ -30,6 +30,8 @@ interface JQuery {
   eaddtr(cellNodes: Array<JQuery<HTMLElement>>, rowClass?: string): Array<JQuery<HTMLElement>>;
   etext(cellText: string): JQuery<HTMLElement>;
   ehtml(cellText: string): JQuery<HTMLElement>;
+  eitext(formatString: string, ...args: string[]): JQuery<HTMLElement>;
+  eihtml(formatString: string, ...args: string[]): JQuery<HTMLElement>;
   evalue(inputValue: string): JQuery<HTMLElement>;
 }
 

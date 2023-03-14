@@ -32,8 +32,8 @@ export class InstructionsView {
     this.div.hide();
 
     // Instructions view, shown after signup but before recording
-    this.div.eadd('<div class=title />').text(`Thanks for signing up for Project Euphonia!`);
-    this.div.eadd('<div class=helptext />').ehtml(`
+    this.div.eadd('<div class=title />').eitext(`Thanks for signing up for Project Euphonia!`);
+    this.div.eadd('<div class=helptext />').eihtml(`
     <ul>
     <li>Please take a moment to watch this video introduction.</li>
     <li>On the next screen, you'll see <b>cards</b> to read aloud.</li>
@@ -44,7 +44,7 @@ export class InstructionsView {
     <li>When you finish recording all the cards, you're done!</li>
     <li>Having trouble recording? <a target="_blank" href="http://g.co/disabilitysupport">Contact us</a> for help.</li>
     `);
-    this.doneButton = this.div.eadd('<button>Get Started</button>');
+    this.doneButton = this.div.eadd('<button />').eitext('Get Started');
     this.doneButton.on('click', async e => await this.app.navigateTo('/setup?passive=true'));
 
     this.video = this.div.eadd('<div class=video />');
@@ -65,7 +65,7 @@ export class InstructionsView {
     }
 
     const hasRecordings = this.data.user && this.data.user.numRecordings > 0;
-    this.doneButton.etext(hasRecordings ? 'Continue recording' : 'Get Started');
+    this.doneButton.eitext(hasRecordings ? 'Continue recording' : 'Get Started');
   }
 
   // Handles data update

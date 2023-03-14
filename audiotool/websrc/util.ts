@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import {formatWithArgs} from '../commonsrc/localization';
+
 // Some simply JQuery conveniences
 $.fn.eadd = function(spec) {
   const newChild = $(spec);
@@ -103,6 +105,17 @@ $.fn.eaddtr = function(cellNodes: JQuery<HTMLElement>[], rowClass?: string): JQu
   }
   return result;
 }
+
+// This is the browser's language or the user's language.
+export let CURRENT_LANGUAGE = 'en-US';
+
+$.fn.eitext = function(formatString: string, ...args: string[]): JQuery<HTMLElement> {
+  return this.etext(formatWithArgs(CURRENT_LANGUAGE, formatString, ...args));
+};
+
+$.fn.eihtml = function(formatString: string, ...args: string[]): JQuery<HTMLElement> {
+  return this.ehtml(formatWithArgs(CURRENT_LANGUAGE, formatString, ...args));
+};
 
 // Awaitable sleep function.
 export function sleep(ms: number) {

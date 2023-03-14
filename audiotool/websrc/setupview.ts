@@ -43,17 +43,17 @@ export class SetupView {
     this.div.hide();
 
     // Basic permission flow
-    this.div.eadd('<div class=title />').text(`Microphone Setup`);
-    this.requestText = this.div.eadd('<div class=requesttext />').ehtml(`
+    this.div.eadd('<div class=title />').eitext(`Microphone Setup`);
+    this.requestText = this.div.eadd('<div class=requesttext />').eihtml(`
         In order to record your speech, Euphonia needs permission to use your microphone
         through your web browser. <b>Please click "Allow"</b> to grant use of your microphone.`);
-    this.deniedText = this.div.eadd('<div class=deniedtext />').etext(`
+    this.deniedText = this.div.eadd('<div class=deniedtext />').eitext(`
         Euphonia could not access your microphone due to a permission problem. You'll need to allow access
         in order to continue.`);
-    this.denied2Text = this.div.eadd('<div class=deniedtext />').ehtml(`
+    this.denied2Text = this.div.eadd('<div class=deniedtext />').eihtml(`
         It looks like your microphone permission is blocked. You'll need to <b>allow access</b>
         by clicking the <b>address bar of your browser</b>, and/or <b>reset permission</b> for the microphone.`);
-    this.successText = this.div.eadd('<div class=successtext />').ehtml(`
+    this.successText = this.div.eadd('<div class=successtext />').eihtml(`
         Your microphone is all set! You can start recording as soon as you're ready.`);
 
     // Advanced microphone settings, only shown after permission is granted
@@ -61,9 +61,9 @@ export class SetupView {
 
     // Action buttons at the bottom
     const buttons = this.div.eadd('<div class=buttonrow />');
-    this.askButton = buttons.eadd('<button class=ask />').etext('Try again');
-    this.doneButton = buttons.eadd('<button class=start />').etext('Start recording!');
-    this.settingsButton = buttons.eadd('<button class=settings />').etext('Microphone settings');
+    this.askButton = buttons.eadd('<button class=ask />').eitext('Try again');
+    this.doneButton = buttons.eadd('<button class=start />').eitext('Start recording!');
+    this.settingsButton = buttons.eadd('<button class=settings />').eitext('Microphone settings');
 
     this.askButton.on('click', async e => await this.tryMicrophone());
     this.doneButton.on('click', async e => await this.app.navigateTo('/record'));
@@ -135,7 +135,7 @@ export class SetupView {
     this.doneButton.eshow(!this.showSettings);
 
     const hasRecordings = this.data.user && this.data.user.numRecordings > 0;
-    this.doneButton.etext(hasRecordings ? 'Continue recording!' : 'Start recording!');
+    this.doneButton.eitext(hasRecordings ? 'Continue recording!' : 'Start recording!');
   }
 
   // Attempts to access the microphone and get permission.
@@ -237,7 +237,7 @@ class MicrophoneSettingsPanel {
   private addDefaultCheckbox() {
     const defaultrow = this.div.eadd('<div class=defaultrow />');
     this.defaultCheckbox = defaultrow.eadd(`<input type=checkbox id="defaultaudiodevice" />`);
-    defaultrow.eadd(`<label for="defaultaudiodevice">Use the default microphone</label>`);
+    defaultrow.eadd(`<label for="defaultaudiodevice" />`).eitext('Use the default microphone');
     this.defaultCheckbox.echecked(this.currentDeviceId == '');
     this.defaultCheckbox.on('input', e => this.updateGUI());
   }
@@ -253,6 +253,7 @@ class MicrophoneSettingsPanel {
       this.deviceCheckboxIds.set(deviceHtmlId, device);
       const buttonrow = this.devicesList.eadd('<div />');
       const radio = buttonrow.eadd(`<input name=micdevice type=radio id="${deviceHtmlId}" />`);
+      // These device labels should already be in the user's language
       buttonrow.eadd(`<label for="${deviceHtmlId}" />`).text(`${device.label}`);
       radio.echecked(device.deviceId == this.currentDeviceId);
       radio.on('input', e => this.updateGUI());
@@ -262,8 +263,8 @@ class MicrophoneSettingsPanel {
   // Adds the save and cancel buttons
   private addButtons() {
     const btns = this.div.eadd('<div class=savebuttonrow />')
-    this.saveButton = btns.eadd('<button class=save />').etext('Save');
-    this.cancelButton = btns.eadd('<button class=cancel />').etext('Cancel');
+    this.saveButton = btns.eadd('<button class=save />').eitext('Save');
+    this.cancelButton = btns.eadd('<button class=cancel />').eitext('Cancel');
     this.saveButton.on('click', e => this.saveMicrophoneChoice());
     this.cancelButton.on('click', e => this.closeSettings());
   }

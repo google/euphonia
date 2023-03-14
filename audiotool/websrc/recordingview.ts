@@ -103,9 +103,9 @@ export class RecordingView {
 
     // Card navigation controls
     const navBox = this.div.eadd('<div class=navpanel />');
-    this.prevButton = navBox.eadd('<button>Previous card</button>');
+    this.prevButton = navBox.eadd('<button />').eitext('Previous card');
     this.doneText = navBox.eadd('<div class=donetext />');
-    this.nextButton = navBox.eadd('<button>Next card</button>');
+    this.nextButton = navBox.eadd('<button />').eitext('Next card');
     this.prevButton.on('click', async e => await this.gotoTask('prev', true));
     this.nextButton.on('click', async e => await this.gotoTask('next', true));
 
@@ -113,11 +113,11 @@ export class RecordingView {
     this.buttonBox = this.div.eadd('<div class=controlpanel />');
     this.secondaryControls = this.buttonBox.eadd('<div class=secondarybuttons />');
     const mainControls = this.buttonBox.eadd('<div class=mainbuttons />');
-    this.listenButton = this.secondaryControls.eadd('<button class=listen>Replay</button>');
-    this.deleteButton = this.secondaryControls.eadd('<button class=delete>Delete</button>');
-    this.recordButton = mainControls.eadd('<button class=record>Record</button>');
-    this.cancelButton = mainControls.eadd('<button class=cancel>Cancel</button>');
-    this.helpButton = mainControls.eadd('<button class=help>?</button>');
+    this.listenButton = this.secondaryControls.eadd('<button class=listen />').eitext('Replay');
+    this.deleteButton = this.secondaryControls.eadd('<button class=delete />').eitext('Delete');
+    this.recordButton = mainControls.eadd('<button class=record />').eitext('Record');
+    this.cancelButton = mainControls.eadd('<button class=cancel />').eitext('Cancel');
+    this.helpButton = mainControls.eadd('<button class=help />').eitext('?');
     this.recordButton.on('click', async e => await this.toggleRecord());
     this.cancelButton.on('click', async e => await this.toggleRecord(false));
     this.deleteButton.on('click', async e => await this.handleDelete());
@@ -220,7 +220,7 @@ export class RecordingView {
     // Navigation is allowed if we're not recording
     this.prevButton.eenable(canNavigate && !isFirst);
     this.nextButton.eenable(canNavigate);
-    this.nextButton.text(isLast ? 'Next' : 'Next card');
+    this.nextButton.eitext(isLast ? 'Next' : 'Next card');
 
     // Listening and deleting are allowed on already-recorded cards
     this.buttonBox.eclass('recorded', showRecordedCardControls);
@@ -229,24 +229,24 @@ export class RecordingView {
     this.listenButton.eshow(showRecordedCardControls && !(isSafari() && this.replayer));
     this.deleteButton.eenable(canNavigate && showRecordedCardControls && !isOldRecording);
     this.listenButton.eenable(canNavigate && showRecordedCardControls);
-    this.deleteButton.text(this.isDeleting ? 'Deleting...' : 'Delete');
-    this.listenButton.text(this.replayingTask ? 'Stop' : 'Replay');
+    this.deleteButton.eitext(this.isDeleting ? 'Deleting...' : 'Delete');
+    this.listenButton.eitext(this.replayingTask ? 'Stop' : 'Replay');
     this.listenButton.eclass('playing', !!this.replayingTask);
 
     // Update the recording button state
     this.recordButton.eenable(hasTasks && !this.isStartingRecord && !this.isStoppingRecord && !this.isDeleting && !isOldRecording);
     this.recordButton.eclass('recording', this.isRecording && !this.isStartingRecord && !this.isStoppingRecord);
     if (this.isStartingRecord) {
-      this.recordButton.text('Starting...');
+      this.recordButton.eitext('Starting...');
     } else if (this.isStoppingRecord) {
-      this.recordButton.text(this.isCanceling ? 'Canceling...' : 'Uploading...');
+      this.recordButton.eitext(this.isCanceling ? 'Canceling...' : 'Uploading...');
     } else if (this.isRecording) {
       this.recordButton.empty();
       this.recordButton.eadd('<div class=spacer />');
-      this.recordButton.eadd('<div class=label />').etext('Done');
+      this.recordButton.eadd('<div class=label />').eitext('Done');
       this.recordButton.eadd('<div class=recordlight />');
     } else {
-      this.recordButton.text(showRecordedCardControls ? 'Record Again' : 'Record');
+      this.recordButton.eitext(showRecordedCardControls ? 'Record Again' : 'Record');
     }
 
     // We allow recording to be canceled if it's running
@@ -271,12 +271,12 @@ export class RecordingView {
       // Show the current card(s)
       this.cardDiv.eclass('recorded', showRecordedCardControls);
       this.cardDiv.empty();
-      this.cardDiv.eadd('<div class=text />').text(this.task.task.prompt);
-      this.doneText.html(showRecordedCardControls ? '(this card is done)' : '');
+      this.cardDiv.eadd('<div class=text />').text(this.task.task.prompt);  // prompts are already localized
+      this.doneText.eihtml(showRecordedCardControls ? '(this card is done)' : '');
 
     } else {
       // Show an empty view
-      this.cardDiv.text('No assignments');
+      this.cardDiv.eitext('No assignments');
     }
 
     // Show progress indicators and card text
@@ -284,9 +284,12 @@ export class RecordingView {
     if (user) {
       const isDone = user.numCompletedTasks >= user.numTasks;
       if (isDone) {
-        this.progressBar.setHtml(`Congratulations! You're all done!`);
+        this.progressBar.setEIHtml(`Congratulations! You're all done!`);
       } else {
-        this.progressBar.setHtml(`<b>${user.numCompletedTasks}</b> of <b>${user.numTasks}</b> cards <b>done</b>`);
+        this.progressBar.setEIHtml(
+            `<b>{number_of_completed_cards}</b> of <b>{total_number_of_tasks_needed}</b> cards <b>done</b>`,
+            'number_of_completed_cards', `${user.numCompletedTasks}`,
+            'total_number_of_tasks_needed', `${user.numTasks}`);
       }
       this.progressBar.setRatio(user.numCompletedTasks / user.numTasks);
       this.progressBar.div.eclass('done', isDone);
