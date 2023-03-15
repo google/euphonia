@@ -20,7 +20,7 @@ export const MAX_DELETABLE_RECORDING_AGE_MS = 24 * 3600 * 1000;  // 24 hours
 
 // Supported languages
 export const SUPPORTED_LANGUAGES = new Set([
-  'en-US', 'en-GB', 'fr-FR', 'es-ES'
+  'en-US', 'en-GB', 'fr-FR', 'es-ES', 'hi-HI', 'ja-JP'
 ]);
 
 // Paths of documents, collections, and sub-collections

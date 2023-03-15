@@ -16,442 +16,411 @@
 
 import { ELocaleString } from './schema';
 
-export const ES_STRINGS: ELocaleString[] = [
+export const HI_STRINGS: ELocaleString[] = [
   {
     key: `Welcome to Project Euphonia!`,
     description: `Signup screen and consent screen titles`,
-    text: `¡Bienvenido al Proyecto Euphonia!`
-  },
-  {
+    text: `प्रोजेक्ट यूफोनिया में आपका स्वागत है!`
+    },
+    {
     key: `We're exploring how Google products and services
-  that use speech as an input method could work better for more people. We're seeking
-  voice contributions from adults who have difficulty being understood by others.
-
-  Voice samples can help us improve how Google understands individuals with speech
-  impairments.`,
+    that use speech as an input method could work better for more people. We're seeking
+    voice contributions from adults who have difficulty being understood by others.
+    Voice samples can help us improve how Google understands individuals with speech
+    impairments.`,
     description: `Signup screen`,
-    text: `
-    Exploramos cómo los productos y servicios de Google que utilizan la voz como método de entrada podrían funcionar mejor para más usuarios.
-    
-    Estamos buscando contribuciones de voz de adultos que tienen dificultades para ser entendidos por otros.
-    
-    Las muestras de voz pueden ayudarnos a mejorar la forma en que Google entiende a las personas con problemas del habla.
-    `
-  },
-  {
+    text: `हम खोज रहे हैं कि कैसे Google उत्पाद और सेवाएं जो भाषण को इनपुट विधि के रूप में उपयोग करती हैं, वे अधिक लोगों के लिए बेहतर काम कर सकते हैं। हम उन वयस्कों से आवाज योगदान की मांग कर रहे हैं जिन्हें दूसरों द्वारा समझने में कठिनाई होती है। आवाज के नमूने हमें यह बेहतर बनाने में मदद कर सकते हैं कि Google भाषण हानि वाले व्यक्तियों को कैसे समझता है।`
+    },
+    {
     key: `<b>IMPORTANT:</b> If you're filling out
-  this form on behalf of someone else, please ensure you have their permission
-  to do so.`,
+    this form on behalf of someone else, please ensure you have their permission
+    to do so.`,
     description: `Signup screen`,
-    text: `
-     <b>IMPORTANTE:</b> si está completando este formulario en nombre de otra persona, asegúrese de tener su permiso para hacerlo. 
-    `
-  },
-  {
+    text: `<b> महत्वपूर्ण: </b> यदि आप किसी और की ओर से इस फॉर्म को भर रहे हैं, तो कृपया सुनिश्चित करें कि आपके पास ऐसा करने की अनुमति है।`
+    },
+    {
     key: `Questions?
-  <a target="_blank" href="mailto:euphonia-project@google.com">Contact Us</a>`,
+    <a target="_blank" href="mailto:euphonia-project@google.com">Contact Us</a>`,
     description: `Signup screen`,
-    text: `¿Preguntas? <a target="_blank" href="mailto:euphonia-project@google.com"> contáctenos</a>`
-  },
-  {
+    text: `प्रशन? <a target="_blank" href="mailto:euphonia-project@google.com"> हमसे संपर्क करें </a>`
+    },
+    {
     key: `Already enrolled? &nbsp;`,
     description: `Signup screen`,
-    text: `Ya inscrito? &nbsp;`
-  },
-  {
+    text: `पहले से ही नामांकित? & nbsp;`
+    },
+    {
     key: `Click to sign in and continue recording`,
     description: `Signup screen`,
-    text: `Haga clic para iniciar sesión y continuar grabando`
-  },
-  {
+    text: `साइन इन करने और रिकॉर्डिंग जारी रखने के लिए क्लिक करें`
+    },
+    {
     key: `To get started, please confirm your eligibility:`,
     description: `Signup screen`,
-    text: `Para comenzar, por favor confirmar...`
-  },
-  {
+    text: `आरंभ करने के लिए, कृपया अपनी पात्रता की पुष्टि करें:`
+    },
+    {
     key: `Strangers, or voice technologies like Google Assistant, have difficulty understanding my speech (not because of an accent)`,
     description: `Signup screen eligibility question`,
-    text: `
-    A las personas que acabo de conocer o a las personas extrañas les resulta difícil entender mi habla (no por el acento)
-    `
-  },
-  {
+    text: `Google सहायक जैसी अजनबियों, या वॉयस टेक्नोलॉजीज को मेरे भाषण को समझने में कठिनाई होती है (एक उच्चारण के कारण नहीं)`
+    },
+    {
     key: `I am at least 18 years of age`,
     description: `Signup screen eligibility question`,
-    text: `Soy mayor de 18 años.`
-  },
-  {
+    text: `मैं कम से कम 18 साल का हूँ`
+    },
+    {
     key: `Sign in and continue`,
     description: `Signup screen button`,
-    text: `Iniciar sesión y continuar`
-  },
-  {
+    text: `साइन इन करें और जारी रखें`
+    },
+    {
     key: `You will need to sign in with your Google
-  Account to contribute to the project. If you do not have a Google Account, you can
-  create one when you click to continue.`,
+    Account to contribute to the project. If you do not have a Google Account, you can
+    create one when you click to continue.`,
     description: `Signup screen instructions`,
-    text: `Deberá iniciar sesión con su cuenta de Google para contribuir al proyecto. Si no tiene una cuenta de Google, puede crear una cuando haga clic para continuar.`
-  },
-  {
+    text: `परियोजना में योगदान करने के लिए आपको अपने Google खाते के साथ साइन इन करना होगा। यदि आपके पास Google खाता नहीं है, तो आप जारी रखने के लिए क्लिक करने पर एक बना सकते हैं।`
+    },
+    {
     key: `Next`,
     description: `Interest form button, advance to the next screen`,
-    text: `Próximo`
-  },
-  {
+    text: `अगला`
+    },
+    {
     key: `Go Back`,
     description: `Interest form button, go back to the signup screen`,
-    text: `Regresa`
-  },
-  {
+    text: `वापस जाओ`
+    },
+    {
     key: `You must agree to the terms to continue.`,
     description: `Consent form screen, require consent to proceed`,
-    text: `Debe aceptar los términos para continuar.`
-  },
-  {
+    text: `आपको जारी रखने के लिए शर्तों से सहमत होना चाहिए।`
+    },
+    {
     key: `Reset form and start over`,
     description: `Interest form button, clear fields and start over`,
-    text: `Reiniciar el formulario y comenzar de nuevo`
-  },
-  {
+    text: `फॉर्म रीसेट करें और शुरू करें`
+    },
+    {
     key: `You are enrolling as <b id=whoisenrolling>&nbsp;</b>.
-  Please review the following agreement: <span id=consentcounter></span>`,
+    Please review the following agreement: <span id=consentcounter></span>`,
     description: `Consent screen instructions`,
-    text: `Se está inscribiendo como <b id=whoisenrolling>&nbsp;</b>. Revise el siguiente acuerdo: <span id=consentCounter></span>`
-  },
-  {
+    text: `आप <b id = whisenrolling> & nbsp; </b> के रूप में नामांकन कर रहे हैं। कृपया निम्नलिखित समझौते की समीक्षा करें: <स्पैन आईडी = सहमति> </span>`
+    },
+    {
     key: `Thanks for signing up for Project Euphonia!`,
     description: `Instructions screen title`,
-    text: `¡Gracias por registrarse en el Proyecto Euphonia!`
-  },
-  {
+    text: `प्रोजेक्ट यूफोनिया के लिए साइन अप करने के लिए धन्यवाद!`
+    },
+    {
     key: `    <ul>
-  <li>Please take a moment to watch this video introduction.</li>
-  <li>On the next screen, you'll see <b>cards</b> to read aloud.</li>
-  <li>You'll want to be in a <b>quiet setting</b> and avoid any background noise.</li>
-  <li>You'll press the blue Record button, and then <b>read the
-  card aloud</b>, as accurately as possible.</li>
-  <li>When you are <b>finished speaking</b>, press the blue button again to stop recording.</li>
-  <li>When you finish recording all the cards, you're done!</li>
-  <li>Having trouble recording? <a target="_blank" href="http://g.co/disabilitysupport">Contact us</a> for help.</li>`,
+    <li>Please take a moment to watch this video introduction.</li>
+    <li>On the next screen, you'll see <b>cards</b> to read aloud.</li>
+    <li>You'll want to be in a <b>quiet setting</b> and avoid any background noise.</li>
+    <li>You'll press the blue Record button, and then <b>read the
+    card aloud</b>, as accurately as possible.</li>
+    <li>When you are <b>finished speaking</b>, press the blue button again to stop recording.</li>
+    <li>When you finish recording all the cards, you're done!</li>
+    <li>Having trouble recording? <a target="_blank" href="http://g.co/disabilitysupport">Contact us</a> for help.</li>`,
     description: `Instructions screen details`,
-    text: `    <ul>
-    <li> Tómese un momento para ver esta introducción de video.</li>
-    <li> En la siguiente pantalla, verá <b> tarjetas</b> para leer en voz alta.</li>
-    <li> Querrá estar en una <b>configuración silenciosa</b> y evitar cualquier ruido de fondo.</li>
-    <li> Presionará el botón de registro azul y luego <b>lea la tarjeta en voz alta</b>, con la mayor precisión posible.</li>
-    <li> Cuando haya <b>terminado de hablar</b>, presione el botón azul nuevamente para dejar de grabar.</li>
-    <li> Cuando termine de grabar todo ¡Las tarjetas, terminaste!</li>
-    <li> ¿Tiene problemas para grabar? <a target="_blank" href="http://g.co/disabilitysupport">contáctenos</a> para obtener ayuda.</li>`
-  },
-  {
+    text: `    <ul> <li> कृपया इस वीडियो परिचय को देखने के लिए एक क्षण लें। </li> <li> अगली स्क्रीन पर, आप जोर से पढ़ने के लिए <b> कार्ड </b> देखेंगे। </li> <li > आप एक <b> शांत सेटिंग </b> में रहना चाहते हैं और किसी भी पृष्ठभूमि शोर से बचें। /b>, यथासंभव सटीक रूप से कार्ड, आप कर रहे हैं! </li> <li> रिकॉर्डिंग में परेशानी हो रही है? <a target="_blank" href="http://g.co/disabilitySupport"> मदद के लिए हमसे संपर्क करें </li> </li>`
+    },
+    {
     key: `Get Started`,
     description: `Instructions screen button to continue to next screen`,
-    text: `Empezar`
-  },
-  {
+    text: `शुरू हो जाओ`
+    },
+    {
     key: `Microphone Setup`,
     description: `Microphone and settings screen title`,
-    text: `Configuración de micrófono`
-  },
-  {
+    text: `माइक्रोफोन सेटअप`
+    },
+    {
     key: `
-  In order to record your speech, Euphonia needs permission to use your microphone
-  through your web browser. <b>Please click "Allow"</b> to grant use of your microphone.`,
+    In order to record your speech, Euphonia needs permission to use your microphone
+    through your web browser. <b>Please click "Allow"</b> to grant use of your microphone.`,
     description: `Microphone permission instructions`,
-    text: ` Para registrar su discurso, Euphonia necesita permiso para usar su micrófono a través de su navegador web. <b>Haga clic en "Permitir"</b>
-         para otorgar el uso de su micrófono.`
-  },
-  {
+    text: ` अपने भाषण को रिकॉर्ड करने के लिए, यूफोनिया को अपने वेब ब्राउज़र के माध्यम से अपने माइक्रोफोन का उपयोग करने की अनुमति की आवश्यकता है। <b> कृपया अपने माइक्रोफोन का उपयोग करने के लिए "अनुमति दें" </b> पर क्लिक करें।`
+    },
+    {
     key: `
-  Euphonia could not access your microphone due to a permission problem. You'll need to allow access
-  in order to continue.`,
+    Euphonia could not access your microphone due to a permission problem. You'll need to allow access
+    in order to continue.`,
     description: `Microphone permission error message`,
-    text: ` Euphonia no pudo acceder a su micrófono debido a un problema de permiso. Deberá permitir el acceso para continuar.`
-  },
-  {
+    text: ` एक अनुमति समस्या के कारण यूफोनिया आपके माइक्रोफोन तक नहीं पहुंच सकता था। आपको जारी रखने के लिए एक्सेस की अनुमति देनी होगी।`
+    },
+    {
     key: `
-  It looks like your microphone permission is blocked. You'll need to <b>allow access</b>
-  by clicking the <b>address bar of your browser</b>, and/or <b>reset permission</b> for the microphone.`,
+    It looks like your microphone permission is blocked. You'll need to <b>allow access</b>
+    by clicking the <b>address bar of your browser</b>, and/or <b>reset permission</b> for the microphone.`,
     description: `Microphone permission error message`,
-    text: ` Parece que su permiso de micrófono está bloqueado.
-        Deberá <b>permitir el acceso</b> haciendo clic en la barra de direcciones <b>de su navegador</b>,
-        y/o <b>Restablecer permiso</b> para el micrófono.`
-  },
-  {
+    text: ` ऐसा लगता है कि आपकी माइक्रोफोन की अनुमति अवरुद्ध है। आपको माइक्रोफोन के लिए अपने ब्राउज़र </b>, और/या <b> रीसेट अनुमति </b> के <b> एड्रेस बार पर क्लिक करके <b> एक्सेस </b> की अनुमति देने की आवश्यकता होगी।`
+    },
+    {
     key: `
-  Your microphone is all set! You can start recording as soon as you're ready.`,
+    Your microphone is all set! You can start recording as soon as you're ready.`,
     description: `Microphone permission success message`,
-    text: `¡Tu micrófono está listo! Puedes comenzar a grabar tan pronto como estés listo.`
-  },
-  {
+    text: ` आपका माइक्रोफोन सभी सेट है! जैसे ही आप तैयार होते हैं आप रिकॉर्डिंग शुरू कर सकते हैं।`
+    },
+    {
     key: `Use the default microphone`,
     description: `Let's the user choose the browser's default recording device instead of picking one explicitly`,
-    text: `Use el micrófono predeterminado`
-  },
-  {
+    text: `डिफ़ॉल्ट माइक्रोफोन का उपयोग करें`
+    },
+    {
     key: `Save`,
     description: `Microphone configuration screen, accept changes to microphone device`,
-    text: `Ahorrar`
-  },
-  {
+    text: `बचाना`
+    },
+    {
     key: `Try again`,
     description: `Microphone permission failure retry button`,
-    text: `Intentar otra vez`
-  },
-  {
+    text: `पुनः प्रयास करें`
+    },
+    {
     key: `Start recording!`,
     description: `Microphone setup screen button, continue to recording screen`,
-    text: `¡Empezar a grabar!`
-  },
-  {
+    text: `रिकॉर्डिंग शुरू!`
+    },
+    {
     key: `Microphone settings`,
     description: `Microphone setup screen title`,
-    text: `Configuración de micrófono`
-  },
-  {
+    text: `माइक्रोफोन सेटिंग्स`
+    },
+    {
     key: `Previous card`,
     description: `Recording screen button, go back to prior card`,
-    text: `Tarjeta anterior`
-  },
-  {
+    text: `पिछला कार्ड`
+    },
+    {
     key: `Next card`,
     description: `Recording screen button, go forward to next card`,
-    text: `Siguiente tarjeta`
-  },
-  {
+    text: `अगला कार्ड`
+    },
+    {
     key: `Replay`,
     description: `Recording screen button, listen to previously recorded audio`,
-    text: `Repetición`
-  },
-  {
+    text: `REPLAY`
+    },
+    {
     key: `Stop`,
     description: `Recording screen button, to interrupt a recording that's currently being played back`,
-    text: `Detener`
-  },
-  {
+    text: `रुकना`
+    },
+    {
     key: `Delete`,
     description: `Recording screen button, delete a previous recording`,
-    text: `Borrar`
-  },
-  {
+    text: `मिटाना`
+    },
+    {
     key: `Deleting...`,
     description: `Recording screen button, shown briefly while the recording is being deleted`,
-    text: `Eliminar...`
-  },
-  {
+    text: `हटाना ...`
+    },
+    {
     key: `Record`,
     description: `Recording screen button, record audio for a card`,
-    text: `Registro`
-  },
-  {
+    text: `अभिलेख`
+    },
+    {
     key: `Record Again`,
     description: `Recording screen button, record audio for a card that already has been recorded`,
-    text: `Registrar nuevamente`
-  },
-  {
+    text: `फिर से रिकॉर्ड करना`
+    },
+    {
     key: `(this card is done)`,
     description: `Labels tasks that have already been recorded once`,
-    text: `(esta tarjeta está hecha)`
-  },
-  {
+    text: `(यह कार्ड किया जाता है)`
+    },
+    {
     key: `Cancel`,
     description: `Recording screen button and microphone setting screen button, cancel recording / microphone changes`,
-    text: `Cancelar`
-  },
-  {
+    text: `रद्द करना`
+    },
+    {
     key: `Done`,
     description: `Recording screen button, shown while recording to end the recording and start uploading it`,
-    text: `Hecho`
-  },
-  {
+    text: `पूर्ण`
+    },
+    {
     key: `Canceling...`,
     description: `Recording screen button, shown briefly when the recording is being canceled`,
-    text: `Cancelado...`
-  },
-  {
+    text: `रद्द करना ...`
+    },
+    {
     key: `Uploading...`,
     description: `Recording screen button, shown briefly when the recording is being uploaded`,
-    text: `Subiendo...`
-  },
-  {
+    text: `अपलोड करना ...`
+    },
+    {
     key: `?`,
     description: `Recording screen button, go to help screen`,
     text: `?`
-  },
-  {
+    },
+    {
     key: `Continue`,
     description: `Sign up screen and consent screen buttons, continue to the next page`,
-    text: `Continuar`
-  },
-  {
+    text: `जारी रखना`
+    },
+    {
     key: `No assignments`,
     description: `Recording screen, message when the user has no cards to work on`,
-    text: `Sin tareas`
-  },
-  {
+    text: `कोई असाइनमेंट नहीं`
+    },
+    {
     key: `<b>{number_of_completed_cards}</b> of <b>{total_number_of_tasks_needed}</b> cards <b>done</b>`,
     description: `Recording screen, progress message of tasks completed so far`,
-    text: `<b>{number_of_completed_cards}</b> de <b>{total_number_of_tasks_needed}</b> tarjetas <b>hechas</b>`
-  },
-  {
+    text: `<b> {number_of_completed_cards} </b> <b> {total_number_of_tasks_needed}`
+    },
+    {
     key: `Thank you!`,
     description: `Done screen title, shown when the user has finished at least one pass`,
-    text: `¡Gracias!`
-  },
-  {
+    text: `धन्यवाद!`
+    },
+    {
     key: `          Great work! You've gone through the cards once, and recorded
-  <b class=count>{number_of_completed_cards} cards</b>
-  out of the total (<b>{total_number_of_tasks_needed} cards</b>).
-  When you're ready, you can click the button below to finish up the rest of the cards.      `,
+    <b class=count>{number_of_completed_cards} cards</b>
+    out of the total (<b>{total_number_of_tasks_needed} cards</b>).
+    When you're ready, you can click the button below to finish up the rest of the cards.      `,
     description: `Done screen instructions, asks the user to go finish the rest of the cards`,
-    text: `          ¡Buen trabajo! Has pasado por las tarjetas una vez, y registrado
-    <b class=count>{number_of_completed_cards} tarjetas</b> fuera de las tarjetas Total (<b>{total_number_of_tasks_needed}</b>).
-    Cuando esté listo, puede hacer clic en el botón de abajo para finalizar el resto de las tarjetas.`
-  },
-  {
+    text: `          महान काम! आप एक बार कार्ड के माध्यम से गए हैं, और रिकॉर्ड किए गए हैं <b class = count> {number_of_completed_cards} कार्ड </b> कुल में से (<b> {total_number_of_tasks_needed} कार्ड </b>)। जब आप तैयार हों, तो आप बाकी कार्डों को समाप्त करने के लिए नीचे दिए गए बटन पर क्लिक कर सकते हैं।`
+    },
+    {
     key: `          You're almost done! You've gone through the cards once, and recorded
-  <b class=count>{number_of_completed_cards} cards</b>
-  out of the total (<b>{total_number_of_tasks_needed} cards</b>).
-  When you're ready, you can click the button below to finish up the rest of the cards.      `,
-    description: `Done screen instructions, asks the user to go finish the rest of the cards.
-  This version displays when the user has done more than 75% of the work.`,
-    text: `          ¡Ya casi terminas! Has pasado por las tarjetas una vez, y registrado
-    <b class=count> {number_of_completed_cards} tarjetas</b>
-    fuera de las tarjetas total (<b>{Total_Number_of_Tasks_Needed}</b>).
-    Cuando esté listo, puede hacer clic en el botón de abajo para finalizar el resto de las tarjetas.`
-  },
-  {
+    <b class=count>{number_of_completed_cards} cards</b>
+    out of the total (<b>{total_number_of_tasks_needed} cards</b>).
+    When you're ready, you can click the button below to finish up the rest of the cards.      `,
+    description: `Done screen instructions, asks the user to go finish the rest of the cards. This version displays when the user has done more than 75% of the work.`,
+    text: `          लगभग काम हो गया! आप एक बार कार्ड के माध्यम से गए हैं, और रिकॉर्ड किए गए हैं <b class = count> {number_of_completed_cards} कार्ड </b> कुल में से (<b> {total_number_of_tasks_needed} कार्ड </b>)। जब आप तैयार हों, तो आप बाकी कार्डों को समाप्त करने के लिए नीचे दिए गए बटन पर क्लिक कर सकते हैं।`
+    },
+    {
     key: `Continue Recording`,
     description: `Done screen and instructions screen buttons, return to the recording screen`,
-    text: `Continuar grabando`
-  },
-  {
+    text: `रिकॉर्डिंग जारी रखें`
+    },
+    {
     key: `Continue recording!`,
     description: `Microphone settings screen, return to the recording screen`,
-    text: `¡Continúa grabando!`
-  },
-  {
+    text: `रिकॉर्डिंग जारी रखें!`
+    },
+    {
     key: `You previously indicated that you are eligible.`,
     description: `Signup screen, a message showing that the participant has already completed this form`,
-    text: `Anteriormente indicó que es elegible.`
-  },
-  {
+    text: `आपने पहले संकेत दिया था कि आप पात्र हैं।`
+    },
+    {
     key: `You have already completed this form.`,
     description: `Interest form screen, a message showing that the participant has already completed this form`,
-    text: `Ya ha completado este formulario.`
-  },
-  {
+    text: `आप पहले ही इस फॉर्म को पूरा कर चुके हैं।`
+    },
+    {
     key: `Country is required.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Se requiere país.`
-  },
-  {
+    text: `देश की आवश्यकता है।`
+    },
+    {
     key: `State is required.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Se requiere estado.`
-  },
-  {
+    text: `राज्य की आवश्यकता है।`
+    },
+    {
     key: `Please tell us if someone will be helping you record.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Por favor, díganos si alguien le ayudará a grabar.`
-  },
-  {
+    text: `कृपया हमें बताएं कि क्या कोई आपको रिकॉर्ड करने में मदद करेगा।`
+    },
+    {
     key: `Please tell us how to email the person helping you.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Por favor, díganos cómo enviarle un correo electrónico a la persona que lo ayuda.`
-  },
-  {
+    text: `कृपया हमें बताएं कि आपकी मदद करने वाले व्यक्ति को कैसे ईमेल करें।`
+    },
+    {
     key: `You'll need to give consent to proceed.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Deberá dar su consentimiento para continuar.`
-  },
-  {
+    text: `आपको आगे बढ़ने के लिए सहमति देने की आवश्यकता होगी।`
+    },
+    {
     key: `Please write your initials next to your consent.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Por favor escriba sus iniciales junto a su consentimiento.`
-  },
-  {
+    text: `कृपया अपनी सहमति के बगल में अपने शुरुआती लिखें।`
+    },
+    {
     key: `You'll need to accept the terms to proceed.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Deberá aceptar los términos para proceder.`
-  },
-  {
+    text: `आपको आगे बढ़ने के लिए शर्तों को स्वीकार करना होगा।`
+    },
+    {
     key: `You have already consented.`,
     description: `Consent screen, a message showing that the participant has already completed this form`,
-    text: `Ya has consentido.`
-  },
-  {
+    text: `आपने पहले ही सहमति दी है।`
+    },
+    {
     key: `I agree to the terms above`,
     description: `Consent screen, indicates that the participant consents`,
-    text: `Estoy de acuerdo con los términos anteriores`
-  },
-  {
+    text: `मैं उपरोक्त शर्तों से सहमत हूं`
+    },
+    {
     key: `&nbsp;(Agreement {which_agreement_number} of {total_number_of_agreements})`,
     description: ``,
-    text: `&nbsp;(acuerdo {which_agreement_number} de {total_number_of_agreements})`
-  },
-  {
+    text: `& nbsp; (समझौता {{total_number_of_agreements} का {_agreement_number}})`
+    },
+    {
     key: `Congratulations! You're all done!`,
     description: `Progress bar display when there are no tasks left to do`,
-    text: `¡Felicidades! ¡Ya has terminado!`
-  },
-  {
+    text: `बधाई हो! तुम सब हो जाओ!`
+    },
+    {
     key: `Congratulations!`,
     description: `Title of the done screen`,
-    text: `¡Felicidades!`
-  },
-  {
+    text: `बधाई हो!`
+    },
+    {
     key: `Review Recordings (optional)`,
     description: `Button on done screen which returns to the recording screen, if the user wants to listen to recordings`,
-    text: `Revisar grabaciones (opcional)`
-  },
-  {
+    text: `रिकॉर्डिंग की समीक्षा करें (वैकल्पिक)`
+    },
+    {
     key: `
-  You have completed all your cards! We'll be reviewing them soon, and if everything
-  looks good, you'll be receiving an email from rewards@perks.com within the next 7-10
-  business days with a link to claim your gift card.
-  <br/><br/>
-  <b>Thank you for contributing <b class=count>{number_of_completed_cards} cards</b> to Project Euphonia!</b>
-  <br/><br/>
-  (If you wish, you can now go back and review your recordings, but this is not necessary. <b>You're done!</b>)`,
+    You have completed all your cards! We'll be reviewing them soon, and if everything
+    looks good, you'll be receiving an email from rewards@perks.com within the next 7-10
+    business days with a link to claim your gift card.
+    <br/><br/>
+    <b>Thank you for contributing <b class=count>{number_of_completed_cards} cards</b> to Project Euphonia!</b>
+    <br/><br/>
+    (If you wish, you can now go back and review your recordings, but this is not necessary. <b>You're done!</b>)`,
     description: `Descriptive text on the done screen`,
-    text: ` ¡Has completado todas tus tarjetas! Los revisaremos pronto, y si todo se ve bien, recibirá un correo electrónico de recwards@perks.com en los próximos 7-10 días hábiles con un enlace para reclamar su tarjeta de regalo.
-    <br/><br/>
-    <b>¡Gracias por contribuir con <b class=count>{number_of_completed_cards} tarjetas</b> para proyectar Euphonia!</b>
-    <br/><br/>
-  (si lo desea, Ahora puede regresar y revisar sus grabaciones, pero esto no es necesario. <b>¡Ya ha terminado!</b>)`
+    text: ` आपने अपने सभी कार्ड पूरा कर लिया है! हम जल्द ही उनकी समीक्षा करेंगे, और अगर सब कुछ अच्छा लग रहा है, तो आपको अपने उपहार कार्ड का दावा करने के लिए एक लिंक के साथ अगले 7-10 व्यावसायिक दिनों के भीतर rwards@perks.com से एक ईमेल प्राप्त होगा। <br/> <br/> <b> योगदान देने के लिए धन्यवाद <b class = count> {number_of_completed_cards} कार्ड </b> प्रोजेक्ट करने के लिए Euphonia! </b> <br/> <br/> (यदि आप चाहें, अब आप वापस जा सकते हैं और अपनी रिकॉर्डिंग की समीक्षा कर सकते हैं, लेकिन यह आवश्यक नहीं है। <b> आप कर रहे हैं! </b>)`
   },
-
   {
     key: `__INTEREST_FORM_HTML__`,
     description: `The HTML for the interest form; all HTML IDs must be intact exactly as is!`,
 
+    // Each translatable string is on a line by itself to make it a little easier to translate
     text: `
 
     <div class=title
-    >Google Project Euphonia: formulario de interés</div>
+    >Google प्रोजेक्ट यूफोनिया: ब्याज फॉर्म</div>
     <div class=sectiontitle
-    >Acerca de ti</div>
+    >आपके बारे में</div>
     <div class=formbox>
     <div class=fieldname><label for=ifname
-    >Nombre</label>
+    >नाम</label>
     <span class=optional
-    >(Opcional)</span>
+    >(वैकल्पिक)</span>
     </div>
     <div class=fielddescription
-    >Apodo, primero y Apellido, solo primer nombre, etc. de cualquier forma que desee ser abordado!</div>
+    >उपनाम, पहला &amp; अंतिम नाम, बस पहला नाम, आदि किसी भी तरह से आप संबोधित करना पसंद करते हैं!</div>
     <input id=ifname class=formtext />
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifcountry
-    >¿En qué país reside?</label>
+    >आप किस देश में रहते हैं?</label>
     <span class=required>*</span></div>
     <div class=fielddescription
-    >Importante, tenga en cuenta: lamentablemente no podemos enviar tarjetas de regalo en este momento a los residentes de los países indicados a continuación con un asterisco (*). Si reside en uno de estos países, aún puede participar en la investigación del Proyecto Euphonia, y le notificaremos si y cuándo podrá recibir tarjetas de regalo.
+    >महत्वपूर्ण, कृपया ध्यान दें: हम इस समय गिफ्ट कार्ड भेजने में असमर्थ हैं, जो कि एक तारांकन (*) के साथ नीचे दिए गए देशों के निवासियों के लिए हैं। यदि आप इन देशों में से किसी एक में रहते हैं, तो आपको प्रोजेक्ट यूफोनिया रिसर्च में भाग लेने के लिए अभी भी स्वागत है, और हम आपको सूचित करेंगे कि क्या और जब आप उपहार कार्ड प्राप्त कर पाएंगे।
     </div>
     <select id=ifcountry class=formselect>
-    <option value="Spain">España</option>
+    <option value="India">भारत</option>
     <option value="USA">United States of America</option>
     <option value="* Afghanistan">* Afghanistan</option>
     <option value="* Albania">* Albania</option>
@@ -535,7 +504,6 @@ export const ES_STRINGS: ELocaleString[] = [
     <option value="Hong Kong">Hong Kong</option>
     <option value="Hungary">Hungary</option>
     <option value="Iceland">Iceland</option>
-    <option value="India">India</option>
     <option value="Indonesia">Indonesia</option>
     <option value="* Iran">* Iran</option>
     <option value="* Iraq">* Iraq</option>
@@ -626,6 +594,7 @@ export const ES_STRINGS: ELocaleString[] = [
     <option value="South Africa">South Africa</option>
     <option value="South Korea">South Korea</option>
     <option value="* South Sudan">* South Sudan</option>
+    <option value="Spain">Spain</option>
     <option value="Sri Lanka">Sri Lanka</option>
     <option value="* Sudan">* Sudan</option>
     <option value="Suriname">Suriname</option>
@@ -662,7 +631,7 @@ export const ES_STRINGS: ELocaleString[] = [
     
     <div class=formbox id=usstatebox>
     <div class=fieldname><label for=ifstate
-    >¿En qué estado o territorio reside?</label>
+    >आप किस राज्य या क्षेत्र में रहते हैं?</label>
     <span class=required>*</span></div>
     <select id=ifstate class=formselect>
     <option value=""></option>
@@ -726,183 +695,183 @@ export const ES_STRINGS: ELocaleString[] = [
     
     <div class=formbox>
     <div class=fieldname><label for=ifcity
-    >¿En qué ciudad vives?</label>
+    >आप किस शहर में रहते हैं?</label>
     <span class=optional
-    >(Opcional)</span>
+    >(वैकल्पिक)</span>
     </div>
     <input id=ifcity class=formtext />
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifaccent
-    >¿Cómo caracterizarías tu acento?</label>
+    >आप अपने उच्चारण को कैसे चिह्नित करेंगे?</label>
     <span class=optional
-    >(Opcional)</span>
+    >(वैकल्पिक)</span>
     </div>
     <input id=ifaccent class=formtext />
     </div>
     
     <div class=sectiontitle
-    >Información adicional</div>
+    >अतिरिक्त जानकारी</div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifreferral
-    >Cuéntanos cómo escuchaste sobre este proyecto</label>
+    >कृपया हमें बताएं कि आपने इस परियोजना के बारे में कैसे सुना</label>
     <span class=optional
-    >(Opcional)</span>
+    >(वैकल्पिक)</span>
     </div>
     <input id=ifreferral class=formtext />
     </div>
     
     <div class=formbox role=radiogroup id=ifgendergroup style="display: none;">
     <div class=fieldname><label for=ifgendergroup
-    >Cuál es su género</label>
+    >आपका लिंग क्या है</label>
     <span class=optional
-    >(Opcional)</span>
+    >(वैकल्पिक)</span>
     </div>
     <div class=checkboxrow>
     <input type=radio name=ifgender id=ifgenderfemale />
     <label for=ifgenderfemale
-    >Femenino</label>
+    >महिला</label>
     </div>
     <div class=checkboxrow>
     <input type=radio name=ifgender id=ifgendermale />
     <label for=ifgendermale
-    >Masculino</label>
+    >नर</label>
     </div>
     <div class=checkboxrow>
     <input type=radio name=ifgender id=ifgenderno />
     <label for=ifgenderno
-    >Prefiero no decirlo</label>
+    >चुप रहना पसंद करूंगा</label>
     </div>
     <div class=checkboxrow>
     <input type=radio name=ifgender id=ifgenderother />
     <label for=ifgenderother
-    >Otro:</label>
+    >अन्य:</label>
     <input type=text class=formtext id=ifgenderothertext />
     </div>
     </div>
     
     <div class=formbox style="display: none;">
     <div class=fieldname><label for=ifrace
-    >Cuál es su raza</label>
+    >आपकी नस्ल क्या है</label>
     <span class=optional
-    >(Opcional)</span>
+    >(वैकल्पिक)</span>
     </div>
     <input id=ifrace class=formtext />
     </div>
     
     <div class=formbox>
     <div class=fieldname
-    >¿A cuál de estos tiene acceso?
+    >आपके पास इनमें से किसकी पहुंच है?
     <span class=optional
-    >(Opcional)</span>
+    >(वैकल्पिक)</span>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifdevicecomputer />
     <label for=ifdevicecomputer
-    >Una computadora conectada a Internet equipada con un micrófono y altavoces</label>
+    >एक इंटरनेट-कनेक्टेड कंप्यूटर एक माइक्रोफोन और स्पीकर से सुसज्जित है</label>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifdeviceandroid />
     <label for=ifdeviceandroid
-    >Un teléfono o tableta Android (como un Samsung, Pixel, Nexus, etc.)</label>
+    >एक एंड्रॉइड फोन या टैबलेट (जैसे सैमसंग, पिक्सेल, नेक्सस, आदि)</label>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifdeviceiphone />
     <label for=ifdeviceiphone
-    >Un iPhone o iPad</label>
+    >एक iPhone या iPad</label>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifdevicenone />
     <label for=ifdevicenone
-    >Ninguna de las anteriores</label>
+    >इनमे से कोई भी नहीं</label>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifdeviceother />
     <label for=ifdeviceother
-    >Otro:</label>
+    >अन्य:</label>
     <input type=text class=formtext id=ifdeviceothertext aria-label="Name of other device" />
     </div>
     </div>
     
     <div class=formbox id=helperbox>
     <div class=fieldname
-    >¿Alguien te ayudará a grabar muestras de habla?
+    >क्या कोई आपको भाषण नमूने रिकॉर्ड करने में मदद करेगा?
     <span class=required>*</span></div>
     <div class=fielddescription
-    >Por ejemplo, un miembro de la familia, terapeuta del habla u otra persona</div>
+    >उदाहरण के लिए, एक परिवार के सदस्य, भाषण चिकित्सक, या अन्य व्यक्ति</div>
     <div class=checkboxrow>
     <input type=radio name=ifhelper id=ifhelperno selected />
     <label for=ifhelperno
-    >No, participaré de forma independiente</label>
+    >नहीं, मैं स्वतंत्र रूप से भाग लूंगा</label>
     </div>
     <div class=checkboxrow>
     <input type=radio name=ifhelper id=ifhelperyes />
     <label for=ifhelperyes
-    >Sí, alguien me ayudará y se siente cómodo conmigo compartiendo su información de contacto</label>
+    >हां, कोई मेरी मदद करेगा और मेरे साथ अपनी संपर्क जानकारी साझा करने में सहज है</label>
     </div>
     </div>
     
     <!-- Helper panel appears if the user chooses "yes" above -->
     <div id=helpersection>
     <div class=sectiontitle
-    >Sobre la persona que te ayuda</div>
+    >आपकी मदद करने वाले व्यक्ति के बारे में</div>
     <div class=formbox>
     <div class=fielddescription>
-    Cuéntanos un poco sobre la persona que te ayuda, para que podamos mantenernos en contacto con los dos. Al incluir el nombre de su asistente, comprende que recibirán información sobre su participación en este proyecto. Puede enumerar más de un asistente y un correo electrónico: simplemente separe cada uno con una coma.
+    कृपया हमें आपकी मदद करने वाले व्यक्ति के बारे में थोड़ा बताएं, इसलिए हम आप दोनों के संपर्क में रह सकते हैं। अपने सहायक के नाम को शामिल करके, आप समझते हैं कि उन्हें इस परियोजना में आपकी भागीदारी के बारे में जानकारी प्राप्त होगी। आप एक से अधिक सहायक और ईमेल को सूचीबद्ध कर सकते हैं: बस प्रत्येक को अल्पविराम के साथ अलग करें।
     </div>
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifassistantname
-    >Nombre del asistente</label>
+    >सहायक का नाम</label>
     <span class=optional
-    >(Opcional)</span>
+    >(वैकल्पिक)</span>
     </div>
     <input type=text class=formtext id=ifassistantname />
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifassistantemail
-    >Dirección de correo electrónico del asistente</label>
+    >सहायक ईमेल पता</label>
     <span class=required>*</span></div>
     <input type=text class=formtext id=ifassistantemail />
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifassistantrelationship
-    >¿Cuál es la relación de esta persona contigo?</label>
+    >इस व्यक्ति का आपके साथ क्या संबंध है?</label>
     <span class=optional
-    >(Opcional)</span>
+    >(वैकल्पिक)</span>
     </div>
     <div class=fielddescription
-    >Por ejemplo: cuidador, amigo, familiar, terapeuta del habla, etc.</div>
+    >उदाहरण के लिए: देखभालकर्ता, दोस्त, परिवार के सदस्य, भाषण चिकित्सक, आदि।</div>
     <input type=text class=formtext id=ifassistantrelationship />
     </div>
     </div>
     
     <div class=sectiontitle
-    >Google Project Euphonia: consentimiento</div>
+    >Google प्रोजेक्ट यूफोनिया: सहमति</div>
     
     <div class=forminfobox>
     <div class=fieldname
-    >Cuestionario recopilación de información confidencial de identificación personal</div>
+    >संवेदनशील व्यक्तिगत रूप से पहचान योग्य जानकारी का प्रश्नावली संग्रह</div>
     <div class=fielddescription>
-    El propósito de este cuestionario es verificar su elegibilidad para un próximo esfuerzo de recopilación de datos con Google, y el propósito de la colección será ayudar a Google a diseñar, investigar, desarrollar, construir y mejorar la accesibilidad de sus productos y servicios actuales y futuros relacionados. a las tecnologías del habla.
-    La información que proporciona en este cuestionario se puede combinar con otra información y datos que eligió para proporcionar durante la recopilación de datos, si es seleccionado para participar.
+    इस प्रश्नावली का उद्देश्य Google के साथ एक आगामी डेटा संग्रह प्रयास के लिए अपनी पात्रता को सत्यापित करना है, और संग्रह का उद्देश्य Google को इसके वर्तमान और भविष्य के उत्पादों और सेवाओं से संबंधित डिजाइन, अनुसंधान, विकास, निर्माण और सुधार में सहायता करना होगा। भाषण प्रौद्योगिकियों के लिए।
+    इस प्रश्नावली में आपके द्वारा प्रदान की जाने वाली जानकारी को अन्य जानकारी और डेटा के साथ जोड़ा जा सकता है, जिसे आपने डेटा संग्रह के दौरान प्रदान करने के लिए चुना है, यदि आपको भाग लेने के लिए चुना गया है।
     </div>
     </div>
     
     <div class=formbox>
     <div class=fieldname>
-    Con su consentimiento, Google recopilará y procesará la información personal que elija proporcionar (a) cuando envíe este cuestionario y (b) si se selecciona para participar en el proyecto, cuando participa en las tareas de recopilación de datos, incluida la información sobre Su uso de tecnología de asistencia, discapacidad o discapacidad del habla y patrones de voz.
+    आपकी सहमति के साथ, Google उस व्यक्तिगत जानकारी को एकत्र करेगा और संसाधित करेगा जिसे आप प्रदान करने के लिए चुनते हैं (ए) जब आप इस प्रश्नावली को सबमिट करते हैं और (बी) यदि आपको परियोजना में भाग लेने के लिए चुना जाता है, जब आप डेटा संग्रह कार्यों में भाग लेते हैं, जिसमें जानकारी भी शामिल है, सहायक प्रौद्योगिकी, भाषण विकलांगता या हानि, और भाषण पैटर्न का आपका उपयोग।
     <span class=required>*</span>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifformconsent />
     <label for=ifformconsent>
-    Doy mi consentimiento y entraré en mis iniciales aquí:
+    मैं अपनी सहमति देता हूं, और यहां अपने शुरुआती में प्रवेश करूंगा:
     </label>
     <input type=text class=formtext id=ifconsentinitials aria-label="Your initials" />
     </div>
@@ -910,39 +879,38 @@ export const ES_STRINGS: ELocaleString[] = [
     
     <div class=formbox>
     <div class=fieldname>
-    Revise nuestros Términos y Condiciones y Política de privacidad
+    कृपया हमारे नियमों और शर्तों और गोपनीयता नीति की समीक्षा करें
     <span class=required>*</span>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifformtos />
     <label for=ifformtos>
-    acepto el
+    मुझे स्वीकार है
     <a target="_blank" href="https://www.google.com/policies/terms/"
-    >Términos y condiciones</a>
-    y reconocer que mi información se utilizará para la investigación del producto, el desarrollo y la mejora de las tecnologías relacionadas con el habla, y de acuerdo con
+    >नियम और शर्तें</a>
+    और स्वीकार करें कि मेरी जानकारी का उपयोग उत्पाद अनुसंधान, विकास और भाषण संबंधी प्रौद्योगिकियों के सुधार के लिए और उसके अनुसार किया जाएगा
     <a target="_blank" href="https://www.google.com/policies/privacy/"
-    >Política de privacidad de Google</a>
-    .
+    >Google की गोपनीयता नीति</a>
+    ।
     </label>
     </div>
     </div>
     
     <div class=forminfobox>
     <div class=fieldname>
-    Al enviar este formulario, le da a Google y sus afiliados su consentimiento para contactarlo por correo electrónico.
+    इस फॉर्म को सबमिट करके, आप Google और उसके सहयोगियों को ईमेल द्वारा आपसे संपर्क करने के लिए अपनी सहमति देते हैं।
     </div>
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifotherinfo>
-    ¿Tiene alguna otra información que le gustaría compartir con nosotros?
+    क्या आपके पास कोई अन्य जानकारी है जिसे आप हमारे साथ साझा करना चाहते हैं?
     </label>
     <span class=optional
-    >(Opcional)</span>
+    >(वैकल्पिक)</span>
     </div>
     <input id=ifotherinfo class=formtext />
     </div>
-
-    `
+    `    
   },
 ];

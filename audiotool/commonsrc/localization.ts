@@ -17,12 +17,18 @@
 import {ELocaleString} from './schema';
 import {EN_STRINGS} from './strings_en';
 import {ES_STRINGS} from './strings_es';
+import {FR_STRINGS} from './strings_fr';
+import {HI_STRINGS} from './strings_hi';
+import {JA_STRINGS} from './strings_ja';
 
 // Describes all localizations
 export const LOCALIZED_STRINGS: Map<string, Map<string, ELocaleString>> = new Map([
   ['en-US', toLocaleTable(EN_STRINGS)],
   ['en-GB', toLocaleTable(EN_STRINGS)],
   ['es-ES', toLocaleTable(ES_STRINGS)],
+  ['fr-FR', toLocaleTable(FR_STRINGS)],
+  ['hi-HI', toLocaleTable(HI_STRINGS)],
+  ['ja-JP', toLocaleTable(JA_STRINGS)],
 ]);
 
 // Builds a map of the translated strings for a given language.

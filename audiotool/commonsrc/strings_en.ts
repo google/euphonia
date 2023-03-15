@@ -432,22 +432,30 @@ export const EN_STRINGS: ELocaleString[] = [
   {
     key: `__INTEREST_FORM_HTML__`,
     description: `The HTML for the interest form; all HTML IDs must be intact exactly as is!`,
+
+    // Each translatable string is on a line by itself to make it a little easier to translate
     text: `
-    <div class=title>Google Project Euphonia: Interest form</div>
-    <div class=sectiontitle>About You</div>
+    <div class=title
+    >Google Project Euphonia: Interest form</div>
+    <div class=sectiontitle
+    >About You</div>
     <div class=formbox>
-      <div class=fieldname><label for=ifname>Name</label> <span class=optional>(Optional)</span></div>
-      <div class=fielddescription>Nickname, first &amp; last name, just first name, etc.
-          Any way you like to be addressed!</div>
+      <div class=fieldname><label for=ifname
+      >Name</label>
+      <span class=optional
+      >(Optional)</span>
+      </div>
+      <div class=fielddescription
+      >Nickname, first &amp; last name, just first name, etc. Any way you like to be addressed!</div>
       <input id=ifname class=formtext />
     </div>
     
     <div class=formbox>
-      <div class=fieldname><label for=ifcountry>What country do you reside in?</label> <span class=required>*</span></div>
-      <div class=fielddescription>IMPORTANT, PLEASE NOTE: We are regrettably unable to send gift cards at
-          this time to residents of the countries indicated below with an asterisk (*). If you reside
-          in one of these countries, you are still welcome to participate in Project Euphonia research,
-          and we'll notify you if and when you'll be able to receive gift cards.
+      <div class=fieldname><label for=ifcountry
+      >What country do you reside in?</label>
+      <span class=required>*</span></div>
+      <div class=fielddescription
+      >IMPORTANT, PLEASE NOTE: We are regrettably unable to send gift cards at this time to residents of the countries indicated below with an asterisk (*). If you reside in one of these countries, you are still welcome to participate in Project Euphonia research, and we'll notify you if and when you'll be able to receive gift cards.
       </div>
       <select id=ifcountry class=formselect>
         <option value="USA">United States of America</option>
@@ -660,7 +668,9 @@ export const EN_STRINGS: ELocaleString[] = [
     </div>
     
     <div class=formbox id=usstatebox>
-      <div class=fieldname><label for=ifstate>What state or territory do you reside in?</label><span class=required>*</span></div>
+      <div class=fieldname><label for=ifstate
+      >What state or territory do you reside in?</label>
+      <span class=required>*</span></div>
       <select id=ifstate class=formselect>
         <option value=""></option>
         <option value="AL">Alabama</option>
@@ -722,129 +732,172 @@ export const EN_STRINGS: ELocaleString[] = [
     </div>
     
     <div class=formbox>
-      <div class=fieldname><label for=ifcity>What city do you live in?</label> <span class=optional>(Optional)</span></div>
+      <div class=fieldname><label for=ifcity
+      >What city do you live in?</label>
+      <span class=optional
+      >(Optional)</span>
+      </div>
       <input id=ifcity class=formtext />
     </div>
     
     <div class=formbox>
-      <div class=fieldname><label for=ifaccent>How would you characterize your accent?</label> <span class=optional>(Optional)</span></div>
+      <div class=fieldname><label for=ifaccent
+      >How would you characterize your accent?</label>
+      <span class=optional
+      >(Optional)</span>
+      </div>
       <input id=ifaccent class=formtext />
     </div>
     
-    <div class=sectiontitle>Additional information</div>
+    <div class=sectiontitle
+    >Additional information</div>
     
     <div class=formbox>
-      <div class=fieldname><label for=ifreferral>Please tell us how you heard about this project</label> <span class=optional>(Optional)</span></div>
+      <div class=fieldname><label for=ifreferral
+      >Please tell us how you heard about this project</label>
+      <span class=optional
+      >(Optional)</span>
+      </div>
       <input id=ifreferral class=formtext />
     </div>
     
     <div class=formbox role=radiogroup id=ifgendergroup style="display: none;">
-      <div class=fieldname><label for=ifgendergroup>What is your gender</label> <span class=optional>(Optional)</span></div>
+      <div class=fieldname><label for=ifgendergroup
+      >What is your gender</label>
+      <span class=optional
+      >(Optional)</span>
+      </div>
       <div class=checkboxrow>
         <input type=radio name=ifgender id=ifgenderfemale />
-        <label for=ifgenderfemale>Female</label>
+        <label for=ifgenderfemale
+        >Female</label>
       </div>
       <div class=checkboxrow>
         <input type=radio name=ifgender id=ifgendermale />
-        <label for=ifgendermale>Male</label>
+        <label for=ifgendermale
+        >Male</label>
       </div>
       <div class=checkboxrow>
         <input type=radio name=ifgender id=ifgenderno />
-        <label for=ifgenderno>Prefer not to say</label>
+        <label for=ifgenderno
+        >Prefer not to say</label>
       </div>
       <div class=checkboxrow>
         <input type=radio name=ifgender id=ifgenderother />
-        <label for=ifgenderother>Other:</label>
+        <label for=ifgenderother
+        >Other:</label>
         <input type=text class=formtext id=ifgenderothertext />
       </div>
     </div>
     
     <div class=formbox style="display: none;">
-      <div class=fieldname><label for=ifrace>What is your race</label> <span class=optional>(Optional)</span></div>
+      <div class=fieldname><label for=ifrace
+      >What is your race</label>
+      <span class=optional
+      >(Optional)</span>
+      </div>
       <input id=ifrace class=formtext />
     </div>
     
     <div class=formbox>
-      <div class=fieldname>Which of these do you have access to? <span class=optional>(Optional)</span></div>
+      <div class=fieldname
+      >Which of these do you have access to?
+      <span class=optional
+      >(Optional)</span>
+      </div>
       <div class=checkboxrow>
         <input type=checkbox id=ifdevicecomputer />
-        <label for=ifdevicecomputer>An internet-connected computer 
-            equipped with a microphone and speakers</label>
+        <label for=ifdevicecomputer
+        >An internet-connected computer equipped with a microphone and speakers</label>
       </div>
       <div class=checkboxrow>
         <input type=checkbox id=ifdeviceandroid />
-        <label for=ifdeviceandroid>An Android phone or tablet (like a Samsung, Pixel, Nexus, etc.)</label>
+        <label for=ifdeviceandroid
+        >An Android phone or tablet (like a Samsung, Pixel, Nexus, etc.)</label>
       </div>
       <div class=checkboxrow>
         <input type=checkbox id=ifdeviceiphone />
-        <label for=ifdeviceiphone>An iPhone or iPad</label>
+        <label for=ifdeviceiphone
+        >An iPhone or iPad</label>
       </div>
       <div class=checkboxrow>
         <input type=checkbox id=ifdevicenone />
-        <label for=ifdevicenone>None of the above</label>
+        <label for=ifdevicenone
+        >None of the above</label>
       </div>
       <div class=checkboxrow>
         <input type=checkbox id=ifdeviceother />
-        <label for=ifdeviceother>Other:</label>
+        <label for=ifdeviceother
+        >Other:</label>
         <input type=text class=formtext id=ifdeviceothertext aria-label="Name of other device" />
       </div>
     </div>
     
     <div class=formbox id=helperbox>
-      <div class=fieldname>Will someone be helping you record speech samples?<span class=required>*</span></div>
-      <div class=fielddescription>For example, a family member, speech therapist, or other person</div>
+      <div class=fieldname
+      >Will someone be helping you record speech samples?
+      <span class=required>*</span></div>
+      <div class=fielddescription
+      >For example, a family member, speech therapist, or other person</div>
       <div class=checkboxrow>
         <input type=radio name=ifhelper id=ifhelperno selected />
-        <label for=ifhelperno>No, I'll be participating independently</label>
+        <label for=ifhelperno
+        >No, I'll be participating independently</label>
       </div>
       <div class=checkboxrow>
         <input type=radio name=ifhelper id=ifhelperyes />
-        <label for=ifhelperyes>Yes, someone will be helping me and is comfortable with me sharing
-            their contact info</label>
+        <label for=ifhelperyes
+        >Yes, someone will be helping me and is comfortable with me sharing their contact info</label>
       </div>
     </div>
     
     <!-- Helper panel appears if the user chooses "yes" above -->
     <div id=helpersection>
-      <div class=sectiontitle>About the person helping you</div>
+      <div class=sectiontitle
+      >About the person helping you</div>
       <div class=formbox>
         <div class=fielddescription>
-          Please tell us a bit about the person helping you, so we can best
-          stay in touch with both of you. By including your assistant's name,
-          you understand that they will receive information about your
-          participation in this project. You can list more than one Assistant
-          and email: just separate each one with a comma.
+          Please tell us a bit about the person helping you, so we can best stay in touch with both of you. By including your assistant's name, you understand that they will receive information about your participation in this project. You can list more than one Assistant and email: just separate each one with a comma.
         </div>
       </div>
     
       <div class=formbox>
-        <div class=fieldname><label for=ifassistantname>Assistant's name</label> <span class=optional>(Optional)</span></div>
+        <div class=fieldname><label for=ifassistantname
+        >Assistant's name</label>
+        <span class=optional
+        >(Optional)</span>
+        </div>
         <input type=text class=formtext id=ifassistantname />
       </div>
     
       <div class=formbox>
-        <div class=fieldname><label for=ifassistantemail>Assistant's email address</label> <span class=required>*</span></div>
+        <div class=fieldname><label for=ifassistantemail
+        >Assistant's email address</label>
+        <span class=required>*</span></div>
         <input type=text class=formtext id=ifassistantemail />
       </div>
     
       <div class=formbox>
-        <div class=fieldname><label for=ifassistantrelationship>
-        What is this person's relationship to you?</label> <span class=optional>(Optional)</span></div>
-        <div class=fielddescription>For example:  caregiver, friend, family member, speech therapist, etc.</div>
+        <div class=fieldname><label for=ifassistantrelationship
+        >What is this person's relationship to you?</label>
+        <span class=optional
+        >(Optional)</span>
+        </div>
+        <div class=fielddescription
+        >For example:  caregiver, friend, family member, speech therapist, etc.</div>
         <input type=text class=formtext id=ifassistantrelationship />
       </div>
     </div>
     
-    <div class=sectiontitle>Google Project Euphonia: Consent</div>
+    <div class=sectiontitle
+    >Google Project Euphonia: Consent</div>
     
     <div class=forminfobox>
-      <div class=fieldname>Questionnaire Collection of Sensitive Personally Identifiable Information</div>
+      <div class=fieldname
+      >Questionnaire Collection of Sensitive Personally Identifiable Information</div>
       <div class=fielddescription>
-        The purpose of this questionnaire is to verify your eligibility for an upcoming data collection effort
-        with Google, and the collection's purpose will be to assist Google to design, research, develop, build,
-        and improve the accessibility of its current and future products and services related to speech technologies.
-        Information you provide in this questionnaire may be combined with other information and data that you chose
-        to provide during the data collection, if you are selected to participate.
+        The purpose of this questionnaire is to verify your eligibility for an upcoming data collection effort with Google, and the collection's purpose will be to assist Google to design, research, develop, build, and improve the accessibility of its current and future products and services related to speech technologies.
+        Information you provide in this questionnaire may be combined with other information and data that you chose to provide during the data collection, if you are selected to participate.
       </div>
     </div>
     
@@ -871,10 +924,12 @@ export const EN_STRINGS: ELocaleString[] = [
         <input type=checkbox id=ifformtos />
         <label for=ifformtos>
           I accept the 
-          <a target="_blank" href="https://www.google.com/policies/terms/">Terms and Conditions</a>
-          and acknowledge that my information will be used for the product research, development, and improvement
-          of speech related technologies, and in accordance with
-          <a target="_blank" href="https://www.google.com/policies/privacy/">Google's Privacy Policy</a>.
+          <a target="_blank" href="https://www.google.com/policies/terms/"
+          >Terms and Conditions</a>
+          and acknowledge that my information will be used for the product research, development, and improvement of speech related technologies, and in accordance with
+          <a target="_blank" href="https://www.google.com/policies/privacy/"
+          >Google's Privacy Policy</a>
+          .
         </label>
       </div>
     </div>
@@ -889,9 +944,11 @@ export const EN_STRINGS: ELocaleString[] = [
       <div class=fieldname><label for=ifotherinfo>
         Do you have any other information you would like to share with us?
         </label>
-        <span class=optional>(Optional)</span>
+        <span class=optional
+        >(Optional)</span>
       </div>
       <input id=ifotherinfo class=formtext />
-    </div>`    
+    </div>
+`    
   },
 ];
