@@ -49,7 +49,8 @@ export const EN_STRINGS: ELocaleString[] = [
           <a target="_blank" href="mailto:euphonia-project@google.com">Contact Us</a>`,
     description: `Signup screen`,
     text: `Questions?
-          <a target="_blank" href="mailto:euphonia-project@google.com">Contact Us</a>`
+          <a target="_blank" href="mailto:euphonia-project@google.com"
+          >Contact Us</a>`
   },
   {
     key: `Already enrolled? &nbsp;`,
@@ -86,9 +87,8 @@ export const EN_STRINGS: ELocaleString[] = [
          Account to contribute to the project. If you do not have a Google Account, you can
          create one when you click to continue.`,
     description: `Signup screen instructions`,
-    text: `You will need to sign in with your Google
-         Account to contribute to the project. If you do not have a Google Account, you can
-         create one when you click to continue.`
+    text: `You will need to sign in with your Google Account to contribute to the project.
+        If you do not have a Google Account, you can create one when you click to continue.`
   },
   {
     key: `Next`,
@@ -114,8 +114,10 @@ export const EN_STRINGS: ELocaleString[] = [
     key: `You are enrolling as <b id=whoisenrolling>&nbsp;</b>.
           Please review the following agreement: <span id=consentcounter></span>`,
     description: `Consent screen instructions`,
-    text: `You are enrolling as <b id=whoisenrolling>&nbsp;</b>.
-          Please review the following agreement: <span id=consentcounter></span>`
+    text: `You are enrolling as
+        <b id=whoisenrolling>&nbsp;</b>.
+        Please review the following agreement:
+        <span id=consentcounter></span>`
   },
   {
     key: `Thanks for signing up for Project Euphonia!`,
@@ -133,15 +135,17 @@ export const EN_STRINGS: ELocaleString[] = [
       <li>When you finish recording all the cards, you're done!</li>
       <li>Having trouble recording? <a target="_blank" href="http://g.co/disabilitysupport">Contact us</a> for help.</li>`,
     description: `Instructions screen details`,
-    text: `    <ul>
+    text: `<ul>
       <li>Please take a moment to watch this video introduction.</li>
       <li>On the next screen, you'll see <b>cards</b> to read aloud.</li>
       <li>You'll want to be in a <b>quiet setting</b> and avoid any background noise.</li>
-      <li>You'll press the blue Record button, and then <b>read the
-      card aloud</b>, as accurately as possible.</li>
+      <li>You'll press the blue Record button, and then <b>read the card aloud</b>, as accurately as possible.</li>
       <li>When you are <b>finished speaking</b>, press the blue button again to stop recording.</li>
       <li>When you finish recording all the cards, you're done!</li>
-      <li>Having trouble recording? <a target="_blank" href="http://g.co/disabilitysupport">Contact us</a> for help.</li>`
+      <li>Having trouble recording?
+      <a target="_blank" href="http://g.co/disabilitysupport"
+      >Contact us</a>
+      for help.</li>`
   },
   {
     key: `Get Started`,
@@ -160,7 +164,9 @@ export const EN_STRINGS: ELocaleString[] = [
     description: `Microphone permission instructions`,
     text: `
           In order to record your speech, Euphonia needs permission to use your microphone
-          through your web browser. <b>Please click "Allow"</b> to grant use of your microphone.`
+          through your web browser.
+          <b>Please click "Allow"</b>
+          to grant use of your microphone.`
   },
   {
     key: `
@@ -177,15 +183,19 @@ export const EN_STRINGS: ELocaleString[] = [
           by clicking the <b>address bar of your browser</b>, and/or <b>reset permission</b> for the microphone.`,
     description: `Microphone permission error message`,
     text: `
-          It looks like your microphone permission is blocked. You'll need to <b>allow access</b>
-          by clicking the <b>address bar of your browser</b>, and/or <b>reset permission</b> for the microphone.`
+          It looks like your microphone permission is blocked. You'll need to
+          <b>allow access</b>
+          by clicking the
+          <b>address bar of your browser</b>,
+          and/or
+          <b>reset permission</b>
+          for the microphone.`
   },
   {
     key: `
           Your microphone is all set! You can start recording as soon as you're ready.`,
     description: `Microphone permission success message`,
-    text: `
-          Your microphone is all set! You can start recording as soon as you're ready.`
+    text: `Your microphone is all set! You can start recording as soon as you're ready.`
   },
   {
     key: `Use the default microphone`,
@@ -308,10 +318,12 @@ export const EN_STRINGS: ELocaleString[] = [
             out of the total (<b>{total_number_of_tasks_needed} cards</b>).
             When you're ready, you can click the button below to finish up the rest of the cards.      `,
     description: `Done screen instructions, asks the user to go finish the rest of the cards`,
-    text: `          Great work! You've gone through the cards once, and recorded
-            <b class=count>{number_of_completed_cards} cards</b>
-            out of the total (<b>{total_number_of_tasks_needed} cards</b>).
-            When you're ready, you can click the button below to finish up the rest of the cards.      `
+    text: `
+        Great work! You've gone through the cards once, and recorded
+        <b class=count>{number_of_completed_cards} cards</b>
+        out of the total
+        (<b>{total_number_of_tasks_needed} cards</b>).
+        When you're ready, you can click the button below to finish up the rest of the cards.`
   },
   {
     key: `          You're almost done! You've gone through the cards once, and recorded
@@ -320,10 +332,12 @@ export const EN_STRINGS: ELocaleString[] = [
             When you're ready, you can click the button below to finish up the rest of the cards.      `,
     description: `Done screen instructions, asks the user to go finish the rest of the cards.
         This version displays when the user has done more than 75% of the work.`,
-    text: `          You're almost done! You've gone through the cards once, and recorded
-            <b class=count>{number_of_completed_cards} cards</b>
-            out of the total (<b>{total_number_of_tasks_needed} cards</b>).
-            When you're ready, you can click the button below to finish up the rest of the cards.      `
+    text: `
+        You're almost done! You've gone through the cards once, and recorded
+        <b class=count>{number_of_completed_cards} cards</b>
+        out of the total
+        (<b>{total_number_of_tasks_needed} cards</b>).
+        When you're ready, you can click the button below to finish up the rest of the cards.`
   },
   {
     key: `Continue Recording`,
@@ -421,13 +435,17 @@ export const EN_STRINGS: ELocaleString[] = [
         (If you wish, you can now go back and review your recordings, but this is not necessary. <b>You're done!</b>)`,
     description: `Descriptive text on the done screen`,
     text: `
-        You have completed all your cards! We'll be reviewing them soon, and if everything
-        looks good, you'll be receiving an email from rewards@perks.com within the next 7-10
-        business days with a link to claim your gift card.
+        You have completed all your cards! We'll be reviewing them soon,
+        and if everything looks good, you'll be receiving an email from
+        rewards@perks.com
+        within the next 7-10 business days with a link to claim your gift card.
         <br/><br/>
-        <b>Thank you for contributing <b class=count>{number_of_completed_cards} cards</b> to Project Euphonia!</b>
-        <br/><br/>
-        (If you wish, you can now go back and review your recordings, but this is not necessary. <b>You're done!</b>)`
+        <b>Thank you for contributing
+        <b class=count>{number_of_completed_cards} cards</b>
+        to Project Euphonia!
+        </b><br/><br/>
+        (If you wish, you can now go back and review your recordings, but this is not necessary.
+        <b>You're done!</b>)`
   },
   {
     key: `__INTEREST_FORM_HTML__`,

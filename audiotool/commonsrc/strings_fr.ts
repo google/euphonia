@@ -36,18 +36,20 @@ export const FR_STRINGS: ELocaleString[] = [
     this form on behalf of someone else, please ensure you have their permission
     to do so.`,
     description: `Signup screen`,
-    text: `<b> IMPORTANT: </b> Si vous remplissez ce formulaire au nom de quelqu'un d'autre, veuillez vous assurer que vous avez la permission de le faire.`
+    text: `<b>IMPORTANT:</b> Si vous remplissez ce formulaire au nom de quelqu'un d'autre, veuillez vous assurer que vous avez la permission de le faire.`
   },
   {
     key: `Questions?
     <a target="_blank" href="mailto:euphonia-project@google.com">Contact Us</a>`,
     description: `Signup screen`,
-    text: `Des questions? <a Target="_blank" href="mailto:euphonia-project@google.com"> Contactez-nous </a>`
+    text: `Des questions?
+          <a target="_blank" href="mailto:euphonia-project@google.com"
+          >Contactez-nous</a>`
   },
   {
     key: `Already enrolled? &nbsp;`,
     description: `Signup screen`,
-    text: `Déjà inscrit? & nbsp;`
+    text: `Déjà inscrit? &nbsp;`
   },
   {
     key: `Click to sign in and continue recording`,
@@ -79,7 +81,8 @@ export const FR_STRINGS: ELocaleString[] = [
     Account to contribute to the project. If you do not have a Google Account, you can
     create one when you click to continue.`,
     description: `Signup screen instructions`,
-    text: `Vous devrez vous connecter avec votre compte Google pour contribuer au projet. Si vous n'avez pas de compte Google, vous pouvez en créer un lorsque vous cliquez pour continuer.`
+    text: `Vous devrez vous connecter avec votre compte Google pour contribuer au projet.
+        Si vous n'avez pas de compte Google, vous pouvez en créer un lorsque vous cliquez pour continuer.`
   },
   {
     key: `Next`,
@@ -105,7 +108,10 @@ export const FR_STRINGS: ELocaleString[] = [
     key: `You are enrolling as <b id=whoisenrolling>&nbsp;</b>.
     Please review the following agreement: <span id=consentcounter></span>`,
     description: `Consent screen instructions`,
-    text: `Vous vous inscrivez comme <b id = whoisenrolling> & nbsp; </b>. Veuillez consulter l'accord suivant: <span id = consentcounter> </span>`
+    text: `Vous vous inscrivez comme
+        <b id=whoisenrolling>&nbsp;</b>.
+        Veuillez consulter l'accord suivant:
+        <span id=consentcounter></span>`
   },
   {
     key: `Thanks for signing up for Project Euphonia!`,
@@ -123,7 +129,16 @@ export const FR_STRINGS: ELocaleString[] = [
     <li>When you finish recording all the cards, you're done!</li>
     <li>Having trouble recording? <a target="_blank" href="http://g.co/disabilitysupport">Contact us</a> for help.</li>`,
     description: `Instructions screen details`,
-    text: `    <ul> <li> Veuillez prendre un moment pour regarder cette introduction vidéo. </li> <li> Sur l'écran suivant, vous verrez <b> cartes </b> pour lire à haute voix. </li> <Li > Vous voudrez être dans un réglage silencieux <b> </b> et éviter tout bruit d'arrière-plan. </li> <li> Vous appuyez sur le bouton d'enregistrement bleu, puis <b> lisez la carte à haute voix < / b>, aussi précisément que possible. </li> <li> Lorsque vous êtes <b> terminé la parole </b>, appuyez à nouveau sur le bouton bleu pour arrêter l'enregistrement. </li> <li> Lorsque vous avez fini d'enregistrer tout Les cartes, vous avez terminé! </li> <li> Vous avez du mal à enregistrer? <a target="_blank" href="http://g.co/disabilitysupport"> contactez-nous </a> pour obtenir de l'aide. </li>`
+    text: `<ul>
+      <li>Veuillez prendre un moment pour regarder cette introduction vidéo.</li>
+      <li>Sur l'écran suivant, vous verrez <b>cartes</b> pour lire à haute voix.</li>
+      <li>Vous voudrez être dans un réglage silencieux et éviter tout bruit d'arrière-plan.</li>
+      <li>Vous appuyez sur le bouton d'enregistrement bleu, puis <b>lisez la carte à haute voix</b>, aussi précisément que possible.</li>
+      <li>Lorsque vous êtes <b>terminé la parole</b>, appuyez à nouveau sur le bouton bleu pour arrêter l'enregistrement.</li>
+      <li>Lorsque vous avez fini d'enregistrer tout Les cartes, vous avez terminé!</li>
+      <li>Vous avez du mal à enregistrer?
+      <a target="_blank" href="http://g.co/disabilitysupport">contactez-nous</a>
+      pour obtenir de l'aide.</li>`
   },
   {
     key: `Get Started`,
@@ -140,21 +155,33 @@ export const FR_STRINGS: ELocaleString[] = [
     In order to record your speech, Euphonia needs permission to use your microphone
     through your web browser. <b>Please click "Allow"</b> to grant use of your microphone.`,
     description: `Microphone permission instructions`,
-    text: ` Afin d'enregistrer votre discours, Euphonia a besoin de la permission d'utiliser votre microphone via votre navigateur Web. <b> Veuillez cliquer sur "Autoriser" </b> pour accorder l'utilisation de votre microphone.`
+    text: `
+          Afin d'enregistrer votre discours, Euphonia a besoin de la permission d'utiliser votre microphone
+          via votre navigateur Web.
+          <b>Veuillez cliquer sur "Autoriser"</b>
+          pour accorder l'utilisation de votre microphone.`
   },
   {
     key: `
     Euphonia could not access your microphone due to a permission problem. You'll need to allow access
     in order to continue.`,
     description: `Microphone permission error message`,
-    text: ` Euphonia n'a pas pu accéder à votre microphone en raison d'un problème d'autorisation. Vous devrez autoriser l'accès pour continuer.`
+    text: `
+          Euphonia n'a pas pu accéder à votre microphone en raison d'un problème d'autorisation. Vous devrez autoriser l'accès pour continuer.`
   },
   {
     key: `
     It looks like your microphone permission is blocked. You'll need to <b>allow access</b>
     by clicking the <b>address bar of your browser</b>, and/or <b>reset permission</b> for the microphone.`,
     description: `Microphone permission error message`,
-    text: ` Il semble que votre permission de microphone soit bloquée. Vous devrez <b> autoriser l'accès </b> en cliquant sur la barre d'adresse <b> de votre navigateur </b>, et / ou <b> Réinitialiser l'autorisation </b> pour le microphone.`
+    text: `
+          Il semble que votre permission de microphone soit bloquée. Vous devrez
+          <b>autoriser l'accès</b>
+          en cliquant sur la barre d'adresse
+          <b>de votre navigateur</b>,
+          et / ou
+          <b>Réinitialiser l'autorisation</b>
+          pour le microphone.`
   },
   {
     key: `
@@ -270,7 +297,7 @@ export const FR_STRINGS: ELocaleString[] = [
   {
     key: `<b>{number_of_completed_cards}</b> of <b>{total_number_of_tasks_needed}</b> cards <b>done</b>`,
     description: `Recording screen, progress message of tasks completed so far`,
-    text: `<b> {numéro_of_complèted_cards} </b> de <b> {total_number_of_tasks_need} </b> cartes <b> Done </b>`
+    text: `<b>{number_of_completed_cards}</b> de <b>{total_number_of_tasks_needed}</b> cartes <b>done</b>`
   },
   {
     key: `Thank you!`,
@@ -283,7 +310,12 @@ export const FR_STRINGS: ELocaleString[] = [
     out of the total (<b>{total_number_of_tasks_needed} cards</b>).
     When you're ready, you can click the button below to finish up the rest of the cards.      `,
     description: `Done screen instructions, asks the user to go finish the rest of the cards`,
-    text: `          Bon travail! Vous avez parcouru les cartes une fois et enregistré <b class = count> {numéro_of_complèted_cards} cartes </b> du total (<b> {total_number_of_tasks_need} cartes </b>). Lorsque vous êtes prêt, vous pouvez cliquer sur le bouton ci-dessous pour terminer le reste des cartes.`
+    text: `
+        Bon travail! Vous avez parcouru les cartes une fois et enregistré
+        <b class=count>{number_of_completed_cards} cartes</b>
+        du total
+        (<b> {total_number_of_tasks_needed} cartes </b>).
+        Lorsque vous êtes prêt, vous pouvez cliquer sur le bouton ci-dessous pour terminer le reste des cartes.`
   },
   {
     key: `          You're almost done! You've gone through the cards once, and recorded
@@ -291,7 +323,12 @@ export const FR_STRINGS: ELocaleString[] = [
     out of the total (<b>{total_number_of_tasks_needed} cards</b>).
     When you're ready, you can click the button below to finish up the rest of the cards.      `,
     description: `Done screen instructions, asks the user to go finish the rest of the cards. This version displays when the user has done more than 75% of the work.`,
-    text: `          Vous avez presque fini! Vous avez parcouru les cartes une fois et enregistré <b class = count> {numéro_of_complèted_cards} cartes </b> du total (<b> {total_number_of_tasks_need} cartes </b>). Lorsque vous êtes prêt, vous pouvez cliquer sur le bouton ci-dessous pour terminer le reste des cartes.`
+    text: `
+        Vous avez presque fini! Vous avez parcouru les cartes une fois et enregistré
+        <b class=count>{number_of_completed_cards} cartes</b>
+        du total
+        (<b> {total_number_of_tasks_needed} cartes </b>).
+        Lorsque vous êtes prêt, vous pouvez cliquer sur le bouton ci-dessous pour terminer le reste des cartes.`
   },
   {
     key: `Continue Recording`,
@@ -361,7 +398,7 @@ export const FR_STRINGS: ELocaleString[] = [
   {
     key: `&nbsp;(Agreement {which_agreement_number} of {total_number_of_agreements})`,
     description: ``,
-    text: `& nbsp; (accord {qui_agrement_number} de {total_number_of_agrements})`
+    text: `&nbsp;(accord {which_agreement_number} de {total_number_of_agreements})`
   },
   {
     key: `Congratulations! You're all done!`,
@@ -388,7 +425,18 @@ export const FR_STRINGS: ELocaleString[] = [
     <br/><br/>
     (If you wish, you can now go back and review your recordings, but this is not necessary. <b>You're done!</b>)`,
     description: `Descriptive text on the done screen`,
-    text: ` Vous avez terminé toutes vos cartes! Nous les examinerons bientôt, et si tout semble bon, vous recevrez un e-mail de rewards@perks.com dans les 7 à 10 prochains jours ouvrables avec un lien pour réclamer votre carte-cadeau. <br/> <br/> <b> merci d'avoir contribué <b class = count> {numéro_of_complèted_cards} cartes </b> pour projeter l'euphonie! </b> <br/> <br/> (si vous le souhaitez, Vous pouvez maintenant revenir en arrière et revoir vos enregistrements, mais ce n'est pas nécessaire. <b> Vous avez terminé! </b>)`
+    text: `
+        Vous avez terminé toutes vos cartes! Nous les examinerons bientôt,
+        et si tout semble bon, vous recevrez un e-mail de
+        rewards@perks.com
+        dans les 7 à 10 prochains jours ouvrables avec un lien pour réclamer votre carte-cadeau.
+        <br/><br/>
+        <b>merci d'avoir contribué
+        <b class=count>{number_of_completed_cards} cartes</b>
+        pour projeter l'euphonie!
+        </b><br/><br/>
+        (si vous le souhaitez, Vous pouvez maintenant revenir en arrière et revoir vos enregistrements, mais ce n'est pas nécessaire.
+        <b>Vous avez terminé!</b>)`
   },
   {
     key: `__INTEREST_FORM_HTML__`,
