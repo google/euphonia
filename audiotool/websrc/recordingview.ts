@@ -140,12 +140,12 @@ export class RecordingView {
       document.addEventListener('keyup', this.keyfn);
   
       if (!this.data.user || !this.data.consented) {
-        // Not ready to record; bound the user to the right screen
+        // Not ready to record; bounce the user to the right screen
         fork(async () => await this.app.navigateTo(''));
 
       } else if (this.data.hasMicrophonePermission !== 'yes') {
         // The record view requires the microphone permission to work, so try to get it
-        fork(async () => await this.app.navigateTo('/setup?passive=true'));
+        fork(async () => await this.app.navigateTo('/setup', true));
 
       } else {
         this.seenRecording = true;
@@ -684,7 +684,7 @@ export class RecordingView {
 
     if (canceled) {
       this.updateGUI();
-      this.app.showMessage('Recording canceled', 'error');
+      this.app.showMessage('Recording canceled.', 'error');
     } else if (!uploaded) {
       this.updateGUI();
       this.app.showMessage('Upload failed, your audio may not be saved.', 'error');

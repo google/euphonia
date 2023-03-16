@@ -15,6 +15,7 @@
  */
 
 import {formatWithArgs} from '../commonsrc/localization';
+import {SUPPORTED_LANGUAGES} from '../commonsrc/schema';
 
 // Some simply JQuery conveniences
 $.fn.eadd = function(spec) {
@@ -106,8 +107,14 @@ $.fn.eaddtr = function(cellNodes: JQuery<HTMLElement>[], rowClass?: string): JQu
   return result;
 }
 
-// This is the browser's language or the user's language.
-export let CURRENT_LANGUAGE = 'en-US';
+// The user's selected language, from their profile or from the URL.
+let CURRENT_LANGUAGE = 'en-US';
+
+export function setDisplayLanguage(lang: string) {
+  if (SUPPORTED_LANGUAGES.has(lang)) {
+    CURRENT_LANGUAGE = lang;
+  }
+}
 
 $.fn.eitext = function(formatString: string, ...args: string[]): JQuery<HTMLElement> {
   return this.etext(formatWithArgs(CURRENT_LANGUAGE, formatString, ...args));

@@ -23,11 +23,16 @@ import {SetupView} from './setupview';
 import {ConsentView} from './consentview';
 import {RecordingView} from './recordingview';
 import {DoneView} from './doneview';
-import {Spinner, animateCss, sleep, fadeIn} from './util';
+import {Spinner, animateCss, sleep, fadeIn, setDisplayLanguage} from './util';
 
 // Implements all participant UX.
 export class App implements Listener {
+  // Data and navigation
   data: Data;
+  navPath: string = '';    // which navigation location the user wants; parsed from the hash
+  navPassive = false;      // whether the passive parameter is set in the hash
+
+  // Sub-views of the app
   main: JQuery<HTMLElement>;
   signupView: SignupView;
   interestView: InterestView;
@@ -48,6 +53,7 @@ export class App implements Listener {
     // Firebase setup stuff
     euphoniaInitializeFirebase();
     this.data = new Data(this);
+    this.parseHash();
 
     // DOM elements
     this.main = $('#main');
@@ -93,53 +99,103 @@ export class App implements Listener {
   }
 
   // Returns the navigation path from the current browser navbar, or a default otherwise.
-  private parseHash() {
-    const hash = window.location.hash;
-    if (!hash || !hash.startsWith('#')) {
-      return this.chooseBestNav();  // Automatically choose the view based on the user's state
+  private parseHash(): void {
+    const hash = window.location.hash ? decodeURIComponent(window.location.hash) : window.location.hash;
+
+    // Parse the hash, which is in the syntax #/path;key=value;key=value...
+    const parts = hash && hash.startsWith('#') ? hash.substring(1).split(';') : [];
+
+    // Parse any parameters we should draw from the hash like languages or tags
+    let [navLanguage, navTags] = this.data.loadEnrollTags();
+    this.navPassive = false;
+    let seenTags = false;
+    for (const part of parts) {
+      if (part.startsWith('lang=')) {
+        navLanguage = part.substring(5);
+
+      } else if (part.startsWith('tag=')) {
+        if (!seenTags) {
+          seenTags = true;
+          navTags = [];
+        }
+        navTags.push(part.substring(4));
+      } else if (part == 'passive=true') {
+        this.navPassive = true;
+      }
+    }
+    this.data.saveEnrollTags(navLanguage, navTags);
+    setDisplayLanguage(navLanguage);
+
+    if (parts.length < 1 || !parts[0].startsWith('/')) {
+      // There's no info here, choose defaults based on the user's state
+      this.chooseBestNav();
+
     } else {
-      return decodeURIComponent(hash.substring(1));
+      this.navPath = parts[0];
     }
   }
 
   // Decides where the user should be based on their current state
-  private chooseBestNav() {
+  private chooseBestNav(): void {
+    this.navPassive = false;
     if (!this.data.fbuser || !this.signupView.eligible) {
-      return '/enroll';  // They need to sign-in before we can do anything with them
+      this.navPath = '/enroll';  // They need to sign-in before we can do anything with them
     } else if (!this.data.isCompletedDemographics()) {
-      return '/interest';  // They need to complete the interest form
+      this.navPath = '/interest';  // They need to complete the interest form
     } else if (!this.data.consented || !this.data.user) {
-      return '/consent';  // They need to consent, or re-consent, and then create their records.
+      this.navPath = '/consent';  // They need to consent, or re-consent, and then create their records.
     } else if (this.data.user.numRecordings === 0 && !this.recordingView.seenRecording) {
-      return '/instructions';  // Show them instructions since they haven't recorded yet.
+      this.navPath = '/instructions';  // Show them instructions since they haven't recorded yet.
     } else if (this.data.user.numCompletedTasks >= this.data.user.numTasks) {
-      return '/done';  // Nothing left to do!
+      this.navPath = '/done';  // Nothing left to do!
     } else if (this.data.hasMicrophonePermission != 'yes') {
-      return '/setup?passive=true';  // Test or prompt for the microphone permission
+      // Test or prompt for the microphone permission
+      this.navPassive = true;
+      this.navPath = '/setup';
     } else {
-      return '/record';  // Ready for recording!
+      this.navPath = '/record';  // Ready for recording!
     }
   }
 
   // Navigates to the given resource.
-  async navigateTo(path: string) {
+  async navigateTo(path: string, passive = false) {
     if (path.startsWith('/enroll')) {
-      window.location.hash = `#/enroll`;
+      this.navPath = `/enroll`;
     } else if (path.startsWith('/interest')) {
-      window.location.hash = `#/interest`;
+      this.navPath = `/interest`;
     } else if (path.startsWith('/consent')) {
-      window.location.hash = `#/consent`;
+      this.navPath = `/consent`;
     } else if (path.startsWith('/instructions')) {
-      window.location.hash = `#/instructions`;
+      this.navPath = `/instructions`;
     } else if (path.startsWith('/setup')) {
-      window.location.hash = `#${path}`;
+      this.navPath = `/setup`;
+      this.navPassive = passive;
     } else if (path.startsWith('/record')) {
-      window.location.hash = `#/record`;
+      this.navPath = `/record`;
     } else if (path.startsWith('/done')) {
-      window.location.hash = `#/done`;
+      this.navPath = `/done`;
     } else {
-      await this.navigateTo(this.chooseBestNav());
+      this.chooseBestNav();
     }
+
+    // Changing the hash string triggers onHashChange
+    window.location.hash = this.buildHash();
+  }
+
+  // Rebuilds the hash string from the last parsed navigation
+  private buildHash(): string {
+    const [lang, tags] = this.data.loadEnrollTags();
+    let result = `#${this.navPath}`;
+    if (this.navPassive) {
+      result += ';passive=true';
+    }
+    if (lang) {
+      result += `;lang=${lang}`;
+    }
+    for (const tag of tags) {
+      result += `;tag=${tag}`;
+    }
+    return result;
   }
 
   // React to any changes to the user's sign-in state or data
@@ -166,32 +222,32 @@ export class App implements Listener {
 
   // Surfaces the view identified by the given string hash path when it changes.
   private async handleHashChange() {
-    const path = this.parseHash();
+    this.parseHash();
 
-    if (path.startsWith('/enroll')) {
+    if (this.navPath == '/enroll') {
       await this.showView(this.signupView);
 
-    } else if (path.startsWith('/interest')) {
+    } else if (this.navPath == '/interest') {
       await this.showView(this.interestView);
 
-    } else if (path.startsWith('/consent')) {
+    } else if (this.navPath == '/consent') {
       await this.showView(this.consentView);
 
-    } else if (path.startsWith('/instructions')) {
+    } else if (this.navPath == '/instructions') {
       await this.showView(this.instructionsView);
 
-    } else if (path.startsWith('/setup')) {
+    } else if (this.navPath == '/setup') {
       await this.showView(this.setupView);
 
-    } else if (path.startsWith('/record')) {
+    } else if (this.navPath == '/record') {
       await this.showView(this.recordingView);
 
-    } else if (path.startsWith('/done')) {
+    } else if (this.navPath == '/done') {
       await this.showView(this.doneView);
 
     } else {
       // On garbage, redirect to the best valid location
-      await this.navigateTo(this.chooseBestNav());
+      await this.navigateTo('');
     }
   }
 
@@ -211,4 +267,4 @@ export class App implements Listener {
 }
 
 // We're using require.js which runs scripts after the dom has loaded, so we can just go.
-new App();
+window['__audiotool_app'] = new App();

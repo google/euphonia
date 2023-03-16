@@ -16,9 +16,7 @@
 
 import {Data} from './data';
 import {App} from './app';
-import * as firebaseconfig from './firebaseconfig';
 import * as schema from '../commonsrc/schema';
-import {parseTags} from '../commonsrc/util';
 import {Spinner} from './util';
 
 // Shows the consents to the user immediately before they enroll.
@@ -38,18 +36,7 @@ export class ConsentView {
     this.data = app.data;
     this.div = app.main.eadd('<div id=consentview />');
     this.div.hide();
-
-    if (this.data.user) {
-      // The user is already enrolled so get their language and tags
-      this.language = this.data.user.language;
-      this.tags = this.data.user.tags;
-    } else {
-      // Get the applicable language code and tags from their invite URL
-      const params = new URLSearchParams(window.location.search);
-      const lang = params.get('lang');
-      this.language = lang ? lang : firebaseconfig.DEFAULT_SIGNUP_LANGUAGE;
-      this.tags = parseTags(params.get('t'));
-    }
+    [this.language, this.tags] = this.data.loadEnrollTags();
 
     // Consent view, shown after signup but before recording
     this.div.eadd('<div class=title />').eitext(`Welcome to Project Euphonia!`);
@@ -84,6 +71,7 @@ export class ConsentView {
     
     $('#whoisenrolling').text(this.data.fbuser.email);
     this.consents = await this.data.listConsents(this.language, this.tags);
+    [this.language, this.tags] = this.data.loadEnrollTags();
 
     if (this.consents.length < 1) {
       this.displayError();
@@ -166,7 +154,7 @@ export class ConsentView {
         }
       });
     });
-    const backButton = buttonBox.eadd('<button>Go Back</button>');
+    const backButton = buttonBox.eadd('<button />').eitext('Go Back');
     backButton.on('click', async e => {
       if (isFirst) {
       await this.app.navigateTo('/interest');

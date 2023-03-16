@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-import {authenticatedFetch, postAsJson, Spinner} from './util';
+import {authenticatedFetch, postAsJson, Spinner, setDisplayLanguage} from './util';
 import {formatDateCode} from '../commonsrc/util';
 import * as schema from '../commonsrc/schema';
+import * as firebaseconfig from './firebaseconfig';
 
 // A DAO and server connection for the user's application state.
 export class Data {
@@ -164,6 +165,30 @@ export class Data {
     return deviceId ? deviceId : '';
   }
 
+  // Stores tag and lang markers in local storage, so we can fill in defaults during enrollment.
+  saveEnrollTags(lang: string, tags: string[]) {
+    if (lang) {
+      localStorage.setItem('lang', lang);
+    }
+    localStorage.setItem('tags', JSON.stringify(tags));
+  }
+
+  // Restores any enrollment tags that the user had previously, and treats these as defaults.
+  loadEnrollTags(): [string, string[]] {
+    if (this.user) {
+      // Once the user is enrolled, we prefer their persistent tags over the local storage cache
+      return [this.user.language, this.user.tags];
+    }
+
+    const lang = localStorage.getItem('lang');
+    const tagsJson = localStorage.getItem('tags');
+
+    return [
+      lang ? lang : firebaseconfig.DEFAULT_SIGNUP_LANGUAGE,
+      tagsJson ? JSON.parse(tagsJson) as string[] : []
+    ];
+  }
+
   // Returns true if all required fields in the demographics struct are complete.
   isCompletedDemographics(): boolean {
     let d: schema.UserDemographics;
@@ -188,6 +213,9 @@ export class Data {
     this.tasksById.clear();
     for (const task of tasks) {
       this.tasksById.set(task.id, task);
+    }
+    if (user) {
+      setDisplayLanguage(user.language);
     }
   }
 

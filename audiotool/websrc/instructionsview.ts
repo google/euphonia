@@ -45,7 +45,7 @@ export class InstructionsView {
     <li>Having trouble recording? <a target="_blank" href="http://g.co/disabilitysupport">Contact us</a> for help.</li>
     `);
     this.doneButton = this.div.eadd('<button />').eitext('Get Started');
-    this.doneButton.on('click', async e => await this.app.navigateTo('/setup?passive=true'));
+    this.doneButton.on('click', async e => await this.app.navigateTo('/setup', true));
 
     this.video = this.div.eadd('<div class=video />');
   }

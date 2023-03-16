@@ -75,7 +75,7 @@ export class SetupView {
 
   // Hides or shows the whole display
   async eshow(show: boolean): Promise<void> {
-    this.passive = (window.location.hash.indexOf('/setup?passive=true') != -1);
+    this.passive = this.app.navPassive;
     this.div.eshow(show);
     this.updateGUI();
 
