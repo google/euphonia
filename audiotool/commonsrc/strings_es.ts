@@ -33,7 +33,7 @@ export const ES_STRINGS: ELocaleString[] = [
     text: `
     Exploramos cómo los productos y servicios de Google que utilizan la voz como método de entrada podrían funcionar mejor para más usuarios.
     
-    Estamos buscando contribuciones de voz de adultos que tienen dificultades para ser entendidos por otros.
+    Buscamos muestras de voz de adultos que tienen dificultad para ser entendidos por otros.
     
     Las muestras de voz pueden ayudarnos a mejorar la forma en que Google entiende a las personas con problemas del habla.
     `
@@ -511,7 +511,7 @@ export const ES_STRINGS: ELocaleString[] = [
     text: `
 
     <div class=title
-    >Google Project Euphonia: formulario de interés</div>
+    >Google Project Euphonia - Formulario de interés</div>
     <div class=sectiontitle
     >Acerca de ti</div>
     <div class=formbox>
@@ -530,7 +530,7 @@ export const ES_STRINGS: ELocaleString[] = [
     >¿En qué país reside?</label>
     <span class=required>*</span></div>
     <div class=fielddescription
-    >Importante, tenga en cuenta: lamentablemente no podemos enviar tarjetas de regalo en este momento a los residentes de los países indicados a continuación con un asterisco (*). Si reside en uno de estos países, aún puede participar en la investigación del Proyecto Euphonia, y le notificaremos si y cuándo podrá recibir tarjetas de regalo.
+    >IMPORTANTE, TENER EN CUENTA: Lamentablemente, no podemos enviar tarjetas de regalo en este momento a los residentes de los países indicados a continuación con un asterisco (*). Si resides en uno de estos países, aún puedes participar en la investigación del Proyecto Euphonia y le notificaremos si podrá recibir tarjetas de regalo y cuándo.
     </div>
     <select id=ifcountry class=formselect>
     <option value="Spain">España</option>
@@ -829,7 +829,7 @@ export const ES_STRINGS: ELocaleString[] = [
     
     <div class=formbox>
     <div class=fieldname><label for=ifreferral
-    >Cuéntanos cómo escuchaste sobre este proyecto</label>
+    >Cuéntanos cómo te enteraste de este proyecto.</label>
     <span class=optional
     >(Opcional)</span>
     </div>
@@ -876,14 +876,14 @@ export const ES_STRINGS: ELocaleString[] = [
     
     <div class=formbox>
     <div class=fieldname
-    >¿A cuál de estos tiene acceso?
+    >¿A cuál de estos dispositivos tienes acceso?
     <span class=optional
     >(Opcional)</span>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifdevicecomputer />
     <label for=ifdevicecomputer
-    >Una computadora conectada a Internet equipada con un micrófono y altavoces</label>
+    >Una computadora conectada a Internet equipada con un micrófono y parlantes</label>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifdeviceandroid />
@@ -910,35 +910,35 @@ export const ES_STRINGS: ELocaleString[] = [
     
     <div class=formbox id=helperbox>
     <div class=fieldname
-    >¿Alguien te ayudará a grabar muestras de habla?
+    >¿Alguien te va ayudar a grabar las  muestras de voz?
     <span class=required>*</span></div>
     <div class=fielddescription
-    >Por ejemplo, un miembro de la familia, terapeuta del habla u otra persona</div>
+    >Por ejemplo, un miembro de la familia, un terapeuta del habla u alguna otra otra persona</div>
     <div class=checkboxrow>
     <input type=radio name=ifhelper id=ifhelperno selected />
     <label for=ifhelperno
-    >No, participaré de forma independiente</label>
+    >No, estaré participando de forma independiente.</label>
     </div>
     <div class=checkboxrow>
     <input type=radio name=ifhelper id=ifhelperyes />
     <label for=ifhelperyes
-    >Sí, alguien me ayudará y se siente cómodo conmigo compartiendo su información de contacto</label>
+    >Sí, alguien me ayudará y se siente cómodo compartiendo su información de contacto</label>
     </div>
     </div>
     
     <!-- Helper panel appears if the user chooses "yes" above -->
     <div id=helpersection>
     <div class=sectiontitle
-    >Sobre la persona que te ayuda</div>
+    >Sobre la persona que te está ayudando</div>
     <div class=formbox>
     <div class=fielddescription>
-    Cuéntanos un poco sobre la persona que te ayuda, para que podamos mantenernos en contacto con los dos. Al incluir el nombre de su asistente, comprende que recibirán información sobre su participación en este proyecto. Puede enumerar más de un asistente y un correo electrónico: simplemente separe cada uno con una coma.
+    Cuéntanos un poco sobre la persona que te va ayudar, para que podamos mantenernos en contacto con ambos. Al incluir el nombre de la persona que te asiste, entiendes que recibirán información sobre tu participación en este proyecto. Puedes enumerar más de una persona y correo electrónico, solo separa cada uno de ellos con una coma.
     </div>
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifassistantname
-    >Nombre del asistente</label>
+    >Nombre de la persona que asiste</label>
     <span class=optional
     >(Opcional)</span>
     </div>
@@ -947,38 +947,40 @@ export const ES_STRINGS: ELocaleString[] = [
     
     <div class=formbox>
     <div class=fieldname><label for=ifassistantemail
-    >Dirección de correo electrónico del asistente</label>
+    >E-mail de la persona que asiste</label>
     <span class=required>*</span></div>
     <input type=text class=formtext id=ifassistantemail />
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifassistantrelationship
-    >¿Cuál es la relación de esta persona contigo?</label>
+    >¿Cuál es la relación de esta persona con usted?</label>
     <span class=optional
     >(Opcional)</span>
     </div>
     <div class=fielddescription
-    >Por ejemplo: cuidador, amigo, familiar, terapeuta del habla, etc.</div>
+    >Por ejemplo, cuidador, familiar, amigo, logopeda, etc.</div>
     <input type=text class=formtext id=ifassistantrelationship />
     </div>
     </div>
     
     <div class=sectiontitle
-    >Google Project Euphonia: consentimiento</div>
+    Proyecto Google Euphonía - consentimiento</div>
     
     <div class=forminfobox>
     <div class=fieldname
-    >Cuestionario recopilación de información confidencial de identificación personal</div>
+    >Cuestionario de Recopilación de información confidencial de identificación personal</div>
     <div class=fielddescription>
-    El propósito de este cuestionario es verificar su elegibilidad para un próximo esfuerzo de recopilación de datos con Google, y el propósito de la colección será ayudar a Google a diseñar, investigar, desarrollar, construir y mejorar la accesibilidad de sus productos y servicios actuales y futuros relacionados. a las tecnologías del habla.
-    La información que proporciona en este cuestionario se puede combinar con otra información y datos que eligió para proporcionar durante la recopilación de datos, si es seleccionado para participar.
+    El propósito de este cuestionario es verificar tu elegibilidad para un próximo esfuerzo de recopilación de datos para el proyecto Euphonia. El objetivo de recopilar estos datos es ayudar a Google a diseñar, investigar, desarrollar, construir y mejorar la accesibilidad de sus productos y servicios actuales y futuros relacionados a las tecnologías del habla.
+    La información que proporciones en este cuestionario puede combinarse con otra información y datos que elijas proporcionar durante la recopilación de datos, si eres seleccionado para participar.
     </div>
     </div>
     
     <div class=formbox>
     <div class=fieldname>
-    Con su consentimiento, Google recopilará y procesará la información personal que elija proporcionar (a) cuando envíe este cuestionario y (b) si se selecciona para participar en el proyecto, cuando participa en las tareas de recopilación de datos, incluida la información sobre Su uso de tecnología de asistencia, discapacidad o discapacidad del habla y patrones de voz.
+    Con tu consentimiento, Google recopilará y procesará la información personal que elijas proporcionar 
+    (a) cuando envíes este cuestionario y 
+    (b) si eres seleccionado para participar en el proyecto, durante las tareas de recopilación de datos, incluida información sobre el uso de tecnología de asistencia, discapacidad o impedimento del habla y patrones del habla. 
     <span class=required>*</span>
     </div>
     <div class=checkboxrow>
@@ -1011,13 +1013,13 @@ export const ES_STRINGS: ELocaleString[] = [
     
     <div class=forminfobox>
     <div class=fieldname>
-    Al enviar este formulario, le da a Google y sus afiliados su consentimiento para contactarlo por correo electrónico.
+    Al enviar este formulario, otorgas a Google y sus afiliados tu consentimiento para contactarte por correo electrónico.
     </div>
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifotherinfo>
-    ¿Tiene alguna otra información que le gustaría compartir con nosotros?
+    ¿Tienes alguna otra información que te gustaría compartir con nosotros?
     </label>
     <span class=optional
     >(Opcional)</span>
