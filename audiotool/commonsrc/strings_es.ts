@@ -125,6 +125,16 @@ export const ES_STRINGS: ELocaleString[] = [
         <span id=consentcounter></span>`
   },
   {
+    key: `Enroll`,
+    description: `Consent screen, final action; consents to the program and allows recording`,
+    text: `Inscribirse`,
+  },
+  {
+    key: `Next Agreement`,
+    description: `Consent screen, to agree to the current consent and then see the next one. Only shows when there are multiple consents`,
+    text: `Siguiente acuerdo`,
+  },
+  {
     key: `Thanks for signing up for Project Euphonia!`,
     description: `Instructions screen title`,
     text: `¡Gracias por registrarse en el Proyecto Euphonia!`
@@ -278,6 +288,51 @@ export const ES_STRINGS: ELocaleString[] = [
     key: `Done`,
     description: `Recording screen button, shown while recording to end the recording and start uploading it`,
     text: `Hecho`
+  },
+  {
+    key: `Starting...`,
+    description: `Recording screen button, shown briefly just before the microphone starts listening`,
+    text: `A partir de...`
+  },
+  {
+    key: `Now recording...`,
+    description: `Recording screen button, shown briefly just before the microphone starts listening`,
+    text: `Ahora grabando ...`
+  },
+  {
+    key: `Recording uploaded!`,
+    description: `Recording screen message when the recording uploaded successfully`,
+    text: `¡Grabación cargada!`
+  },
+  {
+    key: `Recording uploaded! Here's the next card.`,
+    description: `Recording screen message when the recording uploads successfully and the next card is automatically displayed`,
+    text: `¡Grabación cargada! Aquí está la próxima tarjeta.`
+  },
+  {
+    key: `Recording deleted.`,
+    description: `Recording screen message when a recording has just been deleted`,
+    text: `Grabación eliminada.`
+  },
+  {
+    key: `Recording canceled.`,
+    description: `Recording screen message when a recording has just been canceled`,
+    text: `Grabación cancelada.`
+  },
+  {
+    key: `No recording to delete.`,
+    description: `Error message when the user deletes but nothing is selected.`,
+    text: `No hay grabación para eliminar.`
+  },
+  {
+    key: `No recording to play.`,
+    description: `Error message when the user replays but nothing is selected.`,
+    text: `No hay grabación para reproducir.`
+  },
+  {
+    key: `Upload failed, your audio may not be saved.`,
+    description: `Error message when the user's recording was not received by the server.`,
+    text: `Carga falló, su audio no se puede guardar.`
   },
   {
     key: `Canceling...`,

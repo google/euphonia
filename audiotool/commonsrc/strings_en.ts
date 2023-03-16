@@ -97,7 +97,7 @@ export const EN_STRINGS: ELocaleString[] = [
   },
   {
     key: `Go Back`,
-    description: `Interest form button, go back to the signup screen`,
+    description: `Interest form and consent form buttons, go back to the previous screen`,
     text: `Go Back`
   },
   {
@@ -118,6 +118,16 @@ export const EN_STRINGS: ELocaleString[] = [
         <b id=whoisenrolling>&nbsp;</b>.
         Please review the following agreement:
         <span id=consentcounter></span>`
+  },
+  {
+    key: `Enroll`,
+    description: `Consent screen, final action; consents to the program and allows recording`,
+    text: `Enroll`,
+  },
+  {
+    key: `Next Agreement`,
+    description: `Consent screen, to agree to the current consent and then see the next one. Only shows when there are multiple consents`,
+    text: `Next Agreement`,
   },
   {
     key: `Thanks for signing up for Project Euphonia!`,
@@ -276,6 +286,51 @@ export const EN_STRINGS: ELocaleString[] = [
     key: `Done`,
     description: `Recording screen button, shown while recording to end the recording and start uploading it`,
     text: `Done`
+  },
+  {
+    key: `Starting...`,
+    description: `Recording screen button, shown briefly just before the microphone starts listening`,
+    text: `Starting...`
+  },
+  {
+    key: `Now recording...`,
+    description: `Recording screen button, shown briefly just before the microphone starts listening`,
+    text: `Now recording...`
+  },
+  {
+    key: `Recording uploaded!`,
+    description: `Recording screen message when the recording uploaded successfully`,
+    text: `Recording uploaded!`
+  },
+  {
+    key: `Recording uploaded! Here's the next card.`,
+    description: `Recording screen message when the recording uploads successfully and the next card is automatically displayed`,
+    text: `Recording uploaded! Here's the next card.`
+  },
+  {
+    key: `Recording deleted.`,
+    description: `Recording screen message when a recording has just been deleted`,
+    text: `Recording deleted.`
+  },
+  {
+    key: `Recording canceled.`,
+    description: `Recording screen message when a recording has just been canceled`,
+    text: `Recording canceled.`
+  },
+  {
+    key: `No recording to delete.`,
+    description: `Error message when the user deletes but nothing is selected.`,
+    text: `No recording to delete.`
+  },
+  {
+    key: `No recording to play.`,
+    description: `Error message when the user replays but nothing is selected.`,
+    text: `No recording to play.`
+  },
+  {
+    key: `Upload failed, your audio may not be saved.`,
+    description: `Error message when the user's recording was not received by the server.`,
+    text: `Upload failed, your audio may not be saved.`
   },
   {
     key: `Canceling...`,
@@ -967,6 +1022,6 @@ export const EN_STRINGS: ELocaleString[] = [
       </div>
       <input id=ifotherinfo class=formtext />
     </div>
-`    
+`
   },
 ];

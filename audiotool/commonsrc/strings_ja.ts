@@ -112,6 +112,16 @@ export const JA_STRINGS: ELocaleString[] = [
       として登録しています。次の契約を確認してください。`
   },
   {
+    key: `Enroll`,
+    description: `Consent screen, final action; consents to the program and allows recording`,
+    text: `登録`,
+  },
+  {
+    key: `Next Agreement`,
+    description: `Consent screen, to agree to the current consent and then see the next one. Only shows when there are multiple consents`,
+    text: `次の契約`,
+  },
+  {
     key: `Thanks for signing up for Project Euphonia!`,
     description: `Instructions screen title`,
     text: `Project Euphoniaにサインアップしてくれてありがとう！`
@@ -260,6 +270,52 @@ export const JA_STRINGS: ELocaleString[] = [
     text: `終わり`
   },
   {
+    key: `Starting...`,
+    description: `Recording screen button, shown briefly just before the microphone starts listening`,
+    text: `起動...`
+  },
+  {
+    key: `Now recording...`,
+    description: `Recording screen button, shown briefly just before the microphone starts listening`,
+    text: `今録音...`
+  },
+  {
+    key: `Recording uploaded!`,
+    description: `Recording screen message when the recording uploaded successfully`,
+    text: `アップロードされた録音！`
+  },
+  {
+    key: `Recording uploaded! Here's the next card.`,
+    description: `Recording screen message when the recording uploads successfully and the next card is automatically displayed`,
+    text: `アップロードされた録音！これが次のカードです。`
+  },
+  {
+    key: `Recording deleted.`,
+    description: `Recording screen message when a recording has just been deleted`,
+    text: `録音削除。`
+  },
+  {
+    key: `Recording canceled.`,
+    description: `Recording screen message when a recording has just been canceled`,
+    text: `キャンセルされた録音。`
+  },
+  {
+    key: `No recording to delete.`,
+    description: `Error message when the user deletes but nothing is selected.`,
+    text: `削除する録音はありません。`
+  },
+  {
+    key: `No recording to play.`,
+    description: `Error message when the user replays but nothing is selected.`,
+    text: `プレイする録音はありません。`
+  },
+  {
+    key: `Upload failed, your audio may not be saved.`,
+    description: `Error message when the user's recording was not received by the server.`,
+    text: `アップロードが失敗し、オーディオが保存されない場合があります。`
+  },
+  
+  {
     key: `Canceling...`,
     description: `Recording screen button, shown briefly when the recording is being canceled`,
     text: `キャンセル...`
@@ -311,9 +367,9 @@ export const JA_STRINGS: ELocaleString[] = [
   <b class=count>{number_of_completed_cards} cards</b>
   out of the total (<b>{total_number_of_tasks_needed} cards</b>).
   When you're ready, you can click the button below to finish up the rest of the cards.      `,
-  description: `Done screen instructions, asks the user to go finish the rest of the cards.
+    description: `Done screen instructions, asks the user to go finish the rest of the cards.
       This version displays when the user has done more than 75% of the work.`,
-  text: `
+    text: `
       ほぼ終わりです！一度カードを調べて、
       {number_of_completed_cards} / {total_number_of_tasks_needed}
       カードを記録しました</b> 

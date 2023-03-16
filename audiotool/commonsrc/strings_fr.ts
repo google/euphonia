@@ -114,6 +114,16 @@ export const FR_STRINGS: ELocaleString[] = [
         <span id=consentcounter></span>`
   },
   {
+    key: `Enroll`,
+    description: `Consent screen, final action; consents to the program and allows recording`,
+    text: `Inscrire`,
+  },
+  {
+    key: `Next Agreement`,
+    description: `Consent screen, to agree to the current consent and then see the next one. Only shows when there are multiple consents`,
+    text: `Prochain accord`,
+  },
+  {
     key: `Thanks for signing up for Project Euphonia!`,
     description: `Instructions screen title`,
     text: `Merci de vous inscrire à Project Euphonia!`
@@ -268,6 +278,51 @@ export const FR_STRINGS: ELocaleString[] = [
     key: `Done`,
     description: `Recording screen button, shown while recording to end the recording and start uploading it`,
     text: `Fait`
+  },
+  {
+    key: `Starting...`,
+    description: `Recording screen button, shown briefly just before the microphone starts listening`,
+    text: `Départ...`
+  },
+  {
+    key: `Now recording...`,
+    description: `Recording screen button, shown briefly just before the microphone starts listening`,
+    text: `Maintenant enregistrer ...`
+  },
+  {
+    key: `Recording uploaded!`,
+    description: `Recording screen message when the recording uploaded successfully`,
+    text: `Enregistrement téléchargé!`
+  },
+  {
+    key: `Recording uploaded! Here's the next card.`,
+    description: `Recording screen message when the recording uploads successfully and the next card is automatically displayed`,
+    text: `Enregistrement téléchargé! Voici la prochaine carte.`
+  },
+  {
+    key: `Recording deleted.`,
+    description: `Recording screen message when a recording has just been deleted`,
+    text: `Enregistrement supprimé.`
+  },
+  {
+    key: `Recording canceled.`,
+    description: `Recording screen message when a recording has just been canceled`,
+    text: `Enregistrement annulé.`
+  },
+  {
+    key: `No recording to delete.`,
+    description: `Error message when the user deletes but nothing is selected.`,
+    text: `Aucun enregistrement à supprimer.`
+  },
+  {
+    key: `No recording to play.`,
+    description: `Error message when the user replays but nothing is selected.`,
+    text: `Aucun enregistrement à jouer.`
+  },
+  {
+    key: `Upload failed, your audio may not be saved.`,
+    description: `Error message when the user's recording was not received by the server.`,
+    text: `Le téléchargement a échoué, votre audio ne peut pas être enregistré.`
   },
   {
     key: `Canceling...`,
@@ -468,6 +523,7 @@ export const FR_STRINGS: ELocaleString[] = [
   >Important, veuillez noter: nous sommes malheureusement incapables d'envoyer des cartes-cadeaux pour le moment aux résidents des pays indiqués ci-dessous avec un astérisque (*). Si vous résidez dans l'un de ces pays, vous êtes toujours invité à participer à Project Euphonia Research, et nous vous informerons si et quand vous pourrez recevoir des cartes-cadeaux.
   </div>
   <select id=ifcountry class=formselect>
+  <option value="France">France</option>
   <option value="USA">United States of America</option>
   <option value="* Afghanistan">* Afghanistan</option>
   <option value="* Albania">* Albania</option>
@@ -533,7 +589,6 @@ export const FR_STRINGS: ELocaleString[] = [
   <option value="Ethiopia">Ethiopia</option>
   <option value="Fiji">Fiji</option>
   <option value="Finland">Finland</option>
-  <option value="France">France</option>
   <option value="Gabon">Gabon</option>
   <option value="Gambia, The">Gambia, The</option>
   <option value="Georgia">Georgia</option>
@@ -959,6 +1014,6 @@ export const FR_STRINGS: ELocaleString[] = [
   </div>
   <input id=ifotherinfo class=formtext />
   </div>
-`    
+`
   },
 ];
