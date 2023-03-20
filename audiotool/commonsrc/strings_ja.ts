@@ -874,9 +874,9 @@ export const JA_STRINGS: ELocaleString[] = [
 </div>
 <div class=checkboxrow>
 <input type=checkbox id=ifdeviceother />
-<label for=ifdeviceother
+<label id=ifdeviceotherlabel for=ifdeviceother
 >他の：</label>
-<input type=text class=formtext id=ifdeviceothertext aria-label="Name of other device" />
+<input type=text class=formtext id=ifdeviceothertext aria-labelledby="ifdeviceotherlabel" />
 </div>
 </div>
 
@@ -955,10 +955,10 @@ export const JA_STRINGS: ELocaleString[] = [
 </div>
 <div class=checkboxrow>
 <input type=checkbox id=ifformconsent />
-<label for=ifformconsent>
+<label id=ifformconsentlabel for=ifformconsent>
 私は自分の同意を与え、ここに私のイニシャルを入力します：
 </label>
-<input type=text class=formtext id=ifconsentinitials aria-label="Your initials" />
+<input type=text class=formtext id=ifconsentinitials aria-labelledby="ifformconsentlabel" />
 </div>
 </div>
 

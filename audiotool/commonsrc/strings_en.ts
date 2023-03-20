@@ -900,9 +900,9 @@ export const EN_STRINGS: ELocaleString[] = [
       </div>
       <div class=checkboxrow>
         <input type=checkbox id=ifdeviceother />
-        <label for=ifdeviceother
+        <label id=ifdeviceotherlabel for=ifdeviceother
         >Other:</label>
-        <input type=text class=formtext id=ifdeviceothertext aria-label="Name of other device" />
+        <input type=text class=formtext id=ifdeviceothertext aria-labelledby="ifdeviceotherlabel" />
       </div>
     </div>
     
@@ -981,10 +981,10 @@ export const EN_STRINGS: ELocaleString[] = [
       </div>
       <div class=checkboxrow>
         <input type=checkbox id=ifformconsent />
-        <label for=ifformconsent>
+        <label id=ifformconsentlabel for=ifformconsent>
           I give my consent, and will enter my initials here:
         </label>
-        <input type=text class=formtext id=ifconsentinitials aria-label="Your initials" />
+        <input type=text class=formtext id=ifconsentinitials aria-labelledby="ifformconsentlabel" />
       </div>
     </div>
     

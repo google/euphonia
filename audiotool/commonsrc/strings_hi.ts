@@ -874,9 +874,9 @@ export const HI_STRINGS: ELocaleString[] = [
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifdeviceother />
-    <label for=ifdeviceother
+    <label id=ifdeviceotherlabel for=ifdeviceother
     >अन्य:</label>
-    <input type=text class=formtext id=ifdeviceothertext aria-label="Name of other device" />
+    <input type=text class=formtext id=ifdeviceothertext aria-labelledby="ifdeviceotherlabel" />
     </div>
     </div>
     
@@ -955,10 +955,10 @@ export const HI_STRINGS: ELocaleString[] = [
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifformconsent />
-    <label for=ifformconsent>
+    <label id=ifformconsentlabel for=ifformconsent>
     मैं अपनी सहमति देता हूं, और यहां अपने शुरुआती में प्रवेश करूंगा:
     </label>
-    <input type=text class=formtext id=ifconsentinitials aria-label="Your initials" />
+    <input type=text class=formtext id=ifconsentinitials aria-labelledby="ifformconsentlabel" />
     </div>
     </div>
     
