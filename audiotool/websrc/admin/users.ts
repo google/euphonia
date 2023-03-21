@@ -17,8 +17,9 @@
 import {AdminView} from './admin';
 import {UserDetailView, UserPropertiesDialog, UserValues} from './userdetail';
 import {BulkAssignDialog} from './tasksets';
-import {formatTimestamp} from '../../commonsrc/util';
+import {formatTimestamp, lastitem} from '../../commonsrc/util';
 import {toast} from '../util';
+import * as schema from '../../commonsrc/schema';
 
 // Shows the list of all users.
 export class UsersView {
@@ -26,8 +27,25 @@ export class UsersView {
   div: JQuery<HTMLElement>;
   table: JQuery<HTMLElement>;
   ticks: Map<string, JQuery<HTMLElement>>;
+  sortSpec = new Set(['Last Recorded']);  // list of labels to sort by, from least to most significant
 
   userdetail?: UserDetailView;
+
+  // Each function sorts a pair of users by a particular property. Date sorts are descending by default.
+  static SORT_COMPARATORS = {
+    'EUID': (a: schema.EUserInfo, b: schema.EUserInfo) => a.euid.localeCompare(b.euid),
+    'Name': (a: schema.EUserInfo, b: schema.EUserInfo) => a.name.localeCompare(b.name),
+    'Email': (a: schema.EUserInfo, b: schema.EUserInfo) => a.email.localeCompare(b.email),
+    'Language': (a: schema.EUserInfo, b: schema.EUserInfo) => a.language.localeCompare(b.language),
+    'Tags': (a: schema.EUserInfo, b: schema.EUserInfo) => JSON.stringify(a.tags).localeCompare(JSON.stringify(b.tags)),
+    'Last Recorded': (a: schema.EUserInfo, b: schema.EUserInfo) => b.lastRecordingTimestamp - a.lastRecordingTimestamp,
+    'Num Recordings': (a: schema.EUserInfo, b: schema.EUserInfo) => a.numRecordings - b.numRecordings,
+    'Total Tasks': (a: schema.EUserInfo, b: schema.EUserInfo) => a.numTasks - b.numTasks,
+    'Tasks Completed': (a: schema.EUserInfo, b: schema.EUserInfo) => a.numCompletedTasks - b.numCompletedTasks,
+    'Tasks Remaining': (a: schema.EUserInfo, b: schema.EUserInfo) => (a.numTasks - a.numCompletedTasks) - (b.numTasks - b.numCompletedTasks),
+    'Created': (a: schema.EUserInfo, b: schema.EUserInfo) => b.createTimestamp - a.createTimestamp,
+    'Signed up': (a: schema.EUserInfo, b: schema.EUserInfo) => b.signupTimestamp - a.signupTimestamp,
+  };
 
   constructor(app: AdminView) {
     this.app = app;
@@ -74,23 +92,48 @@ export class UsersView {
 
   // Refills the table with the current list of users
   onDataChanged() {
-    this.table.html(`<thead><tr>
-                     <th class=tick><input type=checkbox id=tickallusers /></th>
-                     <th>EUID</th>
-                     <th>Name</th>
-                     <th>Email</th>
-                     <th>Language</th>
-                     <th>Tags</th>
-                     <th class=date>Last Recorded</th>
-                     <th class=num>Num Recordings</th>
-                     <th class=num>Total Tasks</th>
-                     <th class=num>Tasks Completed</th>
-                     <th class=num>Tasks Remaining</th>
-                     <th class=date>Created</th>
-                     <th class=date>Signed up</th></tr></thead>`);
+    this.drawTable();
+
+    if (this.userdetail) {
+      this.userdetail.onDataChanged();
+    }
+  }
+
+  // Refills the table with the current list of users
+  private drawTable() {
+    const currentSort = lastitem(this.sortSpec);
+
+    // Clear the table and install a sortable header
+    this.table.empty();
+    const headerRow = this.table.eadd('<thead />').eadd('<tr />');
+    headerRow.eadd(`<th class=tick><input type=checkbox id=tickallusers /></th>`);
+    $('#tickallusers').on('change', e => this.toggleTickAll());
+    const addHeader = (label: string, css?: string) => {
+      const th = headerRow.eadd(`<th />`);
+      if (css) {
+        th.addClass(css);
+      }
+      th.text(label);
+      th.on('click', e => this.setSort(label));
+      th.eclass('sorted', currentSort == label || currentSort == `-${label}`);
+    };
+    addHeader('EUID');
+    addHeader('Name');
+    addHeader('Email');
+    addHeader('Language');
+    addHeader('Tags');
+    addHeader('Last Recorded', 'date');
+    addHeader('Num Recordings', 'num');
+    addHeader('Total Tasks', 'num');
+    addHeader('Tasks Completed', 'num');
+    addHeader('Tasks Remaining', 'num');
+    addHeader('Created', 'date');
+    addHeader('Signed up', 'date');
+
+    // Add the table of data, sorted
     const tbody = this.table.eadd('<tbody />');
     this.ticks.clear();
-    for (const [, user] of this.app.data.users) {
+    for (const user of this.toSorted(this.app.data.users)) {
       const euid = user.euid;
       const tr = tbody.eadd('<tr />');
       this.ticks.set(euid, tr.eadd('<td class=tick />').eadd('<input type=checkbox />'));
@@ -107,11 +150,44 @@ export class UsersView {
       tr.eadd('<td class=date />').text(formatTimestamp(user.createTimestamp));
       tr.eadd('<td class=date />').text(formatTimestamp(user.signupTimestamp, 'Never'));
     }
+  }
 
-    $('#tickallusers').on('change', e => this.toggleTickAll());
+  // Changes the sort order of the users table; if the current sort is already this one, it is reversed.
+  private setSort(sortByHeader: string) {
+    const reverseOf = `-${sortByHeader}`;
+    const lastSort = lastitem(this.sortSpec);
 
-    if (this.userdetail) {
-      this.userdetail.onDataChanged();
+    this.sortSpec.delete(sortByHeader);
+    this.sortSpec.delete(reverseOf);
+
+    // Reverse the direction this time if we are re-sorting
+    if (lastSort == sortByHeader) {
+      this.sortSpec.add(reverseOf);
+    } else {
+      this.sortSpec.add(sortByHeader);
+    }
+
+    this.drawTable();
+  }
+
+  // Returns a sorted version of the given array of users.
+  private toSorted(users: Map<string, schema.EUserInfo>): schema.EUserInfo[] {
+    const result = [...users.values()];
+
+    // Resort the list from least to most significant ordering, expecting a stable sort.
+    for (let label of this.sortSpec) {
+      result.sort(UsersView.getComparator(label));
+    }
+    return result;
+  }
+
+  // Returns the comparator for the given label, optionally reversed
+  private static getComparator(label) {
+    if (label.startsWith('-')) {
+      const comparator = UsersView.SORT_COMPARATORS[label.substring(1)];
+      return (a: schema.EUserInfo, b: schema.EUserInfo) => comparator(b, a);
+    } else {
+      return UsersView.SORT_COMPARATORS[label];
     }
   }
 

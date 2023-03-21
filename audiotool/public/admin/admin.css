@@ -234,9 +234,13 @@ User List View
   border-bottom: 1px solid #aaa;
   font-size: 13px;
   font-weight: bold;
+  cursor: pointer;
 }
 #userview TABLE.users .tick {
   text-align: center;
+}
+#userview TABLE.users TH.sorted {
+  color: #d00;
 }
 
 #userview TABLE.users TR:hover TD {
