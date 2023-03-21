@@ -28,6 +28,7 @@ export class UsersView {
   table: JQuery<HTMLElement>;
   ticks: Map<string, JQuery<HTMLElement>>;
   sortSpec = new Set(['Last Recorded']);  // list of labels to sort by, from least to most significant
+  filterSpec?: string;  // for now this is just a text search
 
   userdetail?: UserDetailView;
 
@@ -56,10 +57,14 @@ export class UsersView {
     buttonBox.eadd('<button>New User</button>').on('click', async e => await this.startNewUser());
     buttonBox.eadd('<button>Assign Tasks</button>').on('click', async e => await this.startBulkAssign());
     buttonBox.eadd('<button>Refresh</button>').on('click', async e => await this.app.data.update());
-    // TODO: filterbar
+    const filterbox = this.div.eadd('<div class=filterbox />');
+    filterbox.eadd('<label />').etext('Filter: ');
+    const filterbar = filterbox.eadd('<input type=text class=filterbar />');
     const scrollbox = this.div.eadd('<div class=scrolltable />');
     this.table = scrollbox.eadd('<table class=users />');
     this.div.hide();
+
+    filterbar.on('input', e => this.setFilter(filterbar.val() as string));
   }
 
   getNav() {
@@ -134,6 +139,9 @@ export class UsersView {
     const tbody = this.table.eadd('<tbody />');
     this.ticks.clear();
     for (const user of this.toSorted(this.app.data.users)) {
+      if (!this.isFilterMatch(user)) {
+        continue;
+      }
       const euid = user.euid;
       const tr = tbody.eadd('<tr />');
       this.ticks.set(euid, tr.eadd('<td class=tick />').eadd('<input type=checkbox />'));
@@ -150,6 +158,36 @@ export class UsersView {
       tr.eadd('<td class=date />').text(formatTimestamp(user.createTimestamp));
       tr.eadd('<td class=date />').text(formatTimestamp(user.signupTimestamp, 'Never'));
     }
+  }
+
+  // Filters the user list with the given text.
+  private setFilter(filterSpec: string) {
+    if (!filterSpec || filterSpec.trim() == '') {
+      this.filterSpec = undefined;
+    } else {
+      this.filterSpec = filterSpec.trim().toLowerCase();
+    }
+    this.drawTable();
+  }
+
+  // Returns true if the given user matches the current filterspec.
+  private isFilterMatch(user: schema.EUserInfo): boolean {
+    if (!this.filterSpec) {
+      return true;
+    }
+
+    if (this.filterSpec.startsWith('tag:')) {
+      // Structured search for tags
+      const wantTag = this.filterSpec.substring(4);
+      for (const tag of user.tags) {
+        if (tag.indexOf(wantTag) != -1) {
+          return true;
+        }
+      }
+    }
+
+    // TODO - this is very silly!
+    return JSON.stringify(user).toLowerCase().indexOf(this.filterSpec) != -1;
   }
 
   // Changes the sort order of the users table; if the current sort is already this one, it is reversed.

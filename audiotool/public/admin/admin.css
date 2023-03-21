@@ -218,6 +218,21 @@ User List View
   margin: 5px 0 5px 0;
 }
 
+#userview .filterbox {
+  margin: 5px 0 5px 0;
+}
+
+#userview .filterbox LABEL {
+  font-size: 12px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+#userview .filterbox INPUT.filterbar {
+  font-size: 12px;
+  width: 80vw;
+}
+
 #userview .buttonbox BUTTON {
   margin-right: 5px;
 }
