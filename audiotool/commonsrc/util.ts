@@ -121,6 +121,15 @@ export function listhas<X>(item: X, ...list: X[]) {
   return list.indexOf(item) !== -1;
 }
 
+// Returns the last item in an iterable
+export function lastitem<X>(items: Iterable<X>): X|undefined {
+  let last: X|undefined = undefined;
+  for (const item of items) {
+    last = item;
+  }
+  return last;
+}
+
 // Encodes an array of binary data as a base64 string.
 export function toBase64(buffer: ArrayBuffer): string {
   let result = '';
