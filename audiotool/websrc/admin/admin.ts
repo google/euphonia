@@ -233,4 +233,4 @@ export class AdminView implements Listener {
 }
 
 // Go
-new AdminView();
+window['__audiotool_app'] = new AdminView();
