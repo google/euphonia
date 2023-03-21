@@ -106,9 +106,9 @@ export const ES_STRINGS: ELocaleString[] = [
     text: `Regresa`
   },
   {
-    key: `You must agree to the terms to continue.`,
+    key: `You must type your name to agree to the terms.`,
     description: `Consent form screen, require consent to proceed`,
-    text: `Debe aceptar los términos para continuar.`
+    text: `Debe escribir su nombre para aceptar los términos.`
   },
   {
     key: `Reset form and start over`,
@@ -457,9 +457,9 @@ export const ES_STRINGS: ELocaleString[] = [
     text: `Ya has consentido.`
   },
   {
-    key: `I agree to the terms above`,
+    key: `By typing my name here, I agree to these terms:`,
     description: `Consent screen, indicates that the participant consents`,
-    text: `Estoy de acuerdo con los términos anteriores`
+    text: `Al escribir mi nombre aquí, estoy de acuerdo con estos términos:`
   },
   {
     key: `&nbsp;(Agreement {which_agreement_number} of {total_number_of_agreements})`,

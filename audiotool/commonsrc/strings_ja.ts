@@ -94,9 +94,9 @@ export const JA_STRINGS: ELocaleString[] = [
     text: `戻る`
   },
   {
-    key: `You must agree to the terms to continue.`,
+    key: `You must type your name to agree to the terms.`,
     description: `Consent form screen, require consent to proceed`,
-    text: `継続するために条件に同意する必要があります。`
+    text: `条件に同意するには、名前を入力する必要があります。`
   },
   {
     key: `Reset form and start over`,
@@ -436,9 +436,9 @@ export const JA_STRINGS: ELocaleString[] = [
     text: `あなたはすでに同意しています。`
   },
   {
-    key: `I agree to the terms above`,
+    key: `By typing my name here, I agree to these terms:`,
     description: `Consent screen, indicates that the participant consents`,
-    text: `上記の用語に同意します`
+    text: `ここで私の名前を入力することで、これらの用語に同意します。`
   },
   {
     key: `&nbsp;(Agreement {which_agreement_number} of {total_number_of_agreements})`,

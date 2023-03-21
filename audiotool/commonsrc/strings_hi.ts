@@ -94,9 +94,9 @@ export const HI_STRINGS: ELocaleString[] = [
     text: `वापस जाओ`
   },
   {
-    key: `You must agree to the terms to continue.`,
+    key: `You must type your name to agree to the terms.`,
     description: `Consent form screen, require consent to proceed`,
-    text: `आपको जारी रखने के लिए शर्तों से सहमत होना चाहिए।`
+    text: `शर्तों से सहमत होने के लिए आपको अपना नाम टाइप करना होगा।`
   },
   {
     key: `Reset form and start over`,
@@ -430,9 +430,9 @@ export const HI_STRINGS: ELocaleString[] = [
     text: `आपने पहले ही सहमति दी है।`
   },
   {
-    key: `I agree to the terms above`,
+    key: `By typing my name here, I agree to these terms:`,
     description: `Consent screen, indicates that the participant consents`,
-    text: `मैं उपरोक्त शर्तों से सहमत हूं`
+    text: `यहाँ अपना नाम टाइप करके, मैं इन शर्तों से सहमत हूं:`
   },
   {
     key: `&nbsp;(Agreement {which_agreement_number} of {total_number_of_agreements})`,
