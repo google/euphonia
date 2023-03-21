@@ -127,23 +127,26 @@ export class ConsentView {
     textDiv.html(consentText);  // No need to use i18n, these are already localized documents
 
     const consentBox = this.consentDiv.eadd('<div class=consentbox />');
-    const cb = consentBox.eadd('<input type=checkbox id=agreementcheckbox />');
-    consentBox.eadd('<label for=agreementcheckbox />').eitext('I agree to the terms above');
-    cb.echecked(isAgreed);
+    consentBox.eadd('<label id=agreementusernamelabel />').eitext('By typing my name here, I agree to these terms:');
+    const agreename = consentBox.eadd('<input type=text id=agreementusername aria-labelledby=agreementusernamelabel />');
 
     const buttonBox = this.consentDiv.eadd('<div class=buttonbox />');
     const nextButton = buttonBox.eadd('<button class=next />');
     nextButton.eitext(isLast ? (isAgreed ? 'Continue' : 'Enroll') : 'Next Agreement');
     nextButton.on('click', async e => {
-      if (!consent.optional && !cb.is(':checked')) {
-        this.app.showMessage('You must agree to the terms to continue.', 'error');
+      agreename.eclass('formerror', false);
+      const sigText = agreename.val() as string;
+      if (!consent.optional && !sigText.trim()) {
+        agreename.eclass('formerror', true);
+        this.app.showMessage('You must type your name to agree to the terms.', 'error');
         return;
       }
       this.agreements.push({
         consentId: consent.id,
         version: consent.versions[0].version,
         consentTimestamp: 0,
-        revokeTimestamp: 0
+        revokeTimestamp: 0,
+        sigText: sigText.trim()
       });
       await Spinner.waitFor(async () => {
         if (isLast) {

@@ -162,6 +162,7 @@ export interface EAgreementInfo {
   consentTimestamp: number;  // This is equal to the signup time for first consent(s)
   revokeTimestamp: number;  // Only set if the user revoked this consent later, otherwise 0
   superseded?: boolean;  // When set, indicates that the user consented to a newer version later
+  sigText?: string;  // a textual mark such as name or initials that may be collected with the agreement
 }
 
 // Each ETaskSet

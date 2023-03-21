@@ -73,7 +73,8 @@ export class UserDetailView {
     for (const consent of this.user.consents) {
       const revoked = consent.revokeTimestamp ? `, revoked ${consent.revokeTimestamp}` : '';
       const cts = formatTimestamp(consent.consentTimestamp);
-      consentNode.eadd('<div class=consent />').text(`${consent.consentId} (${consent.version}): ${cts}${revoked}`);
+      const sig = consent.sigText ? consent.sigText : '(unsigned)';
+      consentNode.eadd('<div class=consent />').text(`${consent.consentId} (${consent.version}): ${cts}${revoked} sig=${sig}`);
     }
 
     // Notes and demographics

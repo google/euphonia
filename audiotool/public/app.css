@@ -410,6 +410,18 @@ Consent forms
   font-weight: bold;
 }
 
+#consentview #agreementusername {
+  margin-left: 5px;
+  width: 20em;
+  padding: 5px;
+  font-size: 14px;
+}
+
+#consentview INPUT.formerror {
+  border: 2px solid #c00;
+  filter: drop-shadow(0 0 20px #f99);
+}
+
 /* Consent form page for phones */
 @media (orientation: portrait) {
   #consentview {
