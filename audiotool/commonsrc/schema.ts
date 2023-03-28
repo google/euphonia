@@ -130,7 +130,9 @@ export interface ERecordingData {
 export interface ERecordingMetadata {
   euid: string;  // Owning user EUID; not needed in Firestore but important for GCS/metadata.json
   name: string;  // basename of file on GCS
-  platform: string;
+  platform: string;  // hard coded for audiotool
+  project: string;  // the taskset ID
+  task: string;  // the task ID
   transcript: string;  // a prompt of what was said
   timestamp: number;  // The server time of the recording; also the doc.id
   localDate: string;  // A string of the browser time
@@ -138,6 +140,7 @@ export interface ERecordingMetadata {
   fileSize: number;  // The size of the .wav file on GCS
   mimeType: string;  // The MIME type configured during recording, with optional "; codec=blah" extension
   consents: EAgreementInfo[];  // The user's consents at the time of recording
+  language: string;  // The language locale of the task, since the user's language could change after this
 }
 
 // Each EUserTask, which is the assignment of an ETask to an EUser

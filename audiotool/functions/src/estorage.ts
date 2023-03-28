@@ -239,10 +239,17 @@ export class EStorage {
     const taskId = task.id;
     const timestamp = Date.now();
     const basename = `${localDate}_${timestamp}`;
+
+    // Load the taskset outside of the transaction so we don't contend on it
+    const taskSet = await this.requireTaskSet(task.taskSetId);
+
     const metadata: schema.ERecordingMetadata = {
       euid,
       name: basename,
       platform: 'audiotoolv1',
+      project: taskSet.info.id,
+      task: task.id,
+      language: taskSet.info.language,
       transcript: task.task.prompt,
       timestamp,
       localDate,
@@ -257,9 +264,6 @@ export class EStorage {
     const dirname = `${firebaseconfig.RECORDING_PATH}/${euid}`;
     await bucket.file(`${dirname}/${basename}.wav`).save(audioData);
     await bucket.file(`${dirname}/${basename}.json`).save(JSON.stringify(metadata, null, 2));
-
-    // Load the taskset outside of the transaction so we don't contend on it
-    const taskSet = await this.requireTaskSet(task.taskSetId);
 
     // Also put a record in Firestore so the GUI can easily query, with updated user and task counters.
     return await this.firestore.runTransaction(async txn => {
