@@ -18,6 +18,7 @@ import {AdminView} from './admin';
 import {UserDetailView, UserPropertiesDialog, UserValues} from './userdetail';
 import {BulkAssignDialog} from './tasksets';
 import {formatTimestamp, lastitem} from '../../commonsrc/util';
+import {UserFilter, UserPredicate} from '../../commonsrc/userfilter';
 import {toast} from '../util';
 import * as schema from '../../commonsrc/schema';
 
@@ -28,7 +29,7 @@ export class UsersView {
   table: JQuery<HTMLElement>;
   ticks: Map<string, JQuery<HTMLElement>>;
   sortSpec = new Set(['Last Recorded']);  // list of labels to sort by, from least to most significant
-  filterSpec?: string;  // for now this is just a text search
+  filterFn: UserPredicate = user => true;  // predicate that returns false if the given user should be filtered away
 
   userdetail?: UserDetailView;
 
@@ -139,7 +140,7 @@ export class UsersView {
     const tbody = this.table.eadd('<tbody />');
     this.ticks.clear();
     for (const user of this.toSorted(this.app.data.users)) {
-      if (!this.isFilterMatch(user)) {
+      if (!this.filterFn(user)) {
         continue;
       }
       const euid = user.euid;
@@ -163,31 +164,13 @@ export class UsersView {
   // Filters the user list with the given text.
   private setFilter(filterSpec: string) {
     if (!filterSpec || filterSpec.trim() == '') {
-      this.filterSpec = undefined;
+      this.filterFn = x => true;
+
     } else {
-      this.filterSpec = filterSpec.trim().toLowerCase();
+      // Parse the user's query string into a predicate
+      this.filterFn = UserFilter.parse(filterSpec);
     }
     this.drawTable();
-  }
-
-  // Returns true if the given user matches the current filterspec.
-  private isFilterMatch(user: schema.EUserInfo): boolean {
-    if (!this.filterSpec) {
-      return true;
-    }
-
-    if (this.filterSpec.startsWith('tag:')) {
-      // Structured search for tags
-      const wantTag = this.filterSpec.substring(4);
-      for (const tag of user.tags) {
-        if (tag.indexOf(wantTag) != -1) {
-          return true;
-        }
-      }
-    }
-
-    // TODO - this is very silly!
-    return JSON.stringify(user).toLowerCase().indexOf(this.filterSpec) != -1;
   }
 
   // Changes the sort order of the users table; if the current sort is already this one, it is reversed.
