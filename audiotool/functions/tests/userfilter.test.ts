@@ -83,15 +83,23 @@ registerSuite('userfilter', {
     checkMatches('E111', 0);
     checkMatches('blargh');  // no matches
     checkMatches('333@baz.org', 2);
+
+    // Structured tag searches
     checkMatches('tag:two', 0, 2);
     checkMatches('tag:one tag:two', 0);
     checkMatches('tag:one tag:three', 0, 1);
     checkMatches('tag:three  tag:one', 0, 1);
+    checkMatches('tag:thre  tag:one');  // no partial mattch
+    checkMatches('taglike:thr  tag:one', 0, 1);  // taglike gives partial matches
     checkMatches('-tag:one', 2, 3);
     checkMatches('-tag:two', 1, 3);
     checkMatches('-tag:bah', 0, 1, 2, 3);
+
+    // Language
     checkMatches('language:en', 0, 1, 2, 3);
     checkMatches('language:en tag:two', 0, 2);
+
+    // Dates and counts
     checkMatches('created:2022/01/01', 0, 1, 2, 3);  // everyone is after this date
     checkMatches('created:2023/04/01');  // nobody is after this date
     checkMatches('created:2022/01/01 recordings:2', 0, 1, 2, 3);

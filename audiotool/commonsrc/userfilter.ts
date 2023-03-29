@@ -106,7 +106,7 @@ export class UserFilter {
   private static tagFn(wantTag: string): UserPredicate {
     return user => {
       for (const tag of user.tags) {
-        if (tag.indexOf(wantTag) != -1) {
+        if (tag == wantTag) {
           return true;
         }
       }
