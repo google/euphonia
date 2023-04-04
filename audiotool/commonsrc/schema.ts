@@ -141,6 +141,7 @@ export interface ERecordingMetadata {
   mimeType: string;  // The MIME type configured during recording, with optional "; codec=blah" extension
   consents: EAgreementInfo[];  // The user's consents at the time of recording
   language: string;  // The language locale of the task, since the user's language could change after this
+  deviceInfo?: EDeviceInfo;  // The parsed user agent string, if any
 }
 
 // Each EUserTask, which is the assignment of an ETask to an EUser
@@ -239,4 +240,24 @@ export interface ELocaleString {
   key: string;  // The key for this string, which is usually the english version
   text: string;  // The translation in the local language
   description: string;  // Documentation for the string, for localizers. This is never displayed.
+}
+
+// This is the struct produced by useragent.parse().toJSON()
+export interface EDeviceInfo {
+  family?: string;
+  major?: string;
+  minor?: string;
+  patch?: string;
+  device?: {
+    family?: string;
+    major?: string;
+    minor?: string;
+    patch?: string;
+  };
+  os?: {
+    family?: string;
+    major?: string;
+    minor?: string;
+    patch?: string;
+  };
 }
