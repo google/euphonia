@@ -18,6 +18,7 @@ import "source-map-support/register";  // Improves stack traces
 import functions = require('firebase-functions');
 import express = require('express');
 const cookieParser = require('cookie-parser')();
+const useragent = require('useragent');
 import bodyParser = require('body-parser');
 import {EStorage, ETaskSet, EUser} from './estorage';
 import {UserRequest, FBUser, checkAuthenticated, checkAdmin} from './acl';
@@ -27,6 +28,7 @@ import {normalizeTag, normalizeTags} from '../../commonsrc/util';
 import {EAssignmentRule} from '../../commonsrc/schema';
 import * as schema from '../../commonsrc/schema';
 import {Readable} from 'stream';
+
 
 // Implements the API server endpoints and per-request state needed for API logic.
 export class AudioApi {
@@ -274,10 +276,12 @@ export class AudioApi {
     const localdate = requireParam(this.req.query.localdate as string);
     const tzo = requireInt(this.req.query.tzo as string);
     const mimeType = requireParam(this.req.query.mimeType as string);
+    const deviceinfo = useragent.parse(this.req.headers['user-agent']);
+    const deviceinfoObj = deviceinfo ? deviceinfo.toJSON() : {};
 
     // Save the new recording and return the final versions of all data
     const user = await this.requireUserByFBUID();
-    const [euser, etask, recording] = await this.storage.createRecording(user, task, localdate, tzo, mimeType, this.req.body);
+    const [euser, etask, recording] = await this.storage.createRecording(user, task, localdate, tzo, mimeType, deviceinfoObj, this.req.body);
     return [euser.info, etask.info, recording.metadata];
   }
 
