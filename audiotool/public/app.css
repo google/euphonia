@@ -47,7 +47,7 @@ BUTTON {
   padding: 1vh;
   color: #000;
   font-size: 3vh;
-  color: #777;
+  color: #767676;
   background-color: #fff;
 }
 
@@ -807,7 +807,7 @@ Recording view
 #recordingview .navpanel .donetext {
   margin: 0 1vw 0 1vw;
   font-size: 2vh;
-  color: #777;
+  color: #626262;
   text-align: center;
 }
 
@@ -1116,11 +1116,11 @@ Recording view
 
   #recordingview BUTTON.help {
     margin: 0 1vw 0 1vw;
-    width: 4vh;
-    min-width: 4vh;
-    height: 4vh;
-    border-radius: 2vh;
-    font-size: 1.5vh;
+    width: 6vh;
+    min-width: 6vh;
+    height: 6vh;
+    border-radius: 3vh;
+    font-size: 2vh;
   }
 
   #recordingview BUTTON.listen,#recordingview BUTTON.delete {
