@@ -124,6 +124,11 @@ $.fn.eihtml = function(formatString: string, ...args: string[]): JQuery<HTMLElem
   return this.ehtml(formatWithArgs(CURRENT_LANGUAGE, formatString, ...args));
 };
 
+$.fn.eiprop = function(propertyName: string, formatString: string, ...args: string[]): JQuery<HTMLElement> {
+  this.prop(propertyName, formatWithArgs(CURRENT_LANGUAGE, formatString, ...args));
+  return this;
+};
+
 // Awaitable sleep function.
 export function sleep(ms: number) {
   if (ms < 0) {

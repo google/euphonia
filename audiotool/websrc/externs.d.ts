@@ -32,6 +32,7 @@ interface JQuery {
   ehtml(cellText: string): JQuery<HTMLElement>;
   eitext(formatString: string, ...args: string[]): JQuery<HTMLElement>;
   eihtml(formatString: string, ...args: string[]): JQuery<HTMLElement>;
+  eiprop(propertyName: string, formatString: string, ...args: string[]): JQuery<HTMLElement>;
   evalue(inputValue: string): JQuery<HTMLElement>;
 }
 
