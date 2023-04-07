@@ -18,7 +18,19 @@ import { ELocaleString } from './schema';
 
 export const HI_STRINGS: ELocaleString[] = [
   {
-    key: `Welcome to Project Euphonia!`,
+    key: `PAGE_TITLE`,
+    en: `Project Euphonia`,
+    description: `Web page title for all pages`,
+    text: `प्रोजेक्ट यूफोनिया`
+  },
+  {
+    key: `HELP_LINK`,
+    description: `Help hyperlink HREF property when the user needs help or has questions.`,
+    text: `http://g.co/disabilitysupport`
+  },
+  {
+    key: `WELCOME_TITLE`,
+    en: `Welcome to Project Euphonia!`,
     description: `Signup screen and consent screen titles`,
     text: `प्रोजेक्ट यूफोनिया में आपका स्वागत है!`
   },
@@ -39,11 +51,11 @@ export const HI_STRINGS: ELocaleString[] = [
     text: `<b> महत्वपूर्ण: </b> यदि आप किसी और की ओर से इस फॉर्म को भर रहे हैं, तो कृपया सुनिश्चित करें कि आपके पास ऐसा करने की अनुमति है।`
   },
   {
-    key: `Questions?
-    <a target="_blank" href="mailto:euphonia-project@google.com">Contact Us</a>`,
+    key: `Questions? <a id=signuphelplink target="_blank">Contact Us</a>`,
+    en: `Questions? <a id=signuphelplink target="_blank">Contact Us</a>`,
     description: `Signup screen`,
     text: `प्रशन? 
-          <a target="_blank" href="mailto:euphonia-project@google.com"
+          <a id=signuphelplink target="_blank"
           > हमसे संपर्क करें </a>`
   },
   {
@@ -123,7 +135,8 @@ export const HI_STRINGS: ELocaleString[] = [
     text: `अगला समझौता`,
   },
   {
-    key: `Thanks for signing up for Project Euphonia!`,
+    key: `INSTRUCTIONS_TITLE`,
+    en: `Thanks for signing up for Project Euphonia!`,
     description: `Instructions screen title`,
     text: `प्रोजेक्ट यूफोनिया के लिए साइन अप करने के लिए धन्यवाद!`
   },
@@ -158,14 +171,14 @@ export const HI_STRINGS: ELocaleString[] = [
   },
   {
     key: `
-    In order to record your speech, Euphonia needs permission to use your microphone
+    In order to record your speech, we need permission to use your microphone
     through your web browser. <b>Please click "Allow"</b> to grant use of your microphone.`,
     description: `Microphone permission instructions`,
     text: ` अपने भाषण को रिकॉर्ड करने के लिए, यूफोनिया को अपने वेब ब्राउज़र के माध्यम से अपने माइक्रोफोन का उपयोग करने की अनुमति की आवश्यकता है।  कृपया अपने माइक्रोफोन का उपयोग करने के लिए "अनुमति दें" पर क्लिक करें।`
   },
   {
     key: `
-    Euphonia could not access your microphone due to a permission problem. You'll need to allow access
+    We could not access your microphone due to a permission problem. You'll need to allow access
     in order to continue.`,
     description: `Microphone permission error message`,
     text: ` एक अनुमति समस्या के कारण यूफोनिया आपके माइक्रोफोन तक नहीं पहुंच सकता था। आपको जारी रखने के लिए एक्सेस की अनुमति देनी होगी।`
@@ -460,7 +473,7 @@ export const HI_STRINGS: ELocaleString[] = [
     looks good, you'll be receiving an email from rewards@perks.com within the next 7-10
     business days with a link to claim your gift card.
     <br/><br/>
-    <b>Thank you for contributing <b class=count>{number_of_completed_cards} cards</b> to Project Euphonia!</b>
+    <b>Thank you for contributing <b class=count>{number_of_completed_cards} cards</b> to the project!</b>
     <br/><br/>
     (If you wish, you can now go back and review your recordings, but this is not necessary. <b>You're done!</b>)`,
     description: `Descriptive text on the done screen`,

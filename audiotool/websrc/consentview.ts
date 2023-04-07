@@ -39,7 +39,7 @@ export class ConsentView {
     [this.language, this.tags] = this.data.loadEnrollTags();
 
     // Consent view, shown after signup but before recording
-    this.div.eadd('<div class=title />').eitext(`Welcome to Project Euphonia!`);
+    this.div.eadd('<div class=title />').eitext(`WELCOME_TITLE`);
     this.div.eadd('<div class=wholine />').eihtml(`You are enrolling as <b id=whoisenrolling>&nbsp;</b>.
         Please review the following agreement: <span id=consentcounter></span>`);
     this.consentDiv = this.div.eadd('<div class=consentarea />');

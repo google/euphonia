@@ -41,7 +41,7 @@ export class SignupView {
 
     // Page 1: Introduction and eligibility checkboxes
     const page1Div = this.div.eadd('<div class=page1 />');
-    page1Div.eadd('<div class=title />').eitext(`Welcome to Project Euphonia!`);
+    page1Div.eadd('<div class=title />').eitext('WELCOME_TITLE');
     const introDiv = page1Div.eadd('<div class=intro />');
     introDiv.eadd('<div />').eitext(`We're exploring how Google products and services
         that use speech as an input method could work better for more people. We're seeking
@@ -52,8 +52,8 @@ export class SignupView {
     introDiv.eadd('<div />').eihtml(`<b>IMPORTANT:</b> If you're filling out
         this form on behalf of someone else, please ensure you have their permission
         to do so.`);
-    introDiv.eadd('<div />').eihtml(`Questions?
-        <a target="_blank" href="mailto:euphonia-project@google.com">Contact Us</a>`);
+    introDiv.eadd('<div />').eihtml(`Questions? <a id=signuphelplink target="_blank">Contact Us</a>`);
+    $('#signuphelplink').eiprop('href', 'HELP_LINK');
     this.signinDiv = introDiv.eadd('<div />');
     this.signinDiv.eadd('<span />').eihtml('Already enrolled? &nbsp;');
     this.signinDiv.eadd('<a href="#" />').eitext('Click to sign in and continue recording').on('click', async e => await this.login(true));

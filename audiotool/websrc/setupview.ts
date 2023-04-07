@@ -45,10 +45,10 @@ export class SetupView {
     // Basic permission flow
     this.div.eadd('<div class=title />').eitext(`Microphone Setup`);
     this.requestText = this.div.eadd('<div class=requesttext />').eihtml(`
-        In order to record your speech, Euphonia needs permission to use your microphone
+        In order to record your speech, we need permission to use your microphone
         through your web browser. <b>Please click "Allow"</b> to grant use of your microphone.`);
     this.deniedText = this.div.eadd('<div class=deniedtext />').eitext(`
-        Euphonia could not access your microphone due to a permission problem. You'll need to allow access
+        We could not access your microphone due to a permission problem. You'll need to allow access
         in order to continue.`);
     this.denied2Text = this.div.eadd('<div class=deniedtext />').eihtml(`
         It looks like your microphone permission is blocked. You'll need to <b>allow access</b>

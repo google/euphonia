@@ -59,7 +59,7 @@ export class DoneView {
           looks good, you'll be receiving an email from rewards@perks.com within the next 7-10
           business days with a link to claim your gift card.
           <br/><br/>
-          <b>Thank you for contributing <b class=count>{number_of_completed_cards} cards</b> to Project Euphonia!</b>
+          <b>Thank you for contributing <b class=count>{number_of_completed_cards} cards</b> to the project!</b>
           <br/><br/>
           (If you wish, you can now go back and review your recordings, but this is not necessary. <b>You're done!</b>)
       `, 'number_of_completed_cards', `${user.numCompletedTasks}`);

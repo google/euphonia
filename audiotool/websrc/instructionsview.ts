@@ -32,7 +32,7 @@ export class InstructionsView {
     this.div.hide();
 
     // Instructions view, shown after signup but before recording
-    this.div.eadd('<div class=title />').eitext(`Thanks for signing up for Project Euphonia!`);
+    this.div.eadd('<div class=title />').eitext(`INSTRUCTIONS_TITLE`);
     this.div.eadd('<div class=helptext />').eihtml(`
     <ul>
     <li>Please take a moment to watch this video introduction.</li>

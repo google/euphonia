@@ -45,10 +45,10 @@ registerSuite('localization', {
     testfmt('a simple {value} subst{itution} is {value} here', 'a simple foo subst{itution} is foo here', 'value', 'foo');
 
     // Real translations, accepting of whitespace and case variations
-    assert.equal(formatWithArgs('es-ES', 'Welcome to Project Euphonia!'), '¡Bienvenido al Proyecto Euphonia!');
-    assert.equal(formatWithArgs('es-ES', 'Welcome to   Project  \n\  euphonia!'), '¡Bienvenido al Proyecto Euphonia!');
-    assert.equal(formatWithArgs('es-ES', '  WELCOME to project\teuphonia!   '), '¡Bienvenido al Proyecto Euphonia!');
-    assert.equal(formatWithArgs('es-ES', 'Welcome   to Project euPHONia!'), '¡Bienvenido al Proyecto Euphonia!');
+    assert.equal(formatWithArgs('es-ES', 'WELCOME_TITLE'), '¡Bienvenido al Proyecto Euphonia!');
+    assert.equal(formatWithArgs('es-ES', 'welcome_title'), '¡Bienvenido al Proyecto Euphonia!');
+    assert.equal(formatWithArgs('es-ES', '  welcome_title   '), '¡Bienvenido al Proyecto Euphonia!');
+    assert.equal(formatWithArgs('es-ES', 'Welcome_title'), '¡Bienvenido al Proyecto Euphonia!');
   },
 });
 
