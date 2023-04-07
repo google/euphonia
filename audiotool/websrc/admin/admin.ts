@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {euphoniaInitializeFirebase} from '../firebaseconfig';
+import {audiotoolInitializeFirebase} from '../firebaseconfig';
 import {Spinner} from '../util';
 import { TaskSetsView } from './tasksets';
 import { ConsentsView } from './consents';
@@ -41,7 +41,7 @@ export class AdminView implements Listener {
 
   constructor() {
     // Firebase setup stuff
-    euphoniaInitializeFirebase();
+    audiotoolInitializeFirebase();
 
     this.data = new AdminData(this);
 

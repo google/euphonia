@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {euphoniaInitializeFirebase} from './firebaseconfig';
+import {audiotoolInitializeFirebase} from './firebaseconfig';
 import {Data, Listener} from './data';
 import {SignupView} from './signupview';
 import {InterestView} from './interestview';
@@ -51,12 +51,13 @@ export class App implements Listener {
 
   constructor() {
     // Firebase setup stuff
-    euphoniaInitializeFirebase();
+    audiotoolInitializeFirebase();
     this.data = new Data(this);
     this.parseHash();
 
     // DOM elements
     this.main = $('#main');
+    $(document).eiprop('title', 'PAGE_TITLE');
     this.signupView = new SignupView(this);
     this.interestView = new InterestView(this);
     this.consentView = new ConsentView(this);

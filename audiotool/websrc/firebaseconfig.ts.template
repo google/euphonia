@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
- export function euphoniaInitializeFirebase() {
+ export function audiotoolInitializeFirebase() {
   // These magic values will be rewritten by deploy.sh into the firebaseconfig.ts file.
   firebase.initializeApp({
       apiKey: "__EUPHONIA_FIREBASE_API_KEY__",
