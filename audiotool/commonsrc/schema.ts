@@ -240,6 +240,7 @@ export interface ELocaleString {
   key: string;  // The key for this string, which is usually the english version
   text: string;  // The translation in the local language
   description: string;  // Documentation for the string, for localizers. This is never displayed.
+  en?: string;  // Example of the desired string in US English, if different from the key.
 }
 
 // This is the struct produced by useragent.parse().toJSON()
