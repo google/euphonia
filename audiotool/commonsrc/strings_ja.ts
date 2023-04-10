@@ -138,7 +138,17 @@ export const JA_STRINGS: ELocaleString[] = [
     text: `Project Euphonia にお申し込みいただき、ありがとうございます`
   },
   {
-    key: `    <ul>
+    key: `INSTRUCTIONS_VIDEO_HTML`,
+    description: `Instructional video iframe from YouTube`,
+    text: `
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/sMLED9xrLts"
+        title="YouTube video player" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    `,
+  },
+  {
+    key: `INSTRUCTIONS_HTML`,
+    en: `    <ul>
     <li>Please take a moment to watch this video introduction.</li>
     <li>On the next screen, you'll see <b>cards</b> to read aloud.</li>
     <li>You'll want to be in a <b>quiet setting</b> and avoid any background noise.</li>

@@ -33,17 +33,7 @@ export class InstructionsView {
 
     // Instructions view, shown after signup but before recording
     this.div.eadd('<div class=title />').eitext(`INSTRUCTIONS_TITLE`);
-    this.div.eadd('<div class=helptext />').eihtml(`
-    <ul>
-    <li>Please take a moment to watch this video introduction.</li>
-    <li>On the next screen, you'll see <b>cards</b> to read aloud.</li>
-    <li>You'll want to be in a <b>quiet setting</b> and avoid any background noise.</li>
-    <li>You'll press the blue Record button, and then <b>read the
-    card aloud</b>, as accurately as possible.</li>
-    <li>When you are <b>finished speaking</b>, press the blue button again to stop recording.</li>
-    <li>When you finish recording all the cards, you're done!</li>
-    <li>Having trouble recording? <a target="_blank" href="http://g.co/disabilitysupport">Contact us</a> for help.</li>
-    `);
+    this.div.eadd('<div class=helptext />').eihtml(`INSTRUCTIONS_HTML`);
     this.doneButton = this.div.eadd('<button />').eitext('Get Started');
     this.doneButton.on('click', async e => await this.app.navigateTo('/setup', true));
 
@@ -55,11 +45,7 @@ export class InstructionsView {
     this.div.eshow(show);
 
     if (show) {
-      this.video.html(`
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/sMLED9xrLts"
-              title="YouTube video player" frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-          `);
+      this.video.eihtml(`INSTRUCTIONS_VIDEO_HTML`);
     } else {
       this.video.empty();
     }
