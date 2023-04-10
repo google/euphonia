@@ -14,16 +14,16 @@ const TEMPLATES = {
 
 // The variables we parse from the deploy_blah.json file
 const VARS = [
-  '__EUPHONIA_FIREBASE_API_KEY__',
-  '__EUPHONIA_FIREBASE_AUTH_DOMAIN__',
-  '__EUPHONIA_FIREBASE_DATABASE_URL__',
-  '__EUPHONIA_FIREBASE_PROJECT_ID__',
-  '__EUPHONIA_FIREBASE_STORAGE_BUCKET__',
-  '__EUPHONIA_FIREBASE_PROJECT_NUMBER__',
-  '__EUPHONIA_FIREBASE_HOST__',
-  '__EUPHONIA_FIREBASE_STORAGE_RECORDING_PATH__',
-  '__EUPHONIA_FIREBASE_STORAGE_CONSENTS_PATH__',
-  '__EUPHONIA_ADMIN_EMAILS_LIST__',
+  '__AUDIOTOOL_FIREBASE_API_KEY__',
+  '__AUDIOTOOL_FIREBASE_AUTH_DOMAIN__',
+  '__AUDIOTOOL_FIREBASE_DATABASE_URL__',
+  '__AUDIOTOOL_FIREBASE_PROJECT_ID__',
+  '__AUDIOTOOL_FIREBASE_STORAGE_BUCKET__',
+  '__AUDIOTOOL_FIREBASE_PROJECT_NUMBER__',
+  '__AUDIOTOOL_FIREBASE_HOST__',
+  '__AUDIOTOOL_FIREBASE_STORAGE_RECORDING_PATH__',
+  '__AUDIOTOOL_FIREBASE_STORAGE_CONSENTS_PATH__',
+  '__AUDIOTOOL_ADMIN_EMAILS_LIST__',
 ];
 
 class VarParser {
@@ -44,7 +44,7 @@ class VarParser {
 
     } else if (this.args[2] == 'printvar') {
       if (this.args.length != 5) {
-        throw new Error('Expected env and variable names, like "deployvars printvar prod __EUPHONIA_FIREBASE_PROJECT_ID__"');
+        throw new Error('Expected env and variable names, like "deployvars printvar prod __AUDIOTOOL_FIREBASE_PROJECT_ID__"');
       }
       const varname = this.args[4];
       const vars = this.parseVars_(this.args[3]);
@@ -92,7 +92,7 @@ class VarParser {
 
   // Returns the string to substitute for this variable.
   getSubValue(varName, value) {
-    if (varName == '__EUPHONIA_ADMIN_EMAILS_LIST__') {
+    if (varName == '__AUDIOTOOL_ADMIN_EMAILS_LIST__') {
       // This one is special, treat it like a list of quoted strings.
       if (!value || value.length == 0) {
         return '';

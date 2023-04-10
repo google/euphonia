@@ -17,12 +17,12 @@
  export function audiotoolInitializeFirebase() {
   // These magic values will be rewritten by deploy.sh into the firebaseconfig.ts file.
   firebase.initializeApp({
-      apiKey: "__EUPHONIA_FIREBASE_API_KEY__",
-      authDomain: "__EUPHONIA_FIREBASE_AUTH_DOMAIN__",
-      databaseURL: "__EUPHONIA_FIREBASE_DATABASE_URL__",
-      projectId: "__EUPHONIA_FIREBASE_PROJECT_ID__",
-      storageBucket: "__EUPHONIA_FIREBASE_STORAGE_BUCKET__",
-      messagingSenderId: "__EUPHONIA_FIREBASE_PROJECT_NUMBER__"
+      apiKey: "__AUDIOTOOL_FIREBASE_API_KEY__",
+      authDomain: "__AUDIOTOOL_FIREBASE_AUTH_DOMAIN__",
+      databaseURL: "__AUDIOTOOL_FIREBASE_DATABASE_URL__",
+      projectId: "__AUDIOTOOL_FIREBASE_PROJECT_ID__",
+      storageBucket: "__AUDIOTOOL_FIREBASE_STORAGE_BUCKET__",
+      messagingSenderId: "__AUDIOTOOL_FIREBASE_PROJECT_NUMBER__"
   });
 }
 

@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "target": "__EUPHONIA_FIREBASE_HOST__",
+    "target": "__AUDIOTOOL_FIREBASE_HOST__",
     "public": "public",
     "ignore": [
       "firebase.json",

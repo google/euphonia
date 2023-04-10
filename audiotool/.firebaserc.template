@@ -1,12 +1,12 @@
 {
   "projects": {
-    "default": "__EUPHONIA_FIREBASE_PROJECT_ID__"
+    "default": "__AUDIOTOOL_FIREBASE_PROJECT_ID__"
   },
   "targets": {
-    "__EUPHONIA_FIREBASE_PROJECT_ID__": {
+    "__AUDIOTOOL_FIREBASE_PROJECT_ID__": {
       "hosting": {
-        "__EUPHONIA_FIREBASE_HOST__": [
-          "__EUPHONIA_FIREBASE_HOST__"
+        "__AUDIOTOOL_FIREBASE_HOST__": [
+          "__AUDIOTOOL_FIREBASE_HOST__"
         ]
       }
     }

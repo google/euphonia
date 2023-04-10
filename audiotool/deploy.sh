@@ -30,7 +30,7 @@ fi
 # Generate template files
 node ./deployvars.js gentemplate $DEPLOY_ENV
 
-HOSTINGNAME="$(node ./deployvars.js printvar "$DEPLOY_ENV" __EUPHONIA_FIREBASE_HOST__)"
+HOSTINGNAME="$(node ./deployvars.js printvar "$DEPLOY_ENV" __AUDIOTOOL_FIREBASE_HOST__)"
 
 # Ensure dependencies and compile; should NOT upgrade since we have locked versions for everything
 npm install
