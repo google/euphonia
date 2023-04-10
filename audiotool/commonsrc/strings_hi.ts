@@ -32,7 +32,7 @@ export const HI_STRINGS: ELocaleString[] = [
     key: `WELCOME_TITLE`,
     en: `Welcome to Project Euphonia!`,
     description: `Signup screen and consent screen titles`,
-    text: `प्रोजेक्ट यूफोनिया में आपका स्वागत है!`
+    text: `Project Euphonia में आपका स्वागत है!`
   },
   {
     key: `We're exploring how Google products and services
@@ -41,47 +41,47 @@ export const HI_STRINGS: ELocaleString[] = [
     Voice samples can help us improve how Google understands individuals with speech
     impairments.`,
     description: `Signup screen`,
-    text: `हम खोज रहे हैं कि कैसे Google उत्पाद और सेवाएं जो भाषण को इनपुट विधि के रूप में उपयोग करती हैं, वे अधिक लोगों के लिए बेहतर काम कर सकते हैं। हम उन वयस्कों से आवाज योगदान की मांग कर रहे हैं जिन्हें दूसरों द्वारा समझने में कठिनाई होती है। आवाज के नमूने हमें यह बेहतर बनाने में मदद कर सकते हैं कि Google भाषण हानि वाले व्यक्तियों को कैसे समझता है।`
+    text: `हम ऐसे तरीके एक्सप्लोर कर रहे हैं जिनसे इनपुट के लिए बोली का इस्तेमाल करने वाले Google के प्रॉडक्ट और सेवाएं बेहतर हो सकें. साथ ही, इनका फ़ायदा ज़्यादा से ज़्यादा लोगों को मिले. हम ऐसे वयस्क लोगों से उनकी आवाज़ की रिकॉर्डिंग का योगदान चाहते हैं जिनकी बोली को लोग आसानी से नहीं समझ पाते. बोली के अलग-अलग सैंपल से, Google ऐसे लोगों की बात को बेहतर तरीके से समझ पाता है जिन्हें बोलने में परेशानी होती है.`
   },
   {
     key: `<b>IMPORTANT:</b> If you're filling out
     this form on behalf of someone else, please ensure you have their permission
     to do so.`,
     description: `Signup screen`,
-    text: `<b> महत्वपूर्ण: </b> यदि आप किसी और की ओर से इस फॉर्म को भर रहे हैं, तो कृपया सुनिश्चित करें कि आपके पास ऐसा करने की अनुमति है।`
+    text: `<b>अहम जानकारी:</b> ऐसे लोग जो किसी और के लिए यह फ़ॉर्म भर रहे हैं, यह पक्का कर लें कि आपने उस व्यक्ति से फ़ॉर्म भरने की अनुमति ली है.`
   },
   {
     key: `Questions? <a id=signuphelplink target="_blank">Contact Us</a>`,
     en: `Questions? <a id=signuphelplink target="_blank">Contact Us</a>`,
     description: `Signup screen`,
-    text: `प्रशन? 
-          <a id=signuphelplink target="_blank"
-          > हमसे संपर्क करें </a>`
+    text: `क्या आपको कुछ पूछना है? 
+        <a id=signuphelplink target="_blank"
+        >हमसे संपर्क करें</a>`
   },
   {
     key: `Already enrolled? &nbsp;`,
     description: `Signup screen`,
-    text: `पहले से ही नामांकित? &nbsp;`
+    text: `क्या आपने पहले ही रजिस्टर कर लिया है? &nbsp;`
   },
   {
     key: `Click to sign in and continue recording`,
     description: `Signup screen`,
-    text: `साइन इन करने और रिकॉर्डिंग जारी रखने के लिए क्लिक करें`
+    text: `साइन इन करके रिकॉर्ड करने के लिए क्लिक करें`
   },
   {
     key: `To get started, please confirm your eligibility:`,
     description: `Signup screen`,
-    text: `आरंभ करने के लिए, कृपया अपनी पात्रता की पुष्टि करें:`
+    text: `शुरू करने के लिए, कृपया ज़रूरी शर्तों की पुष्टि करें:`
   },
   {
     key: `Strangers, or voice technologies like Google Assistant, have difficulty understanding my speech (not because of an accent)`,
     description: `Signup screen eligibility question`,
-    text: `Google सहायक जैसी अजनबियों, या वॉयस टेक्नोलॉजीज को मेरे भाषण को समझने में कठिनाई होती है (एक उच्चारण के कारण नहीं)`
+    text: `अनजान लोगों या आवाज़ की पहचान करने वाली Google Assistant जैसी टेक्नोलॉजी को मेरी बात समझने में दिक्कत होती है. हालांकि, मेरे बोलने का लहजा इसकी वजह नहीं है`
   },
   {
     key: `I am at least 18 years of age`,
     description: `Signup screen eligibility question`,
-    text: `मैं कम से कम 18 साल का हूँ`
+    text: `मेरी उम्र 18 साल से कम नहीं है`
   },
   {
     key: `Sign in and continue`,
@@ -93,52 +93,49 @@ export const HI_STRINGS: ELocaleString[] = [
     Account to contribute to the project. If you do not have a Google Account, you can
     create one when you click to continue.`,
     description: `Signup screen instructions`,
-    text: `परियोजना में योगदान करने के लिए आपको अपने Google खाते के साथ साइन इन करना होगा। यदि आपके पास Google खाता नहीं है, तो आप जारी रखने के लिए क्लिक करने पर एक बना सकते हैं।`
+    text: `इस प्रोजेक्ट में योगदान देने के लिए आपको अपने Google खाते से साइन इन करना होगा. अगर आपके पास Google खाता नहीं है, तो 'जारी रखें' पर क्लिक करके नया खाता बनाएं.`
   },
   {
     key: `Next`,
     description: `Interest form button, advance to the next screen`,
-    text: `अगला`
+    text: `आगे बढ़ें`
   },
   {
     key: `Go Back`,
     description: `Interest form button, go back to the signup screen`,
-    text: `वापस जाओ`
+    text: `वापस जाएं`
   },
   {
     key: `You must type your name to agree to the terms.`,
     description: `Consent form screen, require consent to proceed`,
-    text: `शर्तों से सहमत होने के लिए आपको अपना नाम टाइप करना होगा।`
+    text: `शर्तों से सहमत होने के लिए अपना नाम डालना ज़रूरी है.`
   },
   {
     key: `Reset form and start over`,
     description: `Interest form button, clear fields and start over`,
-    text: `फॉर्म रीसेट करें और शुरू करें`
+    text: `फ़ॉर्म रीसेट करें और फिर से शुरू करें`
   },
   {
     key: `You are enrolling as <b id=whoisenrolling>&nbsp;</b>.
     Please review the following agreement: <span id=consentcounter></span>`,
     description: `Consent screen instructions`,
-    text: `आप 
-        <b id=whoisenrolling>&nbsp;</b>.
-        के रूप में नामांकन कर रहे हैं। कृपया निम्नलिखित समझौते की समीक्षा करें: 
-        <span id=consentcounter></span>`
+    text: `आपने <b id=whoisenrolling>&nbsp;</b> के तौर पर रजिस्टर किया है. कृपया यहां दिए गए कानूनी समझौते को पढ़ें: <span id=consentcounter></span>`
   },
   {
     key: `Enroll`,
     description: `Consent screen, final action; consents to the program and allows recording`,
-    text: `नामांकन`,
+    text: `रजिस्टर करें`
   },
   {
     key: `Next Agreement`,
     description: `Consent screen, to agree to the current consent and then see the next one. Only shows when there are multiple consents`,
-    text: `अगला समझौता`,
+    text: `अगला कानूनी समझौता`
   },
   {
     key: `INSTRUCTIONS_TITLE`,
     en: `Thanks for signing up for Project Euphonia!`,
     description: `Instructions screen title`,
-    text: `प्रोजेक्ट यूफोनिया के लिए साइन अप करने के लिए धन्यवाद!`
+    text: `Project Euphonia में साइन अप करने के लिए धन्यवाद!`
   },
   {
     key: `    <ul>
@@ -152,74 +149,73 @@ export const HI_STRINGS: ELocaleString[] = [
     <li>Having trouble recording? <a target="_blank" href="http://g.co/disabilitysupport">Contact us</a> for help.</li>`,
     description: `Instructions screen details`,
     text: `<ul> 
-      <li> कृपया इस वीडियो परिचय को देखने के लिए एक क्षण लें। </li> 
-      <li> अगली स्क्रीन पर, आप जोर से पढ़ने के लिए <b> कार्ड </b> देखेंगे। </li>
-      <li> आप एक <b> शांत सेटिंग </b> में रहना चाहते हैं और किसी भी पृष्ठभूमि शोर से बचें। , यथासंभव सटीक रूप से कार्ड, आप कर रहे हैं! </li>
-      <li> रिकॉर्डिंग में परेशानी हो रही है? 
-      <a target="_blank" href="http://g.co/disabilitysupport"
-      > मदद के लिए हमसे संपर्क करें </li>`
+    <li>कृपया थोड़ा समय निकालकर, इस प्रोजेक्ट के बारे में बताने वाला यह वीडियो देखें.</li> 
+    <li>अगली स्क्रीन पर बोलकर पढ़ने के लिए आपको <b>कार्ड</b> दिखेंगे.</li> <li>आपको किसी <b>शांत जगह</b> पर रिकॉर्डिंग करनी चाहिए और बैकग्राउंड के शोर से बचना चाहिए.</li> 
+    <li>नीले रंग का रिकॉर्ड बटन दबाएं और फिर जितना हो सके उतने सही तरीके से <b>कार्ड को बोलकर पढ़ें</b>.</li> 
+    <li>कार्ड <b>पढ़ने के बाद</b>, रिकॉर्डिंग को बंद करने के लिए, नीले रंग का बटन दबाएं.</li> 
+    <li>सभी कार्ड की रिकॉर्डिंग कर लेने का मतलब है कि आपका काम पूरा हुआ!</li> <li>क्या आपको रिकॉर्डिंग करने में समस्या आ रही है? सहायता के लिए <a target="_blank" href="http://g.co/disabilitysupport">हमसे संपर्क करें</a>.</li>`
   },
   {
     key: `Get Started`,
     description: `Instructions screen button to continue to next screen`,
-    text: `शुरू हो जाओ`
+    text: `शुरू करें`
   },
   {
     key: `Microphone Setup`,
     description: `Microphone and settings screen title`,
-    text: `माइक्रोफोन सेटअप`
+    text: `माइक्रोफ़ोन का सेटअप`
   },
   {
     key: `
     In order to record your speech, we need permission to use your microphone
     through your web browser. <b>Please click "Allow"</b> to grant use of your microphone.`,
     description: `Microphone permission instructions`,
-    text: ` अपने भाषण को रिकॉर्ड करने के लिए, यूफोनिया को अपने वेब ब्राउज़र के माध्यम से अपने माइक्रोफोन का उपयोग करने की अनुमति की आवश्यकता है।  कृपया अपने माइक्रोफोन का उपयोग करने के लिए "अनुमति दें" पर क्लिक करें।`
+    text: `आपकी बोली रिकॉर्ड करने के लिए, Euphonia को वेब ब्राउज़र पर माइक्रोफ़ोन ऐक्सेस करने की अनुमति देना ज़रूरी है. माइक्रोफ़ोन के इस्तेमाल की अनुमति देने के लिए, <b>कृपया "अनुमति दें" पर क्लिक करें</b>.`
   },
   {
     key: `
     We could not access your microphone due to a permission problem. You'll need to allow access
     in order to continue.`,
     description: `Microphone permission error message`,
-    text: ` एक अनुमति समस्या के कारण यूफोनिया आपके माइक्रोफोन तक नहीं पहुंच सकता था। आपको जारी रखने के लिए एक्सेस की अनुमति देनी होगी।`
+    text: `अनुमति नहीं मिलने की वजह से Euphonia आपके माइक्रोफ़ोन को ऐक्सेस नहीं कर सका. जारी रखने के लिए आपको माइक्रोफ़ोन को ऐक्सेस करने की अनुमति देनी होगी.`
   },
   {
     key: `
     It looks like your microphone permission is blocked. You'll need to <b>allow access</b>
     by clicking the <b>address bar of your browser</b>, and/or <b>reset permission</b> for the microphone.`,
     description: `Microphone permission error message`,
-    text: ` ऐसा लगता है कि आपकी माइक्रोफोन की अनुमति अवरुद्ध है। आपको माइक्रोफोन के लिए अपने ब्राउज़र , और/या रीसेट अनुमति के एड्रेस बार पर क्लिक करके  एक्सेस  की अनुमति देने की आवश्यकता होगी।`
+    text: `ऐसा लगता है कि आपके माइक्रोफ़ोन को ऐक्सेस करने की अनुमति नहीं है. आपको <b>ब्राउज़र के पता बार</b> में क्लिक करके <b>ऐक्सेस की अनुमति</b> देनी होगी और/या अपने माइक्रोफ़ोन के लिए <b>अनुमति रीसेट</b> करनी होगी.`
   },
   {
     key: `
     Your microphone is all set! You can start recording as soon as you're ready.`,
     description: `Microphone permission success message`,
-    text: ` आपका माइक्रोफोन सभी सेट है! जैसे ही आप तैयार होते हैं आप रिकॉर्डिंग शुरू कर सकते हैं।`
+    text: `आपके माइक्रोफ़ोन का इस्तेमाल किया जा सकता है! आप जब तैयार हों, तो रिकॉर्डिंग शुरू करें.`
   },
   {
     key: `Use the default microphone`,
     description: `Let's the user choose the browser's default recording device instead of picking one explicitly`,
-    text: `डिफ़ॉल्ट माइक्रोफोन का उपयोग करें`
+    text: `डिफ़ॉल्ट माइक्रोफ़ोन का इस्तेमाल करें`
   },
   {
     key: `Save`,
     description: `Microphone configuration screen, accept changes to microphone device`,
-    text: `बचाना`
+    text: `सेव करें`
   },
   {
     key: `Try again`,
     description: `Microphone permission failure retry button`,
-    text: `पुनः प्रयास करें`
+    text: `फिर से कोशिश करें`
   },
   {
     key: `Start recording!`,
     description: `Microphone setup screen button, continue to recording screen`,
-    text: `रिकॉर्डिंग शुरू!`
+    text: `रिकॉर्डिंग शुरू करें!`
   },
   {
     key: `Microphone settings`,
     description: `Microphone setup screen title`,
-    text: `माइक्रोफोन सेटिंग्स`
+    text: `माइक्रोफ़ोन की सेटिंग`
   },
   {
     key: `Previous card`,
@@ -234,102 +230,102 @@ export const HI_STRINGS: ELocaleString[] = [
   {
     key: `Replay`,
     description: `Recording screen button, listen to previously recorded audio`,
-    text: `REPLAY`
+    text: `फिर से चलाएं`
   },
   {
     key: `Stop`,
     description: `Recording screen button, to interrupt a recording that's currently being played back`,
-    text: `रुकना`
+    text: `बंद करें`
   },
   {
     key: `Delete`,
     description: `Recording screen button, delete a previous recording`,
-    text: `मिटाना`
+    text: `मिटाएं`
   },
   {
     key: `Deleting...`,
     description: `Recording screen button, shown briefly while the recording is being deleted`,
-    text: `हटाना ...`
+    text: `मिटाया जा रहा है...`
   },
   {
     key: `Record`,
     description: `Recording screen button, record audio for a card`,
-    text: `अभिलेख`
+    text: `रिकॉर्ड करें`
   },
   {
     key: `Record Again`,
     description: `Recording screen button, record audio for a card that already has been recorded`,
-    text: `फिर से रिकॉर्ड करना`
+    text: `फिर से रिकॉर्ड करें`
   },
   {
     key: `(this card is done)`,
     description: `Labels tasks that have already been recorded once`,
-    text: `(यह कार्ड किया जाता है)`
+    text: `(आपने इस कार्ड की रिकॉर्डिंग कर ली है)`
   },
   {
     key: `Cancel`,
     description: `Recording screen button and microphone setting screen button, cancel recording / microphone changes`,
-    text: `रद्द करना`
+    text: `रद्द करें`
   },
   {
     key: `Done`,
     description: `Recording screen button, shown while recording to end the recording and start uploading it`,
-    text: `पूर्ण`
+    text: `हो गया`
   },
   {
     key: `Starting...`,
     description: `Recording screen button, shown briefly just before the microphone starts listening`,
-    text: `शुरुआत...`
+    text: `शुरू हो रहा है...`
   },
   {
     key: `Now recording...`,
     description: `Recording screen button, shown briefly just before the microphone starts listening`,
-    text: `अब रिकॉर्डिंग ...`
+    text: `रिकॉर्डिंग शुरू हो गई है...`
   },
   {
     key: `Recording uploaded!`,
     description: `Recording screen message when the recording uploaded successfully`,
-    text: `रिकॉर्डिंग अपलोड!`
+    text: `रिकॉर्डिंग अपलोड की गई!`
   },
   {
     key: `Recording uploaded! Here's the next card.`,
     description: `Recording screen message when the recording uploads successfully and the next card is automatically displayed`,
-    text: `रिकॉर्डिंग अपलोड! यहाँ अगला कार्ड है।`
+    text: `रिकॉर्डिंग अपलोड की गई! यह रहा अगला कार्ड.`
   },
   {
     key: `Recording deleted.`,
     description: `Recording screen message when a recording has just been deleted`,
-    text: `रिकॉर्डिंग हटा दी गई।`
+    text: `रिकॉर्डिंग मिटाई गई.`
   },
   {
     key: `Recording canceled.`,
     description: `Recording screen message when a recording has just been canceled`,
-    text: `रिकॉर्डिंग रद्द।`
+    text: `रिकॉर्डिंग रद्द हो गई.`
   },
   {
     key: `No recording to delete.`,
     description: `Error message when the user deletes but nothing is selected.`,
-    text: `हटाने के लिए कोई रिकॉर्डिंग नहीं।`
+    text: `मिटाने के लिए कोई रिकॉर्डिंग उपलब्ध नहीं है.`
   },
   {
     key: `No recording to play.`,
     description: `Error message when the user replays but nothing is selected.`,
-    text: `खेलने के लिए कोई रिकॉर्डिंग नहीं।`
+    text: `चलाने के लिए कोई रिकॉर्डिंग उपलब्ध नहीं है.`
   },
   {
     key: `Upload failed, your audio may not be saved.`,
     description: `Error message when the user's recording was not received by the server.`,
-    text: `अपलोड विफल हो गया, आपका ऑडियो सहेजा नहीं जा सकता है।`
+    text: `रिकॉर्डिंग अपलोड नहीं हुई, हो सकता है आपका ऑडियो सेव न हुआ हो.`
   },
   {
     key: `Canceling...`,
     description: `Recording screen button, shown briefly when the recording is being canceled`,
-    text: `रद्द करना ...`
+    text: `रद्द की जा रही है...`
   },
   {
     key: `Uploading...`,
     description: `Recording screen button, shown briefly when the recording is being uploaded`,
-    text: `अपलोड करना ...`
+    text: `अपलोड हो रही है...`
   },
   {
     key: `?`,
@@ -339,17 +335,17 @@ export const HI_STRINGS: ELocaleString[] = [
   {
     key: `Continue`,
     description: `Sign up screen and consent screen buttons, continue to the next page`,
-    text: `जारी रखना`
+    text: `जारी रखें`
   },
   {
     key: `No assignments`,
     description: `Recording screen, message when the user has no cards to work on`,
-    text: `कोई असाइनमेंट नहीं`
+    text: `कोई असाइनमेंट नहीं है`
   },
   {
     key: `<b>{number_of_completed_cards}</b> of <b>{total_number_of_tasks_needed}</b> cards <b>done</b>`,
     description: `Recording screen, progress message of tasks completed so far`,
-    text: `<b> {number_of_completed_cards} </b> <b> {total_number_of_tasks_needed}`
+    text: `<b>{total_number_of_tasks_needed}</b> में से <b>{number_of_completed_cards}</b> कार्ड <b>रिकॉर्ड किए गए</b>`
   },
   {
     key: `Thank you!`,
@@ -362,12 +358,7 @@ export const HI_STRINGS: ELocaleString[] = [
     out of the total (<b>{total_number_of_tasks_needed} cards</b>).
     When you're ready, you can click the button below to finish up the rest of the cards.      `,
     description: `Done screen instructions, asks the user to go finish the rest of the cards`,
-    text: `
-        महान काम! आप एक बार कार्ड के माध्यम से गए हैं, और रिकॉर्ड किए गए हैं 
-        <b class=count>{number_of_completed_cards} कार्ड </b>
-        कुल में से 
-        (<b>{total_number_of_tasks_needed} कार्ड </b>)।
-        जब आप तैयार हों, तो आप बाकी कार्डों को समाप्त करने के लिए नीचे दिए गए बटन पर क्लिक कर सकते हैं।`
+    text: `बहुत बढ़िया! आपने सारे कार्ड एक बार देख लिए हैं और कुल <b>{total_number_of_tasks_needed} कार्ड</b> में से <b class=count>{number_of_completed_cards} कार्ड</b> को रिकॉर्ड कर लिया है. जब आप तैयार हों, तब बाकी बचे कार्ड को रिकॉर्ड करने के लिए नीचे दिया गया बटन दबाएं.`
   },
   {
     key: `          You're almost done! You've gone through the cards once, and recorded
@@ -375,12 +366,7 @@ export const HI_STRINGS: ELocaleString[] = [
     out of the total (<b>{total_number_of_tasks_needed} cards</b>).
     When you're ready, you can click the button below to finish up the rest of the cards.      `,
     description: `Done screen instructions, asks the user to go finish the rest of the cards. This version displays when the user has done more than 75% of the work.`,
-    text: `
-        लगभग काम हो गया! आप एक बार कार्ड के माध्यम से गए हैं, और रिकॉर्ड किए गए हैं 
-        <b class=count>{number_of_completed_cards} कार्ड </b>
-        कुल में से 
-        (<b>{total_number_of_tasks_needed} कार्ड </b>)।
-        जब आप तैयार हों, तो आप बाकी कार्डों को समाप्त करने के लिए नीचे दिए गए बटन पर क्लिक कर सकते हैं।`
+    text: `आपने करीब-करीब सभी कार्ड की रिकॉर्डिंग कर ली है! आपने सारे कार्ड एक बार देख लिए हैं और कुल <b>{total_number_of_tasks_needed} कार्ड</b> में से <b class=count>{number_of_completed_cards} कार्ड</b> को रिकॉर्ड कर लिया है. जब आप तैयार हों, तब बाकी बचे कार्ड को रिकॉर्ड करने के लिए नीचे दिया गया बटन दबाएं.`
   },
   {
     key: `Continue Recording`,
@@ -395,67 +381,67 @@ export const HI_STRINGS: ELocaleString[] = [
   {
     key: `You previously indicated that you are eligible.`,
     description: `Signup screen, a message showing that the participant has already completed this form`,
-    text: `आपने पहले संकेत दिया था कि आप पात्र हैं।`
+    text: `आपने पहले यह बताया था कि आप ज़रूरी शर्तें पूरी करते/करती हैं.`
   },
   {
     key: `You have already completed this form.`,
     description: `Interest form screen, a message showing that the participant has already completed this form`,
-    text: `आप पहले ही इस फॉर्म को पूरा कर चुके हैं।`
+    text: `आपने यह फ़ॉर्म पहले ही भर दिया है.`
   },
   {
     key: `Country is required.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `देश की आवश्यकता है।`
+    text: `देश का नाम डालना ज़रूरी है.`
   },
   {
     key: `State is required.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `राज्य की आवश्यकता है।`
+    text: `राज्य का नाम डालना ज़रूरी है.`
   },
   {
     key: `Please tell us if someone will be helping you record.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `कृपया हमें बताएं कि क्या कोई आपको रिकॉर्ड करने में मदद करेगा।`
+    text: `अगर रिकॉर्डिंग में कोई आपकी मदद करेगा, तो कृपया हमें इसकी जानकारी दें.`
   },
   {
     key: `Please tell us how to email the person helping you.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `कृपया हमें बताएं कि आपकी मदद करने वाले व्यक्ति को कैसे ईमेल करें।`
+    text: `जो व्यक्ति रिकॉर्डिंग में आपकी मदद करेगा कृपया उसका ईमेल पता दें.`
   },
   {
     key: `You'll need to give consent to proceed.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `आपको आगे बढ़ने के लिए सहमति देने की आवश्यकता होगी।`
+    text: `आपको जारी रखने के लिए अपनी सहमति देनी होगी.`
   },
   {
     key: `Please write your initials next to your consent.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `कृपया अपनी सहमति के बगल में अपने शुरुआती लिखें।`
+    text: `कृपया अपनी सहमति के आगे अपने नाम का पहला अक्षर लिखें.`
   },
   {
     key: `You'll need to accept the terms to proceed.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `आपको आगे बढ़ने के लिए शर्तों को स्वीकार करना होगा।`
+    text: `जारी रखने के लिए, आपको शर्तें स्वीकार करनी होंगी.`
   },
   {
     key: `You have already consented.`,
     description: `Consent screen, a message showing that the participant has already completed this form`,
-    text: `आपने पहले ही सहमति दी है।`
+    text: `आपने पहले ही सहमति दे दी है.`
   },
   {
     key: `By typing my name here, I agree to these terms:`,
     description: `Consent screen, indicates that the participant consents`,
-    text: `यहाँ अपना नाम टाइप करके, मैं इन शर्तों से सहमत हूं:`
+    text: `अपना नाम लिखने का मतलब है कि मैं इन शर्तों से सहमत हूं:`
   },
   {
     key: `&nbsp;(Agreement {which_agreement_number} of {total_number_of_agreements})`,
     description: ``,
-    text: `&nbsp;(Agreement {which_agreement_number} / {total_number_of_agreements})`
+    text: `&nbsp;({total_number_of_agreements} में से {which_agreement_number} कानूनी समझौता)`
   },
   {
     key: `Congratulations! You're all done!`,
     description: `Progress bar display when there are no tasks left to do`,
-    text: `बधाई हो! तुम सब हो जाओ!`
+    text: `बधाई हो! आपने सभी कार्ड की रिकॉर्डिंग कर ली है!`
   },
   {
     key: `Congratulations!`,
@@ -465,7 +451,7 @@ export const HI_STRINGS: ELocaleString[] = [
   {
     key: `Review Recordings (optional)`,
     description: `Button on done screen which returns to the recording screen, if the user wants to listen to recordings`,
-    text: `रिकॉर्डिंग की समीक्षा करें (वैकल्पिक)`
+    text: `रिकॉर्डिंग की समीक्षा करें (ज़रूरी नहीं)`
   },
   {
     key: `
@@ -477,16 +463,7 @@ export const HI_STRINGS: ELocaleString[] = [
     <br/><br/>
     (If you wish, you can now go back and review your recordings, but this is not necessary. <b>You're done!</b>)`,
     description: `Descriptive text on the done screen`,
-    text: `
-        आपने अपने सभी कार्ड पूरा कर लिया है! हम जल्द ही उनकी समीक्षा करेंगे, और अगर सब कुछ अच्छा लग रहा है, तो आपको अपने उपहार कार्ड का दावा करने के लिए एक लिंक के साथ अगले 7-10 व्यावसायिक दिनों के भीतर 
-        rewards@perks.com
-        से एक ईमेल प्राप्त होगा। 
-        <br/><br/>
-        <b> योगदान देने के लिए धन्यवाद 
-        <b class=count>{number_of_completed_cards} कार्ड </b>
-        प्रोजेक्ट करने के लिए Euphonia!
-        </b><br/><br/>
-        (यदि आप चाहें, अब आप वापस जा सकते हैं और अपनी रिकॉर्डिंग की समीक्षा कर सकते हैं, लेकिन यह आवश्यक नहीं है। <b> आप कर रहे हैं! </b>)`
+    text: `आपने सभी कार्ड की रिकॉर्डिंग कर ली है! जल्द ही हम उनकी समीक्षा करेंगे और अगर हमें कोई समस्या नहीं मिली, तो rewards@perks.com से आपको एक ईमेल भेजा जाएगा. यह ईमेल, आपको 7 से 10 कामकाजी दिनों के अंदर मिलेगा. साथ ही, इसमें एक लिंक होगा जिसकी मदद से उपहार कार्ड का दावा किया जा सकता है. <br/><br/> <b>Project Euphonia में <b class=count>{number_of_completed_cards} कार्ड</b> का योगदान देने के लिए धन्यवाद!</b> <br/><br/> आपके पास पीछे जाकर अपनी रिकॉर्डिंग की समीक्षा करने का विकल्प है. हालांकि, ऐसा करना ज़रूरी नहीं है. <b>हो गया!</b>`
   },
   {
     key: `__INTEREST_FORM_HTML__`,
@@ -496,26 +473,26 @@ export const HI_STRINGS: ELocaleString[] = [
     text: `
 
     <div class=title
-    >Google प्रोजेक्ट यूफोनिया: ब्याज फॉर्म</div>
+    >Google Project Euphonia में दिलचस्पी दिखाने से जुड़ा फ़ॉर्म</div>
     <div class=sectiontitle
-    >आपके बारे में</div>
+    >आपके बारे में जानकारी</div>
     <div class=formbox>
     <div class=fieldname><label for=ifname
     >नाम</label>
     <span class=optional
-    >(वैकल्पिक)</span>
+    >(ज़रूरी नहीं)</span>
     </div>
     <div class=fielddescription
-    >उपनाम, पहला &amp; अंतिम नाम, बस पहला नाम, आदि किसी भी तरह से आप संबोधित करना पसंद करते हैं!</div>
+    >कोई दूसरा नाम, नाम और सरनेम, सिर्फ़ नाम वगैरह. आपको जिस नाम से पुकारा जाना पसंद हो!</div>
     <input id=ifname class=formtext />
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifcountry
-    >आप किस देश में रहते हैं?</label>
+    >आपका निवास किस देश में है?</label>
     <span class=required>*</span></div>
     <div class=fielddescription
-    >महत्वपूर्ण, कृपया ध्यान दें: हम इस समय गिफ्ट कार्ड भेजने में असमर्थ हैं, जो कि एक तारांकन (*) के साथ नीचे दिए गए देशों के निवासियों के लिए हैं। यदि आप इन देशों में से किसी एक में रहते हैं, तो आपको प्रोजेक्ट यूफोनिया रिसर्च में भाग लेने के लिए अभी भी स्वागत है, और हम आपको सूचित करेंगे कि क्या और जब आप उपहार कार्ड प्राप्त कर पाएंगे।
+    >ज़रूरी सूचना, कृपया ध्यान दें: हमें खेद है कि तारे के निशान (*) के साथ नीचे दिए गए देशों के नागरिकों को हम इस समय उपहार कार्ड नहीं भेज सकते. अगर आपका निवास इनमें से किसी देश में है, तब भी हम आपका Project Euphonia रिसर्च में भाग लेने का स्वागत करते हैं. आने वाले समय में जब भी आपको उपहार कार्ड भेजे जा सकेंगे, हम आपको इसकी सूचना देंगे
     </div>
     <select id=ifcountry class=formselect>
     <option value="India">भारत</option>
@@ -729,7 +706,7 @@ export const HI_STRINGS: ELocaleString[] = [
     
     <div class=formbox id=usstatebox>
     <div class=fieldname><label for=ifstate
-    >आप किस राज्य या क्षेत्र में रहते हैं?</label>
+    >आपका निवास किस देश या इलाके में है?</label>
     <span class=required>*</span></div>
     <select id=ifstate class=formselect>
     <option value=""></option>
@@ -793,39 +770,39 @@ export const HI_STRINGS: ELocaleString[] = [
     
     <div class=formbox>
     <div class=fieldname><label for=ifcity
-    >आप किस शहर में रहते हैं?</label>
+    >आपका घर किस शहर में है?</label>
     <span class=optional
-    >(वैकल्पिक)</span>
+    >(ज़रूरी नहीं)</span>
     </div>
     <input id=ifcity class=formtext />
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifaccent
-    >आप अपने उच्चारण को कैसे चिह्नित करेंगे?</label>
+    >आपको अपने बोलने के लहज़े को किस कैटगरी में रखना है?</label>
     <span class=optional
-    >(वैकल्पिक)</span>
+    >(ज़रूरी नहीं)</span>
     </div>
     <input id=ifaccent class=formtext />
     </div>
     
     <div class=sectiontitle
-    >अतिरिक्त जानकारी</div>
+    >ज़्यादा जानकारी</div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifreferral
-    >कृपया हमें बताएं कि आपने इस परियोजना के बारे में कैसे सुना</label>
+    >कृपया हमें बताएं कि आपको इस प्रोजेक्ट के बारे में जानकारी कहां से मिली</label>
     <span class=optional
-    >(वैकल्पिक)</span>
+    >(ज़रूरी नहीं)</span>
     </div>
     <input id=ifreferral class=formtext />
     </div>
     
     <div class=formbox role=radiogroup id=ifgendergroup style="display: none;">
     <div class=fieldname><label for=ifgendergroup
-    >आपका लिंग क्या है</label>
+    >आपकी लैंगिक पहचान क्या है</label>
     <span class=optional
-    >(वैकल्पिक)</span>
+    >(ज़रूरी नहीं)</span>
     </div>
     <div class=checkboxrow>
     <input type=radio name=ifgender id=ifgenderfemale />
@@ -835,12 +812,12 @@ export const HI_STRINGS: ELocaleString[] = [
     <div class=checkboxrow>
     <input type=radio name=ifgender id=ifgendermale />
     <label for=ifgendermale
-    >नर</label>
+    >पुरुष</label>
     </div>
     <div class=checkboxrow>
     <input type=radio name=ifgender id=ifgenderno />
     <label for=ifgenderno
-    >चुप रहना पसंद करूंगा</label>
+    >मुझे नहीं बताना</label>
     </div>
     <div class=checkboxrow>
     <input type=radio name=ifgender id=ifgenderother />
@@ -852,42 +829,42 @@ export const HI_STRINGS: ELocaleString[] = [
     
     <div class=formbox style="display: none;">
     <div class=fieldname><label for=ifrace
-    >आपकी नस्ल क्या है</label>
+    >आप किस नस्ल से हैं</label>
     <span class=optional
-    >(वैकल्पिक)</span>
+    >(ज़रूरी नहीं)</span>
     </div>
     <input id=ifrace class=formtext />
     </div>
     
     <div class=formbox>
     <div class=fieldname
-    >आपके पास इनमें से किसकी पहुंच है?
+    >आपके पास इनमें से किन सुविधाओं का ऐक्सेस है?
     <span class=optional
-    >(वैकल्पिक)</span>
+    >(ज़रूरी नहीं)</span>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifdevicecomputer />
     <label for=ifdevicecomputer
-    >एक इंटरनेट-कनेक्टेड कंप्यूटर एक माइक्रोफोन और स्पीकर से सुसज्जित है</label>
+    >इंटरनेट कनेक्शन के साथ एक कंप्यूटर जिसमें माइक्रोफ़ोन और स्पीकर की सुविधा मौजूद हो</label>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifdeviceandroid />
     <label for=ifdeviceandroid
-    >एक एंड्रॉइड फोन या टैबलेट (जैसे सैमसंग, पिक्सेल, नेक्सस, आदि)</label>
+    >एक Android फ़ोन या टैबलेट, जैसे कि Samsung, Pixel, Nexus वगैरह</label>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifdeviceiphone />
     <label for=ifdeviceiphone
-    >एक iPhone या iPad</label>
+    >iPhone या iPad</label>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifdevicenone />
     <label for=ifdevicenone
-    >इनमे से कोई भी नहीं</label>
+    >इनमें से कोई नहीं</label>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifdeviceother />
-    <label id=ifdeviceotherlabel for=ifdeviceother
+    <label for=ifdeviceother
     >अन्य:</label>
     <input type=text class=formtext id=ifdeviceothertext aria-labelledby="ifdeviceotherlabel" />
     </div>
@@ -895,81 +872,81 @@ export const HI_STRINGS: ELocaleString[] = [
     
     <div class=formbox id=helperbox>
     <div class=fieldname
-    >क्या कोई आपको भाषण नमूने रिकॉर्ड करने में मदद करेगा?
+    >क्या बोली के सैंपल रिकॉर्ड करने में कोई आपकी मदद करेगा
     <span class=required>*</span></div>
     <div class=fielddescription
-    >उदाहरण के लिए, एक परिवार के सदस्य, भाषण चिकित्सक, या अन्य व्यक्ति</div>
+    >उदाहरण के लिए, परिवार का कोई सदस्य, बोली को बेहतर बनाने में मदद करने वाला चिकित्सक या कोई अन्य व्यक्ति</div>
     <div class=checkboxrow>
     <input type=radio name=ifhelper id=ifhelperno selected />
     <label for=ifhelperno
-    >नहीं, मैं स्वतंत्र रूप से भाग लूंगा</label>
+    >नहीं, मुझे इसके लिए किसी की मदद की ज़रूरत नहीं पड़ेगी</label>
     </div>
     <div class=checkboxrow>
     <input type=radio name=ifhelper id=ifhelperyes />
     <label for=ifhelperyes
-    >हां, कोई मेरी मदद करेगा और मेरे साथ अपनी संपर्क जानकारी साझा करने में सहज है</label>
+    >हां, इसके लिए कोई मुझे मदद करेगा और उन्हें आपसे अपनी संपर्क जानकारी शेयर में कोई परेशानी नहीं है</label>
     </div>
     </div>
     
     <!-- Helper panel appears if the user chooses "yes" above -->
     <div id=helpersection>
     <div class=sectiontitle
-    >आपकी मदद करने वाले व्यक्ति के बारे में</div>
+    >आपकी मदद करने वाले व्यक्ति के बारे में जानकारी</div>
     <div class=formbox>
     <div class=fielddescription>
-    कृपया हमें आपकी मदद करने वाले व्यक्ति के बारे में थोड़ा बताएं, इसलिए हम आप दोनों के संपर्क में रह सकते हैं। अपने सहायक के नाम को शामिल करके, आप समझते हैं कि उन्हें इस परियोजना में आपकी भागीदारी के बारे में जानकारी प्राप्त होगी। आप एक से अधिक सहायक और ईमेल को सूचीबद्ध कर सकते हैं: बस प्रत्येक को अल्पविराम के साथ अलग करें।
+    कृपया हमें आपकी मदद करने वाले व्यक्ति के बारे में जानकारी दें, ताकि हम आप दोनों से संपर्क कर पाएं. मदद करने वाले व्यक्ति की जानकारी देने का मतलब है कि इस रिसर्च में आपके हिस्सा लेने से जुड़ी सभी जानकारी, उस व्यक्ति के साथ भी शेयर की जाएगी और आप इस बात से सहमत हैं. मदद करने वाले एक से ज़्यादा व्यक्तियों के नाम और उनके ईमेल पते दिए जा सकते हैं. हर नाम और ईमेल पते के बीच कॉमा ज़रूर लगाएं.
     </div>
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifassistantname
-    >सहायक का नाम</label>
+    >मदद करने वाले व्यक्ति का नाम</label>
     <span class=optional
-    >(वैकल्पिक)</span>
+    >(ज़रूरी नहीं)</span>
     </div>
     <input type=text class=formtext id=ifassistantname />
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifassistantemail
-    >सहायक ईमेल पता</label>
+    >मदद करने वाले व्यक्ति का ईमेल पता</label>
     <span class=required>*</span></div>
     <input type=text class=formtext id=ifassistantemail />
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifassistantrelationship
-    >इस व्यक्ति का आपके साथ क्या संबंध है?</label>
+    >इस व्यक्ति और आपके बीच क्या रिश्ता है?</label>
     <span class=optional
-    >(वैकल्पिक)</span>
+    >(ज़रूरी नहीं)</span>
     </div>
     <div class=fielddescription
-    >उदाहरण के लिए: देखभालकर्ता, दोस्त, परिवार के सदस्य, भाषण चिकित्सक, आदि।</div>
+    >उदाहरण के लिए: सहायक, दोस्त, परिवार का सदस्य, बोली को बेहतर बनाने में मदद करने वाला चिकित्सक वगैरह.</div>
     <input type=text class=formtext id=ifassistantrelationship />
     </div>
     </div>
     
     <div class=sectiontitle
-    >Google प्रोजेक्ट यूफोनिया: सहमति</div>
+    >Google Project Euphonia के लिए सहमति देने का फ़ॉर्म</div>
     
     <div class=forminfobox>
     <div class=fieldname
-    >संवेदनशील व्यक्तिगत रूप से पहचान योग्य जानकारी का प्रश्नावली संग्रह</div>
+    >ऐसे सवालों की सूची जिनमें दी गई जानकारी संवेदनशील है. साथ ही, इस जानकारी से जवाब देने वाले व्यक्ति की पहचान की जा सकती है</div>
     <div class=fielddescription>
-    इस प्रश्नावली का उद्देश्य Google के साथ एक आगामी डेटा संग्रह प्रयास के लिए अपनी पात्रता को सत्यापित करना है, और संग्रह का उद्देश्य Google को इसके वर्तमान और भविष्य के उत्पादों और सेवाओं से संबंधित डिजाइन, अनुसंधान, विकास, निर्माण और सुधार में सहायता करना होगा। भाषण प्रौद्योगिकियों के लिए।
-    इस प्रश्नावली में आपके द्वारा प्रदान की जाने वाली जानकारी को अन्य जानकारी और डेटा के साथ जोड़ा जा सकता है, जिसे आपने डेटा संग्रह के दौरान प्रदान करने के लिए चुना है, यदि आपको भाग लेने के लिए चुना गया है।
+    ये सवाल पूछे जाने का मकसद, यह पता लगाना है कि रिसर्च में हिस्सा लेने वाला व्यक्ति, Google के इस डेटा कलेक्शन के लिए ज़रूरी शर्तें पूरी करता है या नहीं. Google इस डेटा का इस्तेमाल, बोली पहचानने वाली टेक्नोलॉजी से जुड़े अपने मौजूदा और आने वाले प्रॉडक्ट और सेवाओं को बेहतर बनाने के लिए करेगा. इसमें, इन प्रॉडक्ट और सेवाओं के लिए रिसर्च करना, इन्हें डिज़ाइन और डेवलप करना, इन्हें बनाना, और लोगों के लिए इनकी सुलभता को बेहतर करना शामिल है.
+    ऐसा हो सकता है कि सवालों की इस सूची में दी गई जानकारी का इस्तेमाल, डेटा कलेक्शन के दौरान दी गई आपकी अन्य जानकारी और डेटा के साथ मिलाकर किया जाए. हालांकि, यह तभी होगा, जब आपको रिसर्च का हिस्सा बनने के लिए चुन लिया जाता है.
     </div>
     </div>
     
     <div class=formbox>
     <div class=fieldname>
-    आपकी सहमति के साथ, Google उस व्यक्तिगत जानकारी को एकत्र करेगा और संसाधित करेगा जिसे आप प्रदान करने के लिए चुनते हैं (ए) जब आप इस प्रश्नावली को सबमिट करते हैं और (बी) यदि आपको परियोजना में भाग लेने के लिए चुना जाता है, जब आप डेटा संग्रह कार्यों में भाग लेते हैं, जिसमें जानकारी भी शामिल है, सहायक प्रौद्योगिकी, भाषण विकलांगता या हानि, और भाषण पैटर्न का आपका उपयोग।
+    सहमति मिलने के बाद, Google रिसर्च में हिस्सा ले रहे लोगों की निजी जानकारी को इकट्ठा और प्रोसेस करता है. डेटा कलेक्शन टास्क में हिस्सा लेने पर, लोगों की वही निजी जानकारी ली जाती है जिसके लिए वे अनुमति देते हैं. इसमें लोगों की, सहायक टेक्नोलॉजी के इस्तेमाल, नहीं बोल पाना या बोलने में होने वाली परेशानी, और बोलने के पैटर्न की जानकारी शामिल होती है. हालांकि, ऐसा तभी होता है, जब (क) लोग इन सवालों के जवाब सबमिट करते हैं और (ख) इस प्रोजेक्ट में हिस्सा लेने के लिए चुने जाते हैं.
     <span class=required>*</span>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifformconsent />
-    <label id=ifformconsentlabel for=ifformconsent>
-    मैं अपनी सहमति देता हूं, और यहां अपने शुरुआती में प्रवेश करूंगा:
+    <label for=ifformconsent>
+    मैं इससे सहमत हूं और यहां अपने नाम का पहला अक्षर डालूंगा/डालूंगी:
     </label>
     <input type=text class=formtext id=ifconsentinitials aria-labelledby="ifformconsentlabel" />
     </div>
@@ -977,35 +954,35 @@ export const HI_STRINGS: ELocaleString[] = [
     
     <div class=formbox>
     <div class=fieldname>
-    कृपया हमारे नियमों और शर्तों और गोपनीयता नीति की समीक्षा करें
+    कृपया हमारे नियम और शर्तें और हमारी निजता नीति देखें
     <span class=required>*</span>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifformtos />
     <label for=ifformtos>
-    मुझे स्वीकार है
+    मैं नियम और शर्तों
     <a target="_blank" href="https://www.google.com/policies/terms/"
-    >नियम और शर्तें</a>
-    और स्वीकार करें कि मेरी जानकारी का उपयोग उत्पाद अनुसंधान, विकास और भाषण संबंधी प्रौद्योगिकियों के सुधार के लिए और उसके अनुसार किया जाएगा
+    >से सहमत हूं</a>
+    और समझता/समझती हूं कि मेरी जानकारी का इस्तेमाल प्रॉडक्ट के लिए रिसर्च, डेवलपमेंट, और बोली से जुड़ी टेक्नोलॉजी को बेहतर बनाने के लिए किया जाएगा. साथ ही, यह Google की निजता नीति
     <a target="_blank" href="https://www.google.com/policies/privacy/"
-    >Google की गोपनीयता नीति</a>
-    ।
+    >के मुताबिक किया जाएगा</a>
+    .
     </label>
     </div>
     </div>
     
     <div class=forminfobox>
     <div class=fieldname>
-    इस फॉर्म को सबमिट करके, आप Google और उसके सहयोगियों को ईमेल द्वारा आपसे संपर्क करने के लिए अपनी सहमति देते हैं।
+    इस फ़ॉर्म को सबमिट करने का मतलब है कि आपने Google और उसकी सहायक कंपनियों को, ईमेल से संपर्क करने की अनुमति दी है.
     </div>
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifotherinfo>
-    क्या आपके पास कोई अन्य जानकारी है जिसे आप हमारे साथ साझा करना चाहते हैं?
+    क्या आपको कोई और जानकारी शेयर करनी है?
     </label>
     <span class=optional
-    >(वैकल्पिक)</span>
+    >(ज़रूरी नहीं)</span>
     </div>
     <input id=ifotherinfo class=formtext />
     </div>

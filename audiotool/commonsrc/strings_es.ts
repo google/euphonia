@@ -32,67 +32,57 @@ export const ES_STRINGS: ELocaleString[] = [
     key: `WELCOME_TITLE`,
     en: `Welcome to Project Euphonia!`,
     description: `Signup screen and consent screen titles`,
-    text: `¡Bienvenido al Proyecto Euphonia!`
+    text: `¡Te damos la bienvenida a Project Euphonia!`
   },
   {
     key: `We're exploring how Google products and services
-  that use speech as an input method could work better for more people. We're seeking
-  voice contributions from adults who have difficulty being understood by others.
+    that use speech as an input method could work better for more people. We're seeking
+    voice contributions from adults who have difficulty being understood by others.
 
-  Voice samples can help us improve how Google understands individuals with speech
-  impairments.`,
+    Voice samples can help us improve how Google understands individuals with speech
+    impairments.`,
     description: `Signup screen`,
-    text: `
-    Exploramos cómo los productos y servicios de Google que utilizan la voz como método de entrada podrían funcionar mejor para más usuarios.
-    
-    Buscamos muestras de voz de adultos que tienen dificultad para ser entendidos por otros.
-    
-    Las muestras de voz pueden ayudarnos a mejorar la forma en que Google entiende a las personas con problemas del habla.
-    `
+    text: `Estamos investigando cómo podrían funcionar mejor y llegar a más personas los productos y servicios de Google que utilizan la voz como método de introducción de texto. Necesitamos la aportación de personas adultas cuya voz resulte difícil de entender. Las muestras de voz pueden ayudarnos a hacer que Google entienda mejor a las personas que tengan algún trastorno del habla.`
   },
   {
     key: `<b>IMPORTANT:</b> If you're filling out
-  this form on behalf of someone else, please ensure you have their permission
-  to do so.`,
+    this form on behalf of someone else, please ensure you have their permission
+    to do so.`,
     description: `Signup screen`,
-    text: `
-     <b>IMPORTANTE:</b> si está completando este formulario en nombre de otra persona, asegúrese de tener su permiso para hacerlo. 
-    `
+    text: `<b>IMPORTANTE:</b> Si quieres rellenar este formulario en nombre de otra persona, asegúrate de tener su permiso para hacerlo.`
   },
   {
     key: `Questions? <a id=signuphelplink target="_blank">Contact Us</a>`,
     en: `Questions? <a id=signuphelplink target="_blank">Contact Us</a>`,
     description: `Signup screen`,
-    text: `¿Preguntas?
+    text: `¿Tienes alguna pregunta? 
         <a id=signuphelplink target="_blank"
-        > contáctenos</a>`
+        >Contacta con nosotros</a>`
   },
   {
     key: `Already enrolled? &nbsp;`,
     description: `Signup screen`,
-    text: `Ya inscrito? &nbsp;`
+    text: `¿Ya te has registrado? &nbsp;`
   },
   {
     key: `Click to sign in and continue recording`,
     description: `Signup screen`,
-    text: `Haga clic para iniciar sesión y continuar grabando`
+    text: `Haz clic para iniciar sesión y seguir grabando`
   },
   {
     key: `To get started, please confirm your eligibility:`,
     description: `Signup screen`,
-    text: `Para comenzar, por favor confirmar...`
+    text: `Para empezar, confirma que cumples los requisitos:`
   },
   {
     key: `Strangers, or voice technologies like Google Assistant, have difficulty understanding my speech (not because of an accent)`,
     description: `Signup screen eligibility question`,
-    text: `
-    A las personas que acabo de conocer o a las personas extrañas les resulta difícil entender mi habla (no por el acento)
-    `
+    text: `A las personas que no me conocen o a las tecnologías de voz, como el Asistente de Google, les resulta difícil entenderme cuando hablo (no por mi acento)`
   },
   {
     key: `I am at least 18 years of age`,
     description: `Signup screen eligibility question`,
-    text: `Soy mayor de 18 años.`
+    text: `Tengo 18 años o más`
   },
   {
     key: `Sign in and continue`,
@@ -101,78 +91,72 @@ export const ES_STRINGS: ELocaleString[] = [
   },
   {
     key: `You will need to sign in with your Google
-  Account to contribute to the project. If you do not have a Google Account, you can
-  create one when you click to continue.`,
+    Account to contribute to the project. If you do not have a Google Account, you can
+    create one when you click to continue.`,
     description: `Signup screen instructions`,
-    text: `Deberá iniciar sesión con su cuenta de Google para contribuir al proyecto.
-        Si no tiene una cuenta de Google, puede crear una cuando haga clic para continuar.`
+    text: `Tendrás que iniciar sesión con tu cuenta de Google para poder colaborar en el proyecto. Si no tienes una cuenta de Google, puedes crear una cuando hagas clic para continuar.`
   },
   {
     key: `Next`,
     description: `Interest form button, advance to the next screen`,
-    text: `Próximo`
+    text: `Siguiente`
   },
   {
     key: `Go Back`,
     description: `Interest form button, go back to the signup screen`,
-    text: `Regresa`
+    text: `Volver`
   },
   {
     key: `You must type your name to agree to the terms.`,
     description: `Consent form screen, require consent to proceed`,
-    text: `Debe escribir su nombre para aceptar los términos.`
+    text: `Debes escribir tu nombre para aceptar los términos.`
   },
   {
     key: `Reset form and start over`,
     description: `Interest form button, clear fields and start over`,
-    text: `Reiniciar el formulario y comenzar de nuevo`
+    text: `Borrar formulario y volver a empezar`
   },
   {
     key: `You are enrolling as <b id=whoisenrolling>&nbsp;</b>.
-  Please review the following agreement: <span id=consentcounter></span>`,
+    Please review the following agreement: <span id=consentcounter></span>`,
     description: `Consent screen instructions`,
-    text: `Se está inscribiendo como
-        <b id=whoisenrolling>&nbsp;</b>.
-        Revise el siguiente acuerdo:
-        <span id=consentcounter></span>`
+    text: `Te estás registrando como <b id=whoisenrolling>&nbsp;</b>. Lee el siguiente contrato: <span id=consentcounter></span>`
   },
   {
     key: `Enroll`,
     description: `Consent screen, final action; consents to the program and allows recording`,
-    text: `Inscribirse`,
+    text: `Registrarse`
   },
   {
     key: `Next Agreement`,
     description: `Consent screen, to agree to the current consent and then see the next one. Only shows when there are multiple consents`,
-    text: `Siguiente acuerdo`,
+    text: `Siguiente contrato`
   },
   {
     key: `INSTRUCTIONS_TITLE`,
     en: `Thanks for signing up for Project Euphonia!`,
     description: `Instructions screen title`,
-    text: `¡Gracias por registrarse en el Proyecto Euphonia!`
+    text: `¡Gracias por registrarte en Project Euphonia!`
   },
   {
     key: `    <ul>
-  <li>Please take a moment to watch this video introduction.</li>
-  <li>On the next screen, you'll see <b>cards</b> to read aloud.</li>
-  <li>You'll want to be in a <b>quiet setting</b> and avoid any background noise.</li>
-  <li>You'll press the blue Record button, and then <b>read the
-  card aloud</b>, as accurately as possible.</li>
-  <li>When you are <b>finished speaking</b>, press the blue button again to stop recording.</li>
-  <li>When you finish recording all the cards, you're done!</li>
-  <li>Having trouble recording? <a target="_blank" href="http://g.co/disabilitysupport">Contact us</a> for help.</li>`,
+    <li>Please take a moment to watch this video introduction.</li>
+    <li>On the next screen, you'll see <b>cards</b> to read aloud.</li>
+    <li>You'll want to be in a <b>quiet setting</b> and avoid any background noise.</li>
+    <li>You'll press the blue Record button, and then <b>read the
+    card aloud</b>, as accurately as possible.</li>
+    <li>When you are <b>finished speaking</b>, press the blue button again to stop recording.</li>
+    <li>When you finish recording all the cards, you're done!</li>
+    <li>Having trouble recording? <a target="_blank" href="http://g.co/disabilitysupport">Contact us</a> for help.</li>`,
     description: `Instructions screen details`,
-    text: `    <ul>
-    <li> Tómese un momento para ver esta introducción de video.</li>
-    <li> En la siguiente pantalla, verá <b>tarjetas</b> para leer en voz alta.</li>
-    <li> Querrá estar en una <b>configuración silenciosa</b> y evitar cualquier ruido de fondo.</li>
-    <li> Presionará el botón de registro azul y luego <b>lea la tarjeta en voz alta</b>, con la mayor precisión posible.</li>
-    <li> Cuando haya <b>terminado de hablar</b>, presione el botón azul nuevamente para dejar de grabar.</li>
-    <li> Cuando termine de grabar todo ¡Las tarjetas, terminaste!</li>
-    <li> ¿Tiene problemas para grabar?
-    <a target="_blank" href="http://g.co/disabilitysupport">contáctenos</a>
-    para obtener ayuda.</li>`
+    text: `<ul>
+    <li>Dedica unos minutos a ver este vídeo introductorio.</li>
+    <li>En la pantalla siguiente, verás unas <b>tarjetas</b> que tendrás que leer en alto.</li>
+    <li>Te recomendamos que estés en un <b>entorno tranquilo</b> en el que no haya ruidos de fondo.</li>
+    <li>Tendrás que pulsar el botón azul para grabar y, a continuación, <b>leer la tarjeta en voz alta</b> con la mayor precisión posible.</li> <li>Cuando hayas <b>terminado de hablar</b>, pulsa de nuevo el botón azul para dejar de grabar.</li>
+    <li>Una vez grabadas todas las tarjetas, habrás terminado.</li>
+    <li>¿Tienes problemas para grabar?
+    <a target="_blank" href="http://g.co/disabilitysupport">Ponte en contacto con nosotros</a> para que te ayudemos.</li>`
   },
   {
     key: `Get Started`,
@@ -182,70 +166,59 @@ export const ES_STRINGS: ELocaleString[] = [
   {
     key: `Microphone Setup`,
     description: `Microphone and settings screen title`,
-    text: `Configuración de micrófono`
+    text: `Configuración del micrófono`
   },
   {
     key: `
-  In order to record your speech, we need permission to use your microphone
-  through your web browser. <b>Please click "Allow"</b> to grant use of your microphone.`,
+    In order to record your speech, we need permission to use your microphone
+    through your web browser. <b>Please click "Allow"</b> to grant use of your microphone.`,
     description: `Microphone permission instructions`,
-    text: `
-        Para registrar su discurso, Euphonia necesita permiso para usar su micrófono
-        a través de su navegador web.
-        <b>Haga clic en "Permitir"</b>
-        para otorgar el uso de su micrófono.`
+    text: `Para poder grabar lo que dices, Euphonia necesita permiso para usar el micrófono a través de tu navegador web. <b>Haz clic en "Permitir"</b> para concedérselo.`
   },
   {
     key: `
-  We could not access your microphone due to a permission problem. You'll need to allow access
-  in order to continue.`,
+    We could not access your microphone due to a permission problem. You'll need to allow access
+    in order to continue.`,
     description: `Microphone permission error message`,
-    text: ` Euphonia no pudo acceder a su micrófono debido a un problema de permiso. Deberá permitir el acceso para continuar.`
+    text: `Euphonia no ha podido acceder a tu micrófono porque hay un problema con el permiso. Para continuar, tienes que permitir el acceso.`
   },
   {
     key: `
-  It looks like your microphone permission is blocked. You'll need to <b>allow access</b>
-  by clicking the <b>address bar of your browser</b>, and/or <b>reset permission</b> for the microphone.`,
+    It looks like your microphone permission is blocked. You'll need to <b>allow access</b>
+    by clicking the <b>address bar of your browser</b>, and/or <b>reset permission</b> for the microphone.`,
     description: `Microphone permission error message`,
-    text: `
-        Parece que su permiso de micrófono está bloqueado. Deberá
-        <b>permitir el acceso</b>
-        haciendo clic en la barra de direcciones
-        <b>de su navegador</b>,
-        y/o
-        <b>Restablecer permiso</b>
-        para el micrófono.`
+    text: `Parece que el permiso de acceso a tu micrófono está bloqueado. Tienes que <b>permitir el acceso</b> haciendo clic en la <b>barra de direcciones de tu navegador</b>, o <b>restablecer el permiso</b> del micrófono.`
   },
   {
     key: `
-  Your microphone is all set! You can start recording as soon as you're ready.`,
+    Your microphone is all set! You can start recording as soon as you're ready.`,
     description: `Microphone permission success message`,
-    text: `¡Tu micrófono está listo! Puedes comenzar a grabar tan pronto como estés listo.`
+    text: `¡El micrófono ya está listo! Puedes empezar a grabar cuando quieras.`
   },
   {
     key: `Use the default microphone`,
     description: `Let's the user choose the browser's default recording device instead of picking one explicitly`,
-    text: `Use el micrófono predeterminado`
+    text: `Usar el micrófono predeterminado`
   },
   {
     key: `Save`,
     description: `Microphone configuration screen, accept changes to microphone device`,
-    text: `Ahorrar`
+    text: `Guardar`
   },
   {
     key: `Try again`,
     description: `Microphone permission failure retry button`,
-    text: `Intentar otra vez`
+    text: `Reintentar`
   },
   {
     key: `Start recording!`,
     description: `Microphone setup screen button, continue to recording screen`,
-    text: `¡Empezar a grabar!`
+    text: `¡Empieza a grabar!`
   },
   {
     key: `Microphone settings`,
     description: `Microphone setup screen title`,
-    text: `Configuración de micrófono`
+    text: `Ajustes del micrófono`
   },
   {
     key: `Previous card`,
@@ -255,12 +228,12 @@ export const ES_STRINGS: ELocaleString[] = [
   {
     key: `Next card`,
     description: `Recording screen button, go forward to next card`,
-    text: `Siguiente tarjeta`
+    text: `Tarjeta siguiente`
   },
   {
     key: `Replay`,
     description: `Recording screen button, listen to previously recorded audio`,
-    text: `Repetición`
+    text: `Volver a reproducir`
   },
   {
     key: `Stop`,
@@ -270,27 +243,27 @@ export const ES_STRINGS: ELocaleString[] = [
   {
     key: `Delete`,
     description: `Recording screen button, delete a previous recording`,
-    text: `Borrar`
+    text: `Eliminar`
   },
   {
     key: `Deleting...`,
     description: `Recording screen button, shown briefly while the recording is being deleted`,
-    text: `Eliminar...`
+    text: `Eliminando...`
   },
   {
     key: `Record`,
     description: `Recording screen button, record audio for a card`,
-    text: `Registro`
+    text: `Grabar`
   },
   {
     key: `Record Again`,
     description: `Recording screen button, record audio for a card that already has been recorded`,
-    text: `Registrar nuevamente`
+    text: `Volver a grabar`
   },
   {
     key: `(this card is done)`,
     description: `Labels tasks that have already been recorded once`,
-    text: `(esta tarjeta está hecha)`
+    text: `(ya has hecho esta tarjeta)`
   },
   {
     key: `Cancel`,
@@ -300,27 +273,27 @@ export const ES_STRINGS: ELocaleString[] = [
   {
     key: `Done`,
     description: `Recording screen button, shown while recording to end the recording and start uploading it`,
-    text: `Hecho`
+    text: `Listo`
   },
   {
     key: `Starting...`,
     description: `Recording screen button, shown briefly just before the microphone starts listening`,
-    text: `A partir de...`
+    text: `Iniciando...`
   },
   {
     key: `Now recording...`,
     description: `Recording screen button, shown briefly just before the microphone starts listening`,
-    text: `Ahora grabando ...`
+    text: `Grabando ahora...`
   },
   {
     key: `Recording uploaded!`,
     description: `Recording screen message when the recording uploaded successfully`,
-    text: `¡Grabación cargada!`
+    text: `Grabación subida.`
   },
   {
     key: `Recording uploaded! Here's the next card.`,
     description: `Recording screen message when the recording uploads successfully and the next card is automatically displayed`,
-    text: `¡Grabación cargada! Aquí está la próxima tarjeta.`
+    text: `Grabación subida. Aquí tienes la siguiente tarjeta.`
   },
   {
     key: `Recording deleted.`,
@@ -335,22 +308,22 @@ export const ES_STRINGS: ELocaleString[] = [
   {
     key: `No recording to delete.`,
     description: `Error message when the user deletes but nothing is selected.`,
-    text: `No hay grabación para eliminar.`
+    text: `No hay ninguna grabación que eliminar.`
   },
   {
     key: `No recording to play.`,
     description: `Error message when the user replays but nothing is selected.`,
-    text: `No hay grabación para reproducir.`
+    text: `No hay ninguna grabación que reproducir.`
   },
   {
     key: `Upload failed, your audio may not be saved.`,
     description: `Error message when the user's recording was not received by the server.`,
-    text: `Carga falló, su audio no se puede guardar.`
+    text: `No se ha podido subir la grabación. Puede que el audio no se guarde.`
   },
   {
     key: `Canceling...`,
     description: `Recording screen button, shown briefly when the recording is being canceled`,
-    text: `Cancelado...`
+    text: `Cancelando...`
   },
   {
     key: `Uploading...`,
@@ -370,12 +343,12 @@ export const ES_STRINGS: ELocaleString[] = [
   {
     key: `No assignments`,
     description: `Recording screen, message when the user has no cards to work on`,
-    text: `Sin tareas`
+    text: `No hay ninguna tarea`
   },
   {
     key: `<b>{number_of_completed_cards}</b> of <b>{total_number_of_tasks_needed}</b> cards <b>done</b>`,
     description: `Recording screen, progress message of tasks completed so far`,
-    text: `<b>{number_of_completed_cards}</b> de <b>{total_number_of_tasks_needed}</b> tarjetas <b>hechas</b>`
+    text: `<b>{number_of_completed_cards}</b> de <b>{total_number_of_tasks_needed}</b> tarjetas <b>terminadas</b>`
   },
   {
     key: `Thank you!`,
@@ -384,110 +357,100 @@ export const ES_STRINGS: ELocaleString[] = [
   },
   {
     key: `          Great work! You've gone through the cards once, and recorded
-  <b class=count>{number_of_completed_cards} cards</b>
-  out of the total (<b>{total_number_of_tasks_needed} cards</b>).
-  When you're ready, you can click the button below to finish up the rest of the cards.      `,
+    <b class=count>{number_of_completed_cards} cards</b>
+    out of the total (<b>{total_number_of_tasks_needed} cards</b>).
+    When you're ready, you can click the button below to finish up the rest of the cards.      `,
     description: `Done screen instructions, asks the user to go finish the rest of the cards`,
-    text: `
-        ¡Buen trabajo! Has pasado por las tarjetas una vez, y registrado
-        <b class=count>{number_of_completed_cards} tarjetas</b>
-        fuera de las tarjetas total
-        (<b>{total_number_of_tasks_needed}</b>).
-        Cuando esté listo, puede hacer clic en el botón de abajo para finalizar el resto de las tarjetas.`
+    text: `¡Buen trabajo! Has visto las tarjetas una vez y has grabado <b class=count>{number_of_completed_cards} tarjetas</b> del total de <b>{total_number_of_tasks_needed}</b>. Cuando quieras, haz clic en el botón de abajo para terminar el resto de las tarjetas.`
   },
   {
     key: `          You're almost done! You've gone through the cards once, and recorded
-  <b class=count>{number_of_completed_cards} cards</b>
-  out of the total (<b>{total_number_of_tasks_needed} cards</b>).
-  When you're ready, you can click the button below to finish up the rest of the cards.      `,
+    <b class=count>{number_of_completed_cards} cards</b>
+    out of the total (<b>{total_number_of_tasks_needed} cards</b>).
+    When you're ready, you can click the button below to finish up the rest of the cards.      `,
     description: `Done screen instructions, asks the user to go finish the rest of the cards.
   This version displays when the user has done more than 75% of the work.`,
-    text: `
-        ¡Ya casi terminas! Has pasado por las tarjetas una vez, y registrado
-        <b class=count>{number_of_completed_cards} tarjetas</b>
-        fuera de las tarjetas total
-        (<b>{total_number_of_tasks_needed}</b>).
-        Cuando esté listo, puede hacer clic en el botón de abajo para finalizar el resto de las tarjetas.`
+    text: `¡Ya casi has terminado! Has visto las tarjetas una vez y has grabado <b class=count>{number_of_completed_cards} tarjetas</b> del total de <b>{total_number_of_tasks_needed}</b>. Cuando quieras, haz clic en el botón de abajo para terminar el resto de las tarjetas.`
   },
   {
     key: `Continue Recording`,
     description: `Done screen and instructions screen buttons, return to the recording screen`,
-    text: `Continuar grabando`
+    text: `Seguir grabando`
   },
   {
     key: `Continue recording!`,
     description: `Microphone settings screen, return to the recording screen`,
-    text: `¡Continúa grabando!`
+    text: `¡Sigue grabando!`
   },
   {
     key: `You previously indicated that you are eligible.`,
     description: `Signup screen, a message showing that the participant has already completed this form`,
-    text: `Anteriormente indicó que es elegible.`
+    text: `Has indicado anteriormente que cumples los requisitos.`
   },
   {
     key: `You have already completed this form.`,
     description: `Interest form screen, a message showing that the participant has already completed this form`,
-    text: `Ya ha completado este formulario.`
+    text: `Ya has completado este formulario.`
   },
   {
     key: `Country is required.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Se requiere país.`
+    text: `Es obligatorio indicar el país.`
   },
   {
     key: `State is required.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Se requiere estado.`
+    text: `Es obligatorio indicar el estado/provincia.`
   },
   {
     key: `Please tell us if someone will be helping you record.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Por favor, díganos si alguien le ayudará a grabar.`
+    text: `Indícanos si alguien te va a ayudar a grabar.`
   },
   {
     key: `Please tell us how to email the person helping you.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Por favor, díganos cómo enviarle un correo electrónico a la persona que lo ayuda.`
+    text: `Indícanos cómo podemos contactar por correo electrónico con la persona que te va a ayudar.`
   },
   {
     key: `You'll need to give consent to proceed.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Deberá dar su consentimiento para continuar.`
+    text: `Tendrás que dar tu consentimiento para continuar.`
   },
   {
     key: `Please write your initials next to your consent.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Por favor escriba sus iniciales junto a su consentimiento.`
+    text: `Escribe tus iniciales junto a tu consentimiento.`
   },
   {
     key: `You'll need to accept the terms to proceed.`,
     description: `Interest form screen, a message showing that a required field needs to be filled in.`,
-    text: `Deberá aceptar los términos para proceder.`
+    text: `Tendrás que aceptar los términos para continuar.`
   },
   {
     key: `You have already consented.`,
     description: `Consent screen, a message showing that the participant has already completed this form`,
-    text: `Ya has consentido.`
+    text: `Ya has dado tu consentimiento.`
   },
   {
     key: `By typing my name here, I agree to these terms:`,
     description: `Consent screen, indicates that the participant consents`,
-    text: `Al escribir mi nombre aquí, estoy de acuerdo con estos términos:`
+    text: `Al escribir mi nombre aquí, acepto los siguientes términos:`
   },
   {
     key: `&nbsp;(Agreement {which_agreement_number} of {total_number_of_agreements})`,
     description: ``,
-    text: `&nbsp;(acuerdo {which_agreement_number} de {total_number_of_agreements})`
+    text: `&nbsp;(Contrato {which_agreement_number} de {total_number_of_agreements})`
   },
   {
     key: `Congratulations! You're all done!`,
     description: `Progress bar display when there are no tasks left to do`,
-    text: `¡Felicidades! ¡Ya has terminado!`
+    text: `¡Enhorabuena! ¡Ya has terminado!`
   },
   {
     key: `Congratulations!`,
     description: `Title of the done screen`,
-    text: `¡Felicidades!`
+    text: `¡Enhorabuena!`
   },
   {
     key: `Review Recordings (optional)`,
@@ -496,25 +459,15 @@ export const ES_STRINGS: ELocaleString[] = [
   },
   {
     key: `
-  You have completed all your cards! We'll be reviewing them soon, and if everything
-  looks good, you'll be receiving an email from rewards@perks.com within the next 7-10
-  business days with a link to claim your gift card.
-  <br/><br/>
+    You have completed all your cards! We'll be reviewing them soon, and if everything
+    looks good, you'll be receiving an email from rewards@perks.com within the next 7-10
+    business days with a link to claim your gift card.
+    <br/><br/>
   <b>Thank you for contributing <b class=count>{number_of_completed_cards} cards</b> to the project!</b>
-  <br/><br/>
-  (If you wish, you can now go back and review your recordings, but this is not necessary. <b>You're done!</b>)`,
+    <br/><br/>
+    (If you wish, you can now go back and review your recordings, but this is not necessary. <b>You're done!</b>)`,
     description: `Descriptive text on the done screen`,
-    text: `
-        ¡Has completado todas tus tarjetas! Los revisaremos pronto, y si todo se ve bien,
-        recibirá un correo electrónico de
-        rewards@perks.com
-        en los próximos 7-10 días hábiles con un enlace para reclamar su tarjeta de regalo.
-        <br/><br/>
-        <b>¡Gracias por contribuir con <b class=count>{number_of_completed_cards} tarjetas</b>
-        para proyectar Euphonia!
-        </b><br/><br/>
-        (si lo desea, Ahora puede regresar y revisar sus grabaciones, pero esto no es necesario.
-        <b>¡Ya ha terminado!</b>)`
+    text: `Has completado todas las tarjetas. Las revisaremos próximamente y, si está todo bien, recibirás un correo de rewards@perks.com en los próximos 7-10 días hábiles con un enlace a tu tarjeta regalo. <br/><br/> <b>Gracias por contribuir con <b class=count>{number_of_completed_cards} tarjetas</b> al Proyect Euphonia.</b> <br/><br/> Si quieres, puedes volver y revisar tus grabaciones, pero no es necesario. <b>Ya has acabado</b>.`
   },
 
   {
@@ -524,9 +477,9 @@ export const ES_STRINGS: ELocaleString[] = [
     text: `
 
     <div class=title
-    >Google Project Euphonia - Formulario de interés</div>
+    >Proyecto Google Euphonia: formulario de interés</div>
     <div class=sectiontitle
-    >Acerca de ti</div>
+    >Información sobre ti</div>
     <div class=formbox>
     <div class=fieldname><label for=ifname
     >Nombre</label>
@@ -534,16 +487,16 @@ export const ES_STRINGS: ELocaleString[] = [
     >(Opcional)</span>
     </div>
     <div class=fielddescription
-    >Apodo, primero y Apellido, solo primer nombre, etc. de cualquier forma que desee ser abordado!</div>
+    >Tu apodo, tu nombre y apellidos, solo tu nombre, etc. La forma en que prefieras que nos dirijamos a ti.</div>
     <input id=ifname class=formtext />
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifcountry
-    >¿En qué país reside?</label>
+    >¿En qué país resides?</label>
     <span class=required>*</span></div>
     <div class=fielddescription
-    >IMPORTANTE, TENER EN CUENTA: Lamentablemente, no podemos enviar tarjetas de regalo en este momento a los residentes de los países indicados a continuación con un asterisco (*). Si resides en uno de estos países, aún puedes participar en la investigación del Proyecto Euphonia y le notificaremos si podrá recibir tarjetas de regalo y cuándo.
+    >TEN EN CUENTA LA SIGUIENTE INFORMACIÓN IMPORTANTE: Lamentablemente, en este momento no podemos enviar tarjetas regalo a residentes de los países marcados a continuación con un asterisco (*). Si resides en uno de estos países, puedes participar en la investigación de Proyect Euphonia, y te avisaremos cuando puedas recibir tarjetas regalo.
     </div>
     <select id=ifcountry class=formselect>
     <option value="Spain">España</option>
@@ -757,7 +710,7 @@ export const ES_STRINGS: ELocaleString[] = [
     
     <div class=formbox id=usstatebox>
     <div class=fieldname><label for=ifstate
-    >¿En qué estado o territorio reside?</label>
+    >¿En qué país o territorio resides?</label>
     <span class=required>*</span></div>
     <select id=ifstate class=formselect>
     <option value=""></option>
@@ -830,7 +783,7 @@ export const ES_STRINGS: ELocaleString[] = [
     
     <div class=formbox>
     <div class=fieldname><label for=ifaccent
-    >¿Cómo caracterizarías tu acento?</label>
+    >¿Cómo describirías tu acento?</label>
     <span class=optional
     >(Opcional)</span>
     </div>
@@ -842,7 +795,7 @@ export const ES_STRINGS: ELocaleString[] = [
     
     <div class=formbox>
     <div class=fieldname><label for=ifreferral
-    >Cuéntanos cómo te enteraste de este proyecto.</label>
+    >Cuéntanos cómo conociste este proyecto</label>
     <span class=optional
     >(Opcional)</span>
     </div>
@@ -851,19 +804,19 @@ export const ES_STRINGS: ELocaleString[] = [
     
     <div class=formbox role=radiogroup id=ifgendergroup style="display: none;">
     <div class=fieldname><label for=ifgendergroup
-    >Cuál es su género</label>
+    >¿Cuál es tu sexo?</label>
     <span class=optional
     >(Opcional)</span>
     </div>
     <div class=checkboxrow>
     <input type=radio name=ifgender id=ifgenderfemale />
     <label for=ifgenderfemale
-    >Femenino</label>
+    >Mujer</label>
     </div>
     <div class=checkboxrow>
     <input type=radio name=ifgender id=ifgendermale />
     <label for=ifgendermale
-    >Masculino</label>
+    >Hombre</label>
     </div>
     <div class=checkboxrow>
     <input type=radio name=ifgender id=ifgenderno />
@@ -880,7 +833,7 @@ export const ES_STRINGS: ELocaleString[] = [
     
     <div class=formbox style="display: none;">
     <div class=fieldname><label for=ifrace
-    >Cuál es su raza</label>
+    >¿A qué raza perteneces?</label>
     <span class=optional
     >(Opcional)</span>
     </div>
@@ -896,26 +849,26 @@ export const ES_STRINGS: ELocaleString[] = [
     <div class=checkboxrow>
     <input type=checkbox id=ifdevicecomputer />
     <label for=ifdevicecomputer
-    >Una computadora conectada a Internet equipada con un micrófono y parlantes</label>
+    >Un ordenador con conexión a Internet, micrófono y altavoces</label>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifdeviceandroid />
     <label for=ifdeviceandroid
-    >Un teléfono o tableta Android (como un Samsung, Pixel, Nexus, etc.)</label>
+    >Un teléfono o tablet Android (por ejemplo, Samsung, Pixel, Nexus, etc.)</label>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifdeviceiphone />
     <label for=ifdeviceiphone
-    >Un iPhone o iPad</label>
+    >Un iPhone o un iPad</label>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifdevicenone />
     <label for=ifdevicenone
-    >Ninguna de las anteriores</label>
+    >Ninguno de los anteriores</label>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifdeviceother />
-    <label id=ifdeviceotherlabel for=ifdeviceother
+    <label for=ifdeviceother
     >Otro:</label>
     <input type=text class=formtext id=ifdeviceothertext aria-labelledby="ifdeviceotherlabel" />
     </div>
@@ -923,35 +876,35 @@ export const ES_STRINGS: ELocaleString[] = [
     
     <div class=formbox id=helperbox>
     <div class=fieldname
-    >¿Alguien te va ayudar a grabar las  muestras de voz?
+    >¿Te va a ayudar alguien a grabar las muestras de voz?
     <span class=required>*</span></div>
     <div class=fielddescription
-    >Por ejemplo, un miembro de la familia, un terapeuta del habla u alguna otra otra persona</div>
+    >Por ejemplo, un familiar, un logopeda u otra persona</div>
     <div class=checkboxrow>
     <input type=radio name=ifhelper id=ifhelperno selected />
     <label for=ifhelperno
-    >No, estaré participando de forma independiente.</label>
+    >No, voy a participar de forma independiente</label>
     </div>
     <div class=checkboxrow>
     <input type=radio name=ifhelper id=ifhelperyes />
     <label for=ifhelperyes
-    >Sí, alguien me ayudará y se siente cómodo compartiendo su información de contacto</label>
+    >Sí, me va a ayudar alguien, y esa persona está de acuerdo con que comparta su información</label>
     </div>
     </div>
     
     <!-- Helper panel appears if the user chooses "yes" above -->
     <div id=helpersection>
     <div class=sectiontitle
-    >Sobre la persona que te está ayudando</div>
+    >Información sobre la persona que te va a ayudar</div>
     <div class=formbox>
     <div class=fielddescription>
-    Cuéntanos un poco sobre la persona que te va ayudar, para que podamos mantenernos en contacto con ambos. Al incluir el nombre de la persona que te asiste, entiendes que recibirán información sobre tu participación en este proyecto. Puedes enumerar más de una persona y correo electrónico, solo separa cada uno de ellos con una coma.
+    Nos gustaría que nos proporcionases un poco de información sobre la persona que te va a ayudar para que podamos estar en contacto con ambos más fácilmente. Al incluir el nombre de tu asistente, aceptas que reciba información sobre tu participación en este proyecto. Puedes incluir más de un asistente y un correo electrónico. Basta con separarlos con una coma.
     </div>
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifassistantname
-    >Nombre de la persona que asiste</label>
+    >Nombre del asistente</label>
     <span class=optional
     >(Opcional)</span>
     </div>
@@ -960,46 +913,44 @@ export const ES_STRINGS: ELocaleString[] = [
     
     <div class=formbox>
     <div class=fieldname><label for=ifassistantemail
-    >E-mail de la persona que asiste</label>
+    >Dirección de correo electrónico del asistente</label>
     <span class=required>*</span></div>
     <input type=text class=formtext id=ifassistantemail />
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifassistantrelationship
-    >¿Cuál es la relación de esta persona con usted?</label>
+    >¿Qué relación tienes con esta persona?</label>
     <span class=optional
     >(Opcional)</span>
     </div>
     <div class=fielddescription
-    >Por ejemplo, cuidador, familiar, amigo, logopeda, etc.</div>
+    >Por ejemplo, cuidador, amigo, familiar, logopeda, etc.</div>
     <input type=text class=formtext id=ifassistantrelationship />
     </div>
     </div>
     
     <div class=sectiontitle
-    Proyecto Google Euphonía - consentimiento</div>
+    >Proyecto Google Euphonia: consentimiento</div>
     
     <div class=forminfobox>
     <div class=fieldname
-    >Cuestionario de Recopilación de información confidencial de identificación personal</div>
+    >Cuestionario para recoger información personal identificable sensible</div>
     <div class=fielddescription>
-    El propósito de este cuestionario es verificar tu elegibilidad para un próximo esfuerzo de recopilación de datos para el proyecto Euphonia. El objetivo de recopilar estos datos es ayudar a Google a diseñar, investigar, desarrollar, construir y mejorar la accesibilidad de sus productos y servicios actuales y futuros relacionados a las tecnologías del habla.
-    La información que proporciones en este cuestionario puede combinarse con otra información y datos que elijas proporcionar durante la recopilación de datos, si eres seleccionado para participar.
+    El objetivo de este cuestionario es verificar que cumples los requisitos para participar en una iniciativa de recogida de datos que realizará Google próximamente. La finalidad de la recogida será ayudar a Google a diseñar, investigar, desarrollar y mejorar la accesibilidad de sus productos y servicios (actuales y futuros) relacionados con tecnologías de voz.
+    La información que proporciones en este cuestionario se puede combinar con otra información y otros datos que decidas proporcionar durante la recogida de datos si se te selecciona para participar.
     </div>
     </div>
     
     <div class=formbox>
     <div class=fieldname>
-    Con tu consentimiento, Google recopilará y procesará la información personal que elijas proporcionar 
-    (a) cuando envíes este cuestionario y 
-    (b) si eres seleccionado para participar en el proyecto, durante las tareas de recopilación de datos, incluida información sobre el uso de tecnología de asistencia, discapacidad o impedimento del habla y patrones del habla. 
+    Con tu consentimiento, Google recogerá y tratará la información personal que decidas proporcionar a) cuando envíes este cuestionario y b) si se te selecciona para participar en el proyecto, cuando colabores en las tareas de recogida de datos, incluida la información sobre el uso que haces de tecnología asistencial, tu discapacidad o trastorno del habla y tus patrones de voz.
     <span class=required>*</span>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifformconsent />
-    <label id=ifformconsentlabel for=ifformconsent>
-    Doy mi consentimiento y entraré en mis iniciales aquí:
+    <label for=ifformconsent>
+    Doy mi consentimiento e incluyo mis iniciales aquí:
     </label>
     <input type=text class=formtext id=ifconsentinitials aria-labelledby="ifformconsentlabel" />
     </div>
@@ -1007,18 +958,18 @@ export const ES_STRINGS: ELocaleString[] = [
     
     <div class=formbox>
     <div class=fieldname>
-    Revise nuestros Términos y Condiciones y Política de privacidad
+    Revisa nuestros Términos y Condiciones, y nuestra Política de Privacidad
     <span class=required>*</span>
     </div>
     <div class=checkboxrow>
     <input type=checkbox id=ifformtos />
     <label for=ifformtos>
-    acepto el
+    Acepto los
     <a target="_blank" href="https://www.google.com/policies/terms/"
-    >Términos y condiciones</a>
-    y reconocer que mi información se utilizará para la investigación del producto, el desarrollo y la mejora de las tecnologías relacionadas con el habla, y de acuerdo con
+    >Términos y Condiciones</a>
+    y soy consciente de que mi información se va a utilizar para investigar, desarrollar y mejorar productos relacionados con tecnologías del habla de acuerdo con
     <a target="_blank" href="https://www.google.com/policies/privacy/"
-    >Política de privacidad de Google</a>
+    >la Política de Privacidad de Google</a>
     .
     </label>
     </div>
@@ -1026,13 +977,13 @@ export const ES_STRINGS: ELocaleString[] = [
     
     <div class=forminfobox>
     <div class=fieldname>
-    Al enviar este formulario, otorgas a Google y sus afiliados tu consentimiento para contactarte por correo electrónico.
+    Al enviar este formulario, das tu consentimiento a Google y a sus entidades asociadas para que se pongan en contacto contigo por correo electrónico.
     </div>
     </div>
     
     <div class=formbox>
     <div class=fieldname><label for=ifotherinfo>
-    ¿Tienes alguna otra información que te gustaría compartir con nosotros?
+    ¿Hay alguna otra información que quieras compartir con nosotros?
     </label>
     <span class=optional
     >(Opcional)</span>
