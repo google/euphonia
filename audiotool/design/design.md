@@ -108,9 +108,9 @@ Whatever prompts or recording tasks the program would like a user to do, the sys
 - Users cannot create or delete tasks, but they can skip tasks.
 - Administrators can manage individual tasks assigned to a user, or manage many tasks / many users' tasks in bulk.
 - Each task has a small amount of metadata in Firestore, such as:
-    - The type of the task (initially only one type is supported, "Prompt", but others can be added in the future)
+    - The type of the task: "Prompt" for reading a verbatim phrase, or "Response" for responding to a question or describing an image
     - A reference back to the Taskset that it was created from
-    - The content of the task, which is specific to its type; e.g. the textual prompt
+    - The content of the task, which is specific to its type; e.g. the textual prompt, or the image type if it is an image task
     - The language code for the task
 
 
@@ -130,6 +130,8 @@ When the user completes a task, the data collected in the process of the user's 
 A collection of task templates from which a user's assigned tasks can be drawn.
 - Administrators create a Taskset which contains zero or more Task templates.
 - For Prompted Tasks, each template is simply a prompt phrase which, when assigned to a User, gives them the Task to record themselves reading the prompt.
+- For Response Tasks, each template is a textual prompt which is intended to illicit a response.
+- Response tasks can optionally have an image attached, which the user will see when it's time to respond to the prompt. For example "What is the woman doing in this photo".
 - In the future, other task types may be defined, and these can be added to Tasksets as well.
 - Each taskset will have a language field, so users from other languages will not be assigned tasks from it unless their language matches. Tasks within the Taskset will all be in that same language.
 
@@ -213,7 +215,7 @@ The administrator can create multiple tasksets, which can contribute to users' a
 ![admin-wireframe06](admin-wireframe06.png)
 
 ### **Taskset Detail Screen**
-Groups of tasks can be managed together, assigned to users, deprecated, edited, and turned on for auto-assignment on enroll. Prompts can be bulk uploaded from a text file, where each prompt is delimited by newlines.
+Groups of tasks can be managed together, assigned to users, deprecated, edited, and turned on for auto-assignment on enroll. Prompts can be bulk uploaded from a text file, where each prompt is delimited by newlines. Image-based response tasks can be created by uploading a JPG associated with a task.
 
 ![admin-wireframe07](admin-wireframe07.png)
 
@@ -248,6 +250,11 @@ The system generally has:
 ## **Consent Assurance**
 Whenever the user starts a recording session, and whenever it's been more than 8 hours since the last check, the user's applicable consents are checked to confirm that still match the latest consent configuration. If the user has never agreed to one of the consents, or if their agreement matches a version that's been superseded, then the GUI prompts the user to consent again before they continue recording.
 
+## **Consent Document Storage**
+To support arbitrarily long HTML documents as consents, these are stored in a GCS bucket instead of in Firestore. The files are names with the consent ID and version so that they're programmatically retrievable for a given Firestore entity by path name.
+
+## **Image Task Storage**
+Similarly, in order to support response type tasks which involve an image prompt, we store task images in a GCS bucket instead of in Firestore. The files are names with the taskset ID and task ID so that they're programmatically retrievable for a given Firestore entity by path name.
 
 ## **Counters and stats**
 Counting queries in Firestore aren't efficient, so displaying how many users have assigned or recorded tasks would amount to full-database-scans on every page view of the taskset screen. Maintaining counter objects can result in contention (limit 1 write per second), and bulk assignment can result in enlisting too many counter objects in a transaction (limit 500). To address these limits, some denormalization will be needed, but this introduces consistency risks. Here are the counters we support (or could support).
