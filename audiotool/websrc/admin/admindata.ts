@@ -189,11 +189,16 @@ export class AdminData {
     });
   }
 
-  // Adds one task to a task set
-  async addPromptTask(taskSetId: string, prompt: string, order: number) {
+  // Adds one task to a task set, with optional image
+  async addTask(taskSetId: string, taskType: schema.TaskType, prompt: string, order: number, imageData?: ArrayBuffer) {
     await this.run(['tasksets', 'tasks'], async () => {
-      await postAsJson('/api/admin/newtask', {taskSetId, prompt, order});
-      // TODO: receive and update taskset proto, once it has denormalized counters
+      const newTasks = await postAsJson('/api/admin/newtask', {taskSetId, prompt, order, taskType}) as schema.ETaskInfo[];
+      if (newTasks.length > 0 && imageData) {
+        // Convert this to an image task
+        const args = {taskSetId, taskId: newTasks[0].id};
+        await authenticatedFetch('/api/admin/uploadtaskimage', args, 'post', imageData);
+        // TODO: we could receive and update taskset proto here instead of reloading the whole thing
+      }
     });
   }
 
@@ -202,7 +207,7 @@ export class AdminData {
     await this.run(['tasksets', 'tasks'], async () => {
       const format = 'txt';
       await authenticatedFetch('/api/admin/bulkaddtasks', {taskSetId, format, orderStart}, 'post', data);
-      // TODO: receive and update taskset proto, once it has denormalized counters
+      // TODO: we could receive and update taskset proto here instead of reloading the whole thing
     });
   }
 

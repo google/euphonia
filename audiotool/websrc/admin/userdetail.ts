@@ -16,7 +16,7 @@
 
 import {AdminData} from './admindata';
 import {UsersView} from './users';
-import {Spinner, toast} from '../util';
+import {Spinner, toast, toURL} from '../util';
 import {Dialog, ChoiceDialog} from '../dialog';
 import {EUserInfo, EUserTaskInfo, ERecordingMetadata} from '../../commonsrc/schema';
 import {formatTimestamp, parseTags} from '../../commonsrc/util';
@@ -188,12 +188,19 @@ export class UserDetailView {
       }
 
       // Update the GUI with these lists
-      this.workTable.html(`<tr><th>Taskset</th><th>Prompt</th><th>Assigned</th><th>Completed</th><th>Recording</th></tr>`);
+      this.workTable.html(`<tr><th>Taskset</th><th>Type</th><th>Prompt</th><th>Assigned</th><th>Completed</th><th>Recording</th></tr>`);
       for (const task of this.tasks) {
         const rec = recs.get(task.recordedTimestamp);
         const tr = this.workTable.eadd('<tr />');
         tr.eadd('<td class=taskset />').text(task.taskSetId);
-        tr.eadd('<td class=prompt />').text(task.task.prompt);
+        tr.eadd('<td class=tasktype />').text(task.task.taskType);
+        const ptd = tr.eadd('<td class=prompt />');
+        ptd.eadd('<span class=label />').text(task.task.prompt);
+        if (task.task.imageType) {
+          const args = {taskSetId: task.taskSetId, taskId: task.task.id, mimeType: task.task.imageType};
+          const imageURL = toURL('/api/gettaskimage', args);
+          ptd.eadd('<a class=imglink target=_blank />').etext('[image]').prop('href', imageURL);
+        }
         tr.eadd('<td class=assigned />').text(formatTimestamp(task.assignedTimestamp));
         tr.eadd('<td class=completed />').text(formatTimestamp(task.recordedTimestamp));
         const playerTd = tr.eadd('<td class=player />');

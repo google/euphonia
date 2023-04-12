@@ -401,6 +401,11 @@ User Detail View
   text-align: right;
 }
 
+#userdetailview TABLE.userwork A.imglink {
+  margin-left: 3px;
+  font-weight: normal;
+}
+
 #userdetailview TABLE.userwork AUDIO {
   height: 20px;
 }
@@ -576,6 +581,11 @@ Taskset Detail View
   text-align: right;
   font-size: 10px;
   font-family: monospace;
+}
+
+#tasksetdetailview TABLE.tasks A.imglink {
+  margin-left: 3px;
+  font-weight: normal;
 }
 
 #tasksetdetailview .buttonbar BUTTON {

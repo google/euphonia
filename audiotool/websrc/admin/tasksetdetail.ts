@@ -17,7 +17,7 @@
 import {AdminData} from './admindata';
 import {TaskSetsView} from './tasksets';
 import {ETaskSetInfo, ETaskInfo} from '../../commonsrc/schema';
-import {Spinner, toast} from '../util';
+import {Spinner, toast, toURL} from '../util';
 import {formatTimestamp, parseTags} from '../../commonsrc/util';
 import {Dialog, ChoiceDialog} from '../dialog';
 import * as schema from '../../commonsrc/schema';
@@ -34,7 +34,8 @@ export class TaskSetDetailView {
   tsinfo: JQuery<HTMLElement>;
   tasksTable: JQuery<HTMLElement>;
   taskStats: JQuery<HTMLElement>;
-  newTaskButton: JQuery<HTMLElement>;
+  newPromptTaskButton: JQuery<HTMLElement>;
+  newImageTaskButton: JQuery<HTMLElement>;
   bulkTasksButton: JQuery<HTMLElement>;
   rulesTable: JQuery<HTMLElement>;
   newRuleButton: JQuery<HTMLElement>;
@@ -58,8 +59,10 @@ export class TaskSetDetailView {
     this.taskStats = this.div.eadd('<div class=taskstats />');
     this.tasksTable = this.div.eadd('<table class=tasks />');
     const buttonbar = this.div.eadd('<div class=buttonbar />');
-    this.newTaskButton = buttonbar.eadd('<button>Add Task</button>');
-    this.newTaskButton.on('click', async e => await new AddPromptTaskDialog(this).start());
+    this.newPromptTaskButton = buttonbar.eadd('<button>Add Prompt Task</button>');
+    this.newPromptTaskButton.on('click', async e => await new AddPromptTaskDialog(this).start());
+    this.newImageTaskButton = buttonbar.eadd('<button>Add Image Task</button>');
+    this.newImageTaskButton.on('click', async e => await new AddImageTaskDialog(this).start());
     this.bulkTasksButton = buttonbar.eadd('<button>Bulk Upload Tasks</button>');
     this.bulkTasksButton.on('click', async e => await new BulkTaskDialog(this).start());
 
@@ -123,7 +126,8 @@ export class TaskSetDetailView {
   // Fetch the task list from the server. We don't cache this.
   async onTasksChanged() {
     await Spinner.waitFor(async () => {
-      this.tasks = await this.parent.app.data.loadTasksetTasks(this.taskset.id);
+      const taskSetId = this.taskset.id;
+      this.tasks = await this.parent.app.data.loadTasksetTasks(taskSetId);
       this.tasksTable.html(`<tr><th>Order</th><th>Type</th><th>Prompt</th><th>Created</th><th>Recordings</th></tr>`);
       for (const task of this.tasks) {
         if (this.lastOrder < task.order) {
@@ -132,7 +136,13 @@ export class TaskSetDetailView {
         const tr = this.tasksTable.eadd('<tr />');
         tr.eadd('<td class=num />').text(task.order);
         tr.eadd('<td class=tasktype />').text(task.taskType);
-        tr.eadd('<td class=prompt />').text(task.prompt);
+        const ptd = tr.eadd('<td class=prompt />');
+        ptd.eadd('<span class=label />').text(task.prompt);
+        if (task.imageType) {
+          const args = {taskSetId, taskId: task.id, mimeType: task.imageType};
+          const imageURL = toURL('/api/gettaskimage', args);
+          ptd.eadd('<a class=imglink target=_blank />').etext('[image]').prop('href', imageURL);
+        }
         tr.eadd('<td class=created />').text(formatTimestamp(task.creationTimestamp));
         tr.eadd('<td class=num />').etext(`${task.numRecordings}`);
       }
@@ -158,7 +168,14 @@ export class TaskSetDetailView {
   // Fires the task addition RPC
   async addPromptTask(prompt: string) {
     await Spinner.waitFor(async () => {
-      await this.parent.app.data.addPromptTask(this.taskset.id, prompt, this.lastOrder + 1);
+      await this.parent.app.data.addTask(this.taskset.id, 'prompt', prompt, this.lastOrder + 1);
+    });
+  }
+
+  // Creates a response type task and then attaches an image to it
+  async addImageTask(prompt: string, imageData: ArrayBuffer): Promise<void> {
+    await Spinner.waitFor(async () => {
+      await this.parent.app.data.addTask(this.taskset.id, 'response', prompt, this.lastOrder + 1, imageData);
     });
   }
 
@@ -189,6 +206,42 @@ class AddPromptTaskDialog extends Dialog {
     });
     const cancelButton = this.div.eadd('<button>Cancel</button>');
     cancelButton.on('click', async e => await this.remove());
+  }
+}
+
+class AddImageTaskDialog extends Dialog {
+  parent: TaskSetDetailView;
+
+  constructor(parent: TaskSetDetailView) {
+    super('addimagetaskdialog');
+    this.parent = parent;
+    this.div.eadd('<div class=title />').text('Add Image Task');
+    this.startForm();
+    const promptField = this.addFormField('Prompt:', '<input type=text name=prompt />');
+    const fileField = this.addFormField('Image:', '<input type=file name=imagefile />');
+    const buttonTd = this.formTable!.eadd('<tr />').eadd('<td colspan=2 class=buttonbox />');
+    buttonTd.eadd('<button>Upload Image Task</button>').on('click', async e => {
+      const prompt = promptField.val() as string;
+      const files: FileList = fileField.prop('files');
+      if (!prompt) {
+        toast('Missing required fields');
+        return;
+      }
+      if (!files || files.length !== 1 || !this.isJpeg(files[0])) {
+        toast('Please choose a JPEG image');
+        return;
+      }
+      
+      await parent.addImageTask(prompt, await files[0].arrayBuffer());
+      await this.remove();
+    });
+    const cancelButton = buttonTd.eadd('<button>Cancel</button>');
+    cancelButton.on('click', async e => await this.remove());
+  }
+
+  isJpeg(file: File): boolean {
+    const filename = file.name.toLowerCase();
+    return filename.endsWith('.jpeg') || filename.endsWith('.jpg');
   }
 }
 
