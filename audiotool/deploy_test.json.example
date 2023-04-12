@@ -8,6 +8,7 @@
   "__AUDIOTOOL_FIREBASE_HOST__":                   "yourapp",
   "__AUDIOTOOL_FIREBASE_STORAGE_RECORDING_PATH__": "audioapp_recordings",
   "__AUDIOTOOL_FIREBASE_STORAGE_CONSENTS_PATH__":  "audioapp_consents",
+  "__AUDIOTOOL_FIREBASE_STORAGE_IMAGETASKS_PATH__":"audioapp_imagetasks",
   "__AUDIOTOOL_ADMIN_EMAILS_LIST__":               [,
     "admin1@yourcompany.com",
     "admin2@yourcompany.com"
