@@ -49,6 +49,24 @@ export function requireParam<X>(value: X|undefined): X {
   return value;
 }
 
+// Returns the given value, or fails if it is undefined or not a valid Firebase Doc ID.
+export function requireDocId(value: string|undefined): string {
+  value = requireParam(value);
+  if (!/^[A-Za-z0-9]+$/.test(value)) {
+    throw new ParamError(`Invalid ID format: ${value}`);
+  }
+  return value;
+}
+
+// Returns the given value, or fails if it is undefined or not a valid lowercase ID.
+export function requireLCId(value: string|undefined): string {
+  value = requireParam(value);
+  if (normalizeTag(value) != value) {
+    throw new ParamError(`Invalid ID format: ${value}`);
+  }
+  return value;
+}
+
 // Returns the given array value, or fails if it is undefined or missing items.
 export function requireArray<X>(value: X[]|undefined, minLength: number = 0): X[] {
   if (!value) {

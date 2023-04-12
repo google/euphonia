@@ -23,8 +23,9 @@ import bodyParser = require('body-parser');
 import {EStorage, ETaskSet, EUser} from './estorage';
 import {UserRequest, FBUser, checkAuthenticated, checkAdmin} from './acl';
 import {parseTasksFile, HTTPError, ParamError, AccessError, NotFoundError,
-        requireLanguage, requireParam, requireArray, requireInt} from './util';
-import {normalizeTag, normalizeTags} from '../../commonsrc/util';
+        requireLanguage, requireParam, requireArray, requireInt, requireDocId,
+        requireLCId} from './util';
+import {normalizeTags, listhas} from '../../commonsrc/util';
 import {EAssignmentRule} from '../../commonsrc/schema';
 import * as schema from '../../commonsrc/schema';
 import {Readable} from 'stream';
@@ -74,6 +75,7 @@ export class AudioApi {
     AudioApi.installStreamApi(server, deps, '/api/getaudio',                   'runApiGetAudio',                  'get');
     AudioApi.installJSONApi(  server, deps, '/api/deleteaudio',                'runApiDeleteAudio',               'post');
     AudioApi.installStreamApi(server, deps, '/api/getconsenttext',             'runApiGetConsentText',            'get');
+    AudioApi.installStreamApi(server, deps, '/api/gettaskimage',               'runApiGetTaskImage',              'get');
     AudioApi.installJSONApi(  server, deps, '/api/admin/newuser',              'runAdminApiNewUser',              'post');
     AudioApi.installJSONApi(  server, deps, '/api/admin/listusers',            'runAdminApiListUsers',            'get');
     AudioApi.installJSONApi(  server, deps, '/api/admin/listuserwork',         'runAdminApiListUserWork',         'get');
@@ -92,6 +94,7 @@ export class AudioApi {
     AudioApi.installJSONApi(  server, deps, '/api/admin/editconsent',          'runAdminApiEditConsent',          'post');
     AudioApi.installJSONApi(  server, deps, '/api/admin/uploadconsentversion', 'runAdminApiUploadConsentVersion', 'post');
     AudioApi.installJSONApi(  server, deps, '/api/admin/deleteconsentversion', 'runAdminApiDeleteConsentVersion', 'post');
+    AudioApi.installJSONApi(  server, deps, '/api/admin/uploadtaskimage',      'runAdminApiUploadTaskImage',      'post');
     
     return server;
   }
@@ -347,6 +350,15 @@ export class AudioApi {
     return ['text/html', file.createReadStream()];
   }
 
+  async runApiGetTaskImage() {
+    const taskSetId = requireLCId(this.req.query.taskSetId as string);
+    const taskId = requireDocId(this.req.query.taskId as string);
+    const mimeType = requireParam(this.req.query.mimeType as string);
+
+    const file = this.storage.getImageFile(taskSetId, taskId);
+    return [mimeType, file.createReadStream()];
+  }
+
   async runAdminApiNewUser() {
     // Creates a new user without their login info
     const newuser: schema.NewUserInfo = this.getBodyJSON();
@@ -404,12 +416,9 @@ export class AudioApi {
   // Creates a new TaskSet
   async runAdminApiNewTaskSet() {
     const info = this.getBodyJSON();
-    const id = requireParam(info.id as string);
+    const id = requireLCId(info.id as string);
     const name = requireParam(info.name as string);
     const language = requireLanguage(info.language as string);
-    if (id !== normalizeTag(id)) {
-      throw new ParamError(`Invalid taskset ID: ${id}`);
-    }
 
     const ts = await this.storage.createTaskSet(id, name, language);
     return [ts.info];
@@ -451,14 +460,19 @@ export class AudioApi {
     return [ts.info];
   }
 
-  // Adds a Prompt-type Task to the given TaskSet
+  // Adds a Task to the given TaskSet
   async runAdminApiNewTask() {
     const info = this.getBodyJSON();
     const taskSetId = requireParam(info.taskSetId as string);
     const prompt = requireParam(info.prompt as string);
     const order = requireInt(info.order as string);
+    const taskType = requireParam(info.taskType as schema.TaskType);
+    if (!listhas(taskType, 'prompt', 'response')) {
+      throw new ParamError(`Invalid task type: ${taskType}`);
+    }
+
     const ts = await this.storage.requireTaskSet(taskSetId);
-    const tasks = await ts.addPromptTasks([[order, prompt]]);
+    const tasks = await ts.addTasks(taskType, [[order, prompt]]);
     return tasks.length > 0 ? [tasks[0].info] : [];
   }
 
@@ -472,7 +486,7 @@ export class AudioApi {
     }
     const ts = await this.storage.requireTaskSet(taskSetId);
     const tasks = parseTasksFile(this.req.body, format, orderStart);
-    const result = await ts.addPromptTasks(tasks);
+    const result = await ts.addTasks('prompt', tasks);
     return [result.length];
   }
 
@@ -519,14 +533,11 @@ export class AudioApi {
   // Creates a new Consent
   async runAdminApiNewConsent() {
     const info = this.getBodyJSON();
-    const id = requireParam(info.id as string);
+    const id = requireLCId(info.id as string);
     const name = requireParam(info.name as string);
     const language = requireLanguage(info.language as string);
     const tags: string[] = requireParam(normalizeTags(info.tags));
     const optional = requireParam(info.optional as boolean);
-    if (id !== normalizeTag(id)) {
-      throw new ParamError(`Invalid consent ID: ${id}`);
-    }
 
     const consent = await this.storage.createConsent(id, name, language, tags, optional);
     return [consent.info];
@@ -593,6 +604,20 @@ export class AudioApi {
       return consent;
     });
     return [info];
+  }
+
+  // Stores a task image blob that goes with a task, and attaches it to the task.
+  async runAdminApiUploadTaskImage(): Promise<schema.ETaskInfo> {
+    const taskSetId = requireLCId(this.req.query.taskSetId as string);
+    const taskId = requireDocId(this.req.query.taskId as string);
+
+    // Save the image and convert the task to be an image task.
+    return await this.storage.run(async txn => {
+      const taskSet = await this.storage.requireTaskSet(taskSetId, txn);
+      const task = await taskSet.loadTask(txn, taskId);
+      await task.addImage(this.req.body, txn);
+      return task.info;
+    });
   }
 }
 

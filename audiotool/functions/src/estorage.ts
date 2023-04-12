@@ -250,7 +250,7 @@ export class EStorage {
       project: taskSet.info.id,
       task: task.id,
       language: taskSet.info.language,
-      transcript: task.task.prompt,
+      taskType: task.task.taskType,
       timestamp,
       localDate,
       utcOffset: tzOffset,
@@ -259,6 +259,14 @@ export class EStorage {
       mimeType,
       deviceInfo
     };
+
+    if (task.task.taskType === 'prompt') {
+      metadata.transcript = task.task.prompt;
+    } else if (task.task.taskType === 'response') {
+      metadata.prompt = task.task.prompt;
+    } else {
+      throw new ParamError(`Unexpected task type: ${task.task.taskType}`);
+    }
 
     // Store the recording in GCS
     const bucket = this.storage.bucket(firebaseconfig.BUCKET);
@@ -489,10 +497,18 @@ export class EStorage {
     });
   }
 
+  // Returns the GCS file object for a given consent HTML
   getConsentFile(consentId: string, version: number): File {
     const bucket = this.storage.bucket(firebaseconfig.BUCKET);
     const dirname = `${firebaseconfig.CONSENT_PATH}`;
     return bucket.file(`${dirname}/${consentId}-${version}.html`);
+  }
+
+  // Returns the GCS file object for a graphical task
+  getImageFile(taskSetId: string, taskId: string): File {
+    const bucket = this.storage.bucket(firebaseconfig.BUCKET);
+    const dirname = `${firebaseconfig.IMAGETASKS_PATH}`;
+    return bucket.file(`${dirname}/image_${taskSetId}_${taskId}.jpg`);
   }
 }
 
@@ -937,8 +953,8 @@ export class ETaskSet {
     txn.update(this.parent.firestore.doc(this.path), {info});
   }
 
-  // Tries to create new unique prompts. Duplicate prompts are prohibited.
-  async addPromptTasks(tasks: Array<[number, string]>): Promise<ETask[]> {
+  // Tries to create new unique tasks. Duplicate prompts are prohibited.
+  async addTasks(taskType: schema.TaskType, tasks: Array<[number, string]>): Promise<ETask[]> {
     const tasksSubcollection = this.parent.getTasksSubcollection(this.info.id);
     for (const [order, prompt] of tasks) {
       if (!prompt || !order || isNaN(order)) {
@@ -958,7 +974,7 @@ export class ETaskSet {
           const info: schema.ETaskInfo = {
             id: newDoc.id,
             order,
-            taskType: 'prompt',
+            taskType,
             prompt,
             creationTimestamp: Date.now(),
             numRecordings: 0
@@ -1025,6 +1041,16 @@ export class ETask {
     txn.update(this.parent.parent.firestore.doc(this.path), {
       info: JSON.stringify(this.info)
     });
+  }
+
+  // Adds a graphical image to the task, and stores it. Any previous image is replaced.
+  async addImage(contents: Buffer, txn: Transaction): Promise<void> {
+    // Store the image data. TODO: re-render this image so it's scrubbed for metadata / malice / format
+    await this.parent.parent.getImageFile(this.parent.info.id, this.info.id).save(contents);
+
+    // Once the contents are written, add the metadata. We only support JPG for now.
+    this.info.imageType = 'image/jpeg';
+    this.update(txn);
   }
 }
 

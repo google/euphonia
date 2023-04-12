@@ -56,6 +56,8 @@ export function consentPath(cid: string): string {
   return `${CONSENTS_TABLE}/${cid}`;
 }
 
+export type TaskType = 'prompt'|'response';
+
 // Each EUser
 export interface EUserData {
   euid: string;
@@ -133,7 +135,9 @@ export interface ERecordingMetadata {
   platform: string;  // hard coded for audiotool
   project: string;  // the taskset ID
   task: string;  // the task ID
-  transcript: string;  // a prompt of what was said
+  taskType?: TaskType;  // if unset, infer "prompt" type
+  transcript?: string;  // a transcript of what was said, if known
+  prompt?: string;  // the textual prompt the user is responding to, if response type
   timestamp: number;  // The server time of the recording; also the doc.id
   localDate: string;  // A string of the browser time
   utcOffset: number;  // The numeric time zone offset from the browser
@@ -205,9 +209,10 @@ export interface ETaskData {
 export interface ETaskInfo {
   id: string;  // Firestore generated UUID
   order: number;
-  taskType: string;
+  taskType: TaskType;  // "prompt" for reading verbatim, "response" for answering a question or describing something
   creationTimestamp: number;
-  prompt: string;  // For taskType=Prompt
+  prompt: string;  // For taskType=prompt this is the verbatim transcript, for taskType=response it is the task description
+  imageType?: string;  // If the task has an associated image, this is the mime type of the image
   numRecordings: number;  // number of recordings of this task that have been completed and not deleted
 }
 
