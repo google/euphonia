@@ -251,6 +251,7 @@ export class EStorage {
       task: task.id,
       language: taskSet.info.language,
       taskType: task.task.taskType,
+      prompt: task.task.prompt,
       timestamp,
       localDate,
       utcOffset: tzOffset,
@@ -261,11 +262,8 @@ export class EStorage {
     };
 
     if (task.task.taskType === 'prompt') {
+      // For verbatim repeat tasks, we assume that the user read the prompt exactly until found otherwise
       metadata.transcript = task.task.prompt;
-    } else if (task.task.taskType === 'response') {
-      metadata.prompt = task.task.prompt;
-    } else {
-      throw new ParamError(`Unexpected task type: ${task.task.taskType}`);
     }
 
     // Store the recording in GCS

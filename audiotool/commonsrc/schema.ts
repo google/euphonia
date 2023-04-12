@@ -136,8 +136,8 @@ export interface ERecordingMetadata {
   project: string;  // the taskset ID
   task: string;  // the task ID
   taskType?: TaskType;  // if unset, infer "prompt" type
+  prompt: string;  // the textual prompt the user is responding to and/or repeating verbatim
   transcript?: string;  // a transcript of what was said, if known
-  prompt?: string;  // the textual prompt the user is responding to, if response type
   timestamp: number;  // The server time of the recording; also the doc.id
   localDate: string;  // A string of the browser time
   utcOffset: number;  // The numeric time zone offset from the browser
