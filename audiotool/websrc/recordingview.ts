@@ -16,7 +16,7 @@
 
 import {Data} from './data';
 import {App} from './app';
-import {sleep, sleepFrame, fork, authenticatedFetch, Spinner, isSafari, Swiper} from './util';
+import {sleep, sleepFrame, fork, authenticatedFetch, Spinner, isSafari, Swiper, toURL} from './util';
 import {ProgressWidget} from './progresswidget';
 import * as schema from '../commonsrc/schema';
 import {WavBuilder, toBase64} from '../commonsrc/util';
@@ -213,6 +213,7 @@ export class RecordingView {
     const isRecorded = !!this.task && this.task.recordedTimestamp > 0;
     const editDeadline = Date.now() - schema.MAX_DELETABLE_RECORDING_AGE_MS;
     const isOldRecording = isRecorded && this.task!.recordedTimestamp < editDeadline;
+    const isImageTask = !!this.task && !!this.task.task.imageType;
 
     // This hack prevents the card UI from flickering during "upload and advance"
     const showRecordedCardControls = isRecorded && !this.isUploadingNew;
@@ -270,8 +271,14 @@ export class RecordingView {
     if (this.task) {
       // Show the current card(s)
       this.cardDiv.eclass('recorded', showRecordedCardControls);
+      this.cardDiv.eclass('imagecard', isImageTask);
       this.cardDiv.empty();
-      this.cardDiv.eadd('<div class=text />').text(this.task.task.prompt);  // prompts are already localized
+      this.cardDiv.eadd('<div class=text />').etext(this.task.task.prompt);
+      if (isImageTask) {
+        const t = this.task;
+        const args = {taskSetId: t.taskSetId, taskId: t.task.id, mimeType: t.task.imageType};
+        this.cardDiv.eadd('<div class=image />').css('background-image', `url(${toURL('/api/gettaskimage', args)})`);
+      }
       this.doneText.eihtml(showRecordedCardControls ? '(this card is done)' : '');
 
     } else {

@@ -795,6 +795,31 @@ Recording view
   border-color: #bbbbc2;
 }
 
+#recordingview .card.imagecard {
+  display: flex;
+  flex-direction: column;
+
+  padding: 1vh;
+  margin: 0 5vw 0 5vw;
+}
+
+#recordingview .card.imagecard DIV.text {
+  flex-grow: 0;
+  font-weight: bold;
+  font-size: 2vh;
+  margin-bottom: 1vh;
+}
+
+#recordingview .card.imagecard DIV.image {
+  flex-grow: 1;
+  width: calc(100% - 0.5vh);
+  height: calc(100% - 0.5vh);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top center;
+
+}
+
 #recordingview .navpanel {
   margin: 2vh 0 0 0;
 
