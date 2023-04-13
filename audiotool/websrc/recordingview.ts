@@ -662,6 +662,7 @@ export class RecordingView {
         throw new Error('Unexpected missing task, could not save audio.');
       }
       if (!this.isCanceling) {
+        this.app.showMessage(`Uploading...`);
         this.isUploadingNew = !this.task.recordedTimestamp;
         await this.data.saveAudio(this.task, uploadData, 'audio/wav');
         uploaded = true;
