@@ -20,8 +20,10 @@ set -e
 node ./deployvars.js gentemplate "local"
 
 # Compile
+npm install
 npm run build
 cd functions
+npm install
 npm run build
 cd ..
 
