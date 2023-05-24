@@ -20,7 +20,7 @@ import { Firestore, FieldPath, CollectionReference } from '@google-cloud/firesto
 import * as firebaseconfig from './firebaseconfig';
 import * as schema from '../../commonsrc/schema';
 import { normalizeEmail, NotFoundError, ParamError, requireLanguage } from './util';
-import { clone, shuffle } from '../../commonsrc/util';
+import { clone, shuffle, toBatches } from '../../commonsrc/util';
 
 type Transaction = FirebaseFirestore.Transaction;
 
@@ -709,7 +709,7 @@ export class EUser {
     }
   }
 
-  // Adds the list of tasks to a user and updates the user and TaskSet counters.
+  // Adds the list of tasks to a user and updates the user and TaskSet counters. Max 500 tasks please.
   async assignTasks(txn: Transaction, tasks: ETask[], taskSet: ETaskSet): Promise<void> {
     const tsid = taskSet.info.id;
     // Get the currently highest task order number
@@ -1008,17 +1008,21 @@ export class ETaskSet {
     }
 
     // Write the tasks to the user in a transaction
-    const [u, t]: [EUser, ETaskSet] = await this.parent.run(async txn => {
-      const ts = await this.parent.requireTaskSet(this.info.id, txn);  // transactionally reload
-      const user = await this.parent.loadUser(euid, txn);
-      await user.assignTasks(txn, tasks, ts);
-      return [user, ts];
-    });
+    let u: EUser;
+    let t: ETaskSet;
+    for (const taskBatch of toBatches(tasks, 450)) {
+      [u, t] = await this.parent.run(async txn => {
+        const ts = await this.parent.requireTaskSet(this.info.id, txn);  // transactionally reload
+        const user = await this.parent.loadUser(euid, txn);
+        await user.assignTasks(txn, taskBatch, ts);
+        return [user, ts];
+      });
 
-    // We have changed, so we can update ourselves with the transactional copy of the taskset
-    this.info = t.info;
+      // We have changed, so we can update ourselves with the transactional copy of the taskset
+      this.info = t.info;
+    }
 
-    return u;
+    return u!;
   }
 }
 

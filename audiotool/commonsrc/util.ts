@@ -91,6 +91,23 @@ export function shuffle<X>(list: X[]): X[] {
   return list;
 }
 
+// Yields the given array as a sequence of slices of the given size.
+export function toBatches<X>(list: X[], size: number): Array<X[]> {
+  const result: Array<X[]> = [];
+  let batch: X[] = [];
+  for (const item of list) {
+    batch.push(item);
+    if (batch.length >= size) {
+      result.push(batch);
+      batch = [];
+    }
+  }
+  if (batch.length > 0) {
+    result.push(batch);
+  }
+  return result;
+}
+
 // Removes all matching items from an array, and returns the number removed.
 export function findAndRemove<X>(list: X[], item: X): number {
   let count = 0;

@@ -25,7 +25,7 @@ import {UserRequest, FBUser, checkAuthenticated, checkAdmin} from './acl';
 import {parseTasksFile, HTTPError, ParamError, AccessError, NotFoundError,
         requireLanguage, requireParam, requireArray, requireInt, requireDocId,
         requireLCId} from './util';
-import {normalizeTags, listhas} from '../../commonsrc/util';
+import {normalizeTags, listhas, toBatches} from '../../commonsrc/util';
 import {EAssignmentRule} from '../../commonsrc/schema';
 import * as schema from '../../commonsrc/schema';
 import {Readable} from 'stream';
@@ -506,14 +506,18 @@ export class AudioApi {
     const info = this.getBodyJSON();
     const euid = requireParam(info.euid as string);
     const idTuples = requireArray(info.idTuples as Array<[string, string]>, 1);  // list of [taskSetId, taskId]
-    const [user, taskSets]: [EUser, ETaskSet[]] = await this.storage.run(async txn => {
-      const u = await this.storage.loadUser(euid, txn);
-      const tss = await u.removeTasks(txn, idTuples);
-      return [u, tss];
-    });
+    let user: EUser;
+    let taskSets: ETaskSet[];
+    for (const idTuplesBatch of toBatches(idTuples, 450)) {
+      [user, taskSets] = await this.storage.run(async txn => {
+        const u = await this.storage.loadUser(euid, txn);
+        const tss = await u.removeTasks(txn, idTuplesBatch);
+        return [u, tss];
+      });
+    }
 
-    const tsInfo = taskSets.map(ts => ts.info);
-    return [user.info, tsInfo];
+    const tsInfo = taskSets!.map(ts => ts.info);
+    return [user!.info, tsInfo];
   }
 
   // Returns the raw audio for a recording
