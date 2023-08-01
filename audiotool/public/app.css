@@ -820,6 +820,20 @@ Recording view
 
 }
 
+#recordingview .cardribbon .tts {
+  position: fixed;
+  z-index: 500;
+  top: 6vh;
+  right: 11vw;
+  font-size: 2vw;
+  padding: 0.5vw 0.7vw 0.5vw 0.7vw;
+}
+
+#recordingview .cardribbon .tts.playing {
+  background-color: #fe9;
+  filter: drop-shadow(0 0 calc(max(2vh, 2vw)) #fe9);
+}
+
 #recordingview .navpanel {
   margin: 2vh 0 0 0;
 
@@ -1066,6 +1080,12 @@ Recording view
   
   #recordingview .cardribbon .thiscard {
     font-size: 8vw;
+  }
+
+  #recordingview .cardribbon .tts {
+    top: 3vh;
+    font-size: 2vh;
+    padding: 0.5vh 0.7vh 0.5vh 0.7vh;
   }
   
   #recordingview .navpanel {

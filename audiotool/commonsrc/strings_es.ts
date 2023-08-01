@@ -346,6 +346,11 @@ export const ES_STRINGS: ELocaleString[] = [
     text: `?`
   },
   {
+    key: `&#x1F50A;`,
+    description: `Speak prompt button, which uses computerized speech to play the prompt audibly`,
+    text: `&#x1F50A;`
+  },
+  {
     key: `Continue`,
     description: `Sign up screen and consent screen buttons, continue to the next page`,
     text: `Continuar`

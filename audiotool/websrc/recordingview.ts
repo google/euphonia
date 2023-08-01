@@ -40,6 +40,7 @@ export class RecordingView {
   nextButton: JQuery<HTMLElement>;
   progressBar: ProgressWidget;
   helpButton: JQuery<HTMLElement>;
+  ttsButton: JQuery<HTMLElement>;
   keyfn: (e: KeyboardEvent) => Promise<void>;
 
   // GUI visibility tracking vs. other app views
@@ -75,8 +76,7 @@ export class RecordingView {
   processorNode?: ScriptProcessorNode;
   recordedWav = new WavBuilder();
 
-  // Playback state tracking for review
-  replayingTask?: schema.EUserTaskInfo;
+  // Playback and TTS state tracking for review
   replayer?: JQuery<HTMLMediaElement>;
 
   constructor(app: App) {
@@ -92,6 +92,7 @@ export class RecordingView {
     this.cardRibbon = this.div.eadd('<div class=cardribbon />');
     this.prevCardDiv = this.cardRibbon.eadd('<div class="card prevcard" />');
     this.cardDiv = this.cardRibbon.eadd('<div class="card thiscard" />');
+    this.ttsButton = this.cardRibbon.eadd('<button class=tts />').eihtml('&#x1F50A;');
     new Swiper(this.cardDiv, async s => await this.handleSwipe(s));
     this.nextCardDiv = this.cardRibbon.eadd('<div class="card nextcard" />');
     this.prevCardDiv.on('click', async e => await this.gotoTask('prev', true));
@@ -123,6 +124,7 @@ export class RecordingView {
     this.deleteButton.on('click', async e => await this.handleDelete());
     this.listenButton.on('click', async e => await this.toggleListen());
     this.helpButton.on('click', async e => await this.toggleHelp());
+    this.ttsButton.on('click', async e => await this.toggleSpeak());
 
     // Keyboard and swipe handling
     this.keyfn = this.handleKey.bind(this);
@@ -231,8 +233,10 @@ export class RecordingView {
     this.deleteButton.eenable(canNavigate && showRecordedCardControls && !isOldRecording);
     this.listenButton.eenable(canNavigate && showRecordedCardControls);
     this.deleteButton.eitext(this.isDeleting ? 'Deleting...' : 'Delete');
-    this.listenButton.eitext(this.replayingTask ? 'Stop' : 'Replay');
-    this.listenButton.eclass('playing', !!this.replayingTask);
+    this.listenButton.eitext(!!this.replayer ? 'Stop' : 'Replay');
+    this.listenButton.eclass('playing', !!this.replayer);
+    this.ttsButton.eshow(!!window.speechSynthesis);
+    this.ttsButton.eclass('playing', this.isSpeaking());
 
     // Update the recording button state
     this.recordButton.eenable(hasTasks && !this.isStartingRecord && !this.isStoppingRecord && !this.isDeleting && !isOldRecording);
@@ -416,6 +420,7 @@ export class RecordingView {
 
   // Animates the cards sliding left or right
   private async animateCardChange(advance: boolean) {
+    this.ttsButton.css('display', 'none');
     this.cardRibbon.css('margin-left', '0');
     this.cardRibbon.css('transition', 'margin-left 0.3s ease-in');
     await sleepFrame();
@@ -423,6 +428,7 @@ export class RecordingView {
     await sleep(300);
     this.cardRibbon.css('transition', '');
     this.cardRibbon.css('margin-left', '0');
+    this.ttsButton.css('display', 'block');
   }
 
   // Animates the card text fading in
@@ -582,6 +588,25 @@ export class RecordingView {
     }
   }
 
+  // Called when the user clicks the TTS button to play the prompt.
+  private async toggleSpeak() {
+    if (this.stopPlayback()) {
+      return;  // Toggle off
+    }
+
+    if (!this.task) {
+      this.app.showMessage('No prompt to speak aloud.');
+      this.updateGUI();
+      return;
+    }
+
+    // Create a player and start it if possible
+    const utt = new SpeechSynthesisUtterance(this.task.task.prompt);
+    utt.addEventListener('end', e => this.updateGUI());
+    window.speechSynthesis.speak(utt);
+    this.updateGUI();
+  }
+
   // Called when the user clicks listen / stop listening on an already-recorded card
   private async toggleListen() {
     if (this.stopPlayback()) {
@@ -595,7 +620,6 @@ export class RecordingView {
     }
 
     // Create a player and start it if possible
-    this.replayingTask = this.task;
     const url = await this.getPlaybackURL(this.task);
     this.replayer = this.secondaryControls.eins(`<audio controls src="${url}" />`) as JQuery<HTMLMediaElement>;
     if (!isSafari()) {
@@ -614,15 +638,29 @@ export class RecordingView {
 
   // Stops any current playback and clears the replayer; does nothing if there's no playback.
   private stopPlayback() {
+    let stopped = false;
     if (this.replayer) {
       // We're currently playing, stop
       this.replayer.remove();
-      this.replayingTask = undefined;
       this.replayer = undefined;
+      stopped = true;
+    }
+    if (this.isSpeaking()) {
+      window.speechSynthesis.cancel();
+      stopped = true;
+    }
+    if (stopped) {
       this.updateGUI();
       return true;
     }
     return false;
+  }
+
+  private isSpeaking() {
+    if (!window.speechSynthesis) {
+      return false;
+    }
+    return !!window.speechSynthesis.speaking;
   }
 
   // Downloads the audio and returns it as a data URL; we do this to handle authentication correctly.
