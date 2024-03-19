@@ -12,31 +12,34 @@ NOTE: To get this demo fully working for yourself, you will need to set up a Goo
 - Node.js v16.14.1 to /usr/local/bin/node
 - npm v8.5.0 to /usr/local/bin/npm
 ```
-3. npm install firebase (you may have to retry after Santa+Upvote)
+3. (Optional) I would recommend also installing NVM, it helps juggle multiple node versions on your computer: https://github.com/nvm-sh/nvm
 
-4. npm install firebase-tools  (the instructions say to use -g and im going to try not doing that)
+4. git clone https://github.com/google/euphonia.git
 
-5. cd functions; npm install firebase-functions@latest firebase-admin@9.0.0 @google-cloud/storage express@latest cookie-parser@latest body-parser multer --save
+5. cd euphonia/audiotool
 
-5. ./node_modules/.bin/firebase login
-6. ./node_modules/.bin/firebase init    // (installed emulators)
-6. ./node_modules/.bin/firebase init firestore
-7. ./node_modules/.bin/firebase target:apply hosting yourproject  # https://firebase.googleblog.com/2018/08/one-project-multiple-sites-plus-boost.html
+6. cp ./deploy_test.json.example ./deploy_test.json 
 
+7. Edit ./deploy_test.json and fill in your GCP project credentials (or get this file from an existing team member)
 
-## Deploy to test
+8. cp ./deploy_test.json.example ./deploy_local.json 
 
-1. Create a deploy_test.json file by copying the example
-2. Create a test_key.json by copying the example
-3. Fill in all the required values in both files, such as project name and hosting site name
-4. ./deploy.sh
-5. https://yourproject.web.app/
+9. ./node_modules/.bin/firebase login
 
 
 ## Run Firebase locally
 
 1. ./serve.sh
 2. http://localhost:8991
+
+
+## Deploy to test
+
+1. Create a deploy_test.json file by copying the example
+2. Create a test_key.json by downloading this file from your Firebase project console (or get this file from a team member)
+3. Fill in all the required values in both files, such as project name and hosting site name
+4. ./deploy.sh
+5. https://yourproject.web.app/
 
 
 # Compatibility
