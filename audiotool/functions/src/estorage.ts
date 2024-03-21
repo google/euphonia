@@ -524,7 +524,7 @@ export class EUser {
     this.parent = parent;  // EStorage system
     this.path = path;  // Firebase document reference path
 
-    this.euid = fsdata.euid;  // Immutable´
+    this.euid = fsdata.euid;  // Immutable
     this.fbuid = fsdata.fbuid;  // This can be null for unclaimed accounts
     this.normalizedEmail = fsdata.normalizedEmail;
 
@@ -571,12 +571,15 @@ export class EUser {
 
   // Updates this user with any changes carried by this DAO.
   update(txn: Transaction): void {
-    txn.update(this.parent.firestore.doc(this.path), {
+    const obj: any = {
       // EUID is immutable, never update it
-      fbuid: this.fbuid,
       normalizedEmail: this.normalizedEmail,
       info: JSON.stringify(this.info)
-    });
+    };
+    if (this.fbuid) {
+      obj['fbuid'] = this.fbuid;  // Only set property keys with non-null values
+    }
+    txn.update(this.parent.firestore.doc(this.path), obj);
   }
 
   // Returns true if the user's agreements match the live versions of all applicable consents
