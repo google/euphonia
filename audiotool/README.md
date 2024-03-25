@@ -18,13 +18,11 @@ NOTE: To get this demo fully working for yourself, you will need to set up a Goo
 
 5. cd euphonia/audiotool
 
-6. cp ./deploy_test.json.example ./deploy_test.json 
+6. cp ./deploy_test.json.example ./deploy_local.json 
 
-7. Edit ./deploy_test.json and fill in your GCP project credentials (or get this file from an existing team member)
+7. Edit ./deploy_local.json and fill in your GCP project credentials (or get this file from an existing team member)
 
-8. cp ./deploy_test.json.example ./deploy_local.json 
-
-9. ./node_modules/.bin/firebase login
+8. ./node_modules/.bin/firebase login
 
 
 ## Run Firebase locally
@@ -35,7 +33,7 @@ NOTE: To get this demo fully working for yourself, you will need to set up a Goo
 
 ## Deploy to test
 
-1. Create a deploy_test.json file by copying the example
+1. Create a deploy_test.json file by copying and modifying the example file (deploy_test.json.example)
 2. Create a test_key.json by downloading this file from your Firebase project console (or get this file from a team member)
 3. Fill in all the required values in both files, such as project name and hosting site name
 4. ./deploy.sh
@@ -68,6 +66,10 @@ notes on compatibility based on my testing:
   - Playback feature not compatible with async methods; implemented a different playback widget on Safari
   - ScriptProcessorNode does not work unless a GainNode is added to the chain
 
-### Known issues
+### Known issues / Troubleshooting
 
 - iOS 13 + Chrome does not work. Must use Safari on old iOS devices.
+
+- If you get an error like `Error: Failed to get Firebase project`,
+  try doing "firebase logout" and then "firebase login" again
+  
