@@ -154,7 +154,7 @@ export class UsersView {
     const tbody = this.table.eadd('<tbody />');
     this.ticks.clear();
     for (const user of this.toSorted(this.app.data.users)) {
-      if (!this.filterFn(user)) {
+      if (!this.filterFn(user) || user.deleted) {
         continue;
       }
       const euid = user.euid;

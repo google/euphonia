@@ -20,7 +20,7 @@ import express = require('express');
 const cookieParser = require('cookie-parser')();
 const useragent = require('useragent');
 import bodyParser = require('body-parser');
-import {EStorage, ETaskSet, EUser} from './estorage';
+import {EStorage, ETaskSet, EUser, EUserTask} from './estorage';
 import {UserRequest, FBUser, checkAuthenticated, checkAdmin} from './acl';
 import {parseTasksFile, HTTPError, ParamError, AccessError, NotFoundError,
         requireLanguage, requireParam, requireArray, requireInt, requireDocId,
@@ -80,6 +80,7 @@ export class AudioApi {
     AudioApi.installJSONApi(  server, deps, '/api/admin/listusers',            'runAdminApiListUsers',            'get');
     AudioApi.installJSONApi(  server, deps, '/api/admin/listuserwork',         'runAdminApiListUserWork',         'get');
     AudioApi.installJSONApi(  server, deps, '/api/admin/edituser',             'runAdminApiEditUser',             'post');
+    AudioApi.installJSONApi(  server, deps, '/api/admin/deleteuser',           'runAdminApiDeleteUser',           'post');
     AudioApi.installJSONApi(  server, deps, '/api/admin/listtasksets',         'runAdminApiListTaskSets',         'get');
     AudioApi.installJSONApi(  server, deps, '/api/admin/newtaskset',           'runAdminApiNewTaskSet',           'post');
     AudioApi.installJSONApi(  server, deps, '/api/admin/listtasks',            'runAdminApiListTasks',            'get');
@@ -407,6 +408,71 @@ export class AudioApi {
     return [user.info];
   }
 
+  // Redacts a user's PII and all recordings.
+  async runAdminApiDeleteUser() {
+    const info = this.getBodyJSON();
+    const euid: string = requireParam(info.euid);
+
+    // Load the user and all their tasks, so we can find the recordings by ID
+    let [user, tasks]: [EUser, EUserTask[]] = await this.storage.run(async txn => {
+      const user = await this.storage.loadUser(euid, txn);
+      const tasks = await user.listTasks();
+      return [user, tasks];
+    });
+    const taskIdTuples: [string, string][] = [];
+
+    // Delete the recordings using the DAO, so that the counters are correctly updated
+    for (const task of tasks) {
+      taskIdTuples.push([task.info.taskSetId, task.info.id]);
+
+      if (task.info.recordedTimestamp === 0) {
+        continue;
+      }
+      const basename = await this.storage.run(async txn => {
+        const taskSet = await this.storage.requireTaskSet(task.info.taskSetId);
+        const tsTask = await taskSet.loadTask(txn, task.info.task.id);
+        const rec = await user.loadRecording(txn, task.info.recordedTimestamp);
+        const basename = rec.metadata.name;
+        await rec.delete(user, task, tsTask, txn);
+        return basename;
+      });
+
+      if (basename) {
+        // Firestore has the metadata but the actual audio must be deleted from GCS
+        const [wavFile, jsonFile] = this.storage.findRecordingFiles(user.euid, basename);
+        await wavFile.delete();
+        await jsonFile.delete();
+      }
+    }
+
+    // Unassign all tasks, again using the DAO to keep the counters correct
+    for (const idTuplesBatch of toBatches(taskIdTuples, 450)) {
+      await this.storage.run(async txn => {
+        const user = await this.storage.loadUser(euid, txn);
+        await user.removeTasks(txn, idTuplesBatch);
+      });
+    }
+
+    // Lastly, redact the user's identity.
+    user = await this.storage.run(async txn => {
+      const u = await this.storage.loadUser(euid, txn);
+      u.fbuid = 'REDACTED';  // this disassociates the user record from the person's login
+      u.info.deleted = true;
+      u.info.name = 'REDACTED';
+      u.info.email = 'REDACTED';
+      u.info.tags = [];
+      u.info.notes = 'REDACTED';
+      u.info.fbname = 'REDACTED';
+      u.info.consents = [];
+      u.info.lastRecordingTimestamp = 0;
+      u.info.demographics = undefined;
+      u.update(txn);
+      return u;
+    });
+
+    return [user.info];
+  }
+
   // Returns a list of all TaskSets in the system
   async runAdminApiListTaskSets() {
     const tasksets = await this.storage.listTaskSets();
@@ -505,7 +571,7 @@ export class AudioApi {
   async runAdminApiRemoveTasks() {
     const info = this.getBodyJSON();
     const euid = requireParam(info.euid as string);
-    const idTuples = requireArray(info.idTuples as Array<[string, string]>, 1);  // list of [taskSetId, taskId]
+    const idTuples = requireArray(info.idTuples as Array<[string, string]>, 1);  // list of [taskSetId, user taskId]
     let user: EUser;
     let taskSets: ETaskSet[];
     for (const idTuplesBatch of toBatches(idTuples, 450)) {

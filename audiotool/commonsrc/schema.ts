@@ -84,6 +84,7 @@ export interface EUserInfo {
   createTimestamp: number;
   signupTimestamp: number;
   numAssignmentsByTaskSet: Array<[taskSetId: string, numAssignments: number]>;
+  deleted?: boolean;  // Indicates that this user asked for their PII to be removed. Only the euid remains.
 }
 
 // Structured storage of interest form reply
