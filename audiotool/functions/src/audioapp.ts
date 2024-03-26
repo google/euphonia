@@ -571,7 +571,7 @@ export class AudioApi {
   async runAdminApiRemoveTasks() {
     const info = this.getBodyJSON();
     const euid = requireParam(info.euid as string);
-    const idTuples = requireArray(info.idTuples as Array<[string, string]>, 1);  // list of [taskSetId, user taskId]
+    const idTuples = requireArray(info.idTuples as Array<[string, string]>, 1);  // list of [taskSetId, userTaskId]
     let user: EUser;
     let taskSets: ETaskSet[];
     for (const idTuplesBatch of toBatches(idTuples, 450)) {
