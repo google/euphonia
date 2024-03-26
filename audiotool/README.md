@@ -4,7 +4,7 @@ This is a reference implementation of a web-based tool which can collect audio d
 
 ## One-Time Setup Instructions (MacBook)
 
-NOTE: To get this demo fully working for yourself, you will need to set up a Google Cloud account and project. If you already have one, you can fill in its name and credentials in the places where you see "yourproject" and "youtname" in the config files.
+NOTE: To get this demo fully working for yourself, you will need to set up a Google Cloud account and project. If you already have one, you can fill in its name and credentials in the places where you see "yourproject" and "yourname" in the config files.
 
 1. Install node: https://nodejs.org/en/download/
 2. Run the installer to completion. As of this writing I get:
