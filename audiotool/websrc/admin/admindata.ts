@@ -112,6 +112,15 @@ export class AdminData {
     });
   }
 
+  // Deletes an existing user
+  async deleteUser(euid: string) {
+    await this.run(['users'], async () => {
+      const info = {euid};
+      const [user] = await postAsJson('/api/admin/deleteuser', info) as [schema.EUserInfo];
+      this.users.set(user.euid, user);
+    });
+  }
+
   // Assigns a selection of tasks to a list of users, returning which euids were successful.
   async assignTasks(euids: string[], taskSetId: string, spec: schema.EAssignmentRule): Promise<string[]> {
     const rv = await this.run(['users', 'usertasks', 'tasksets'], async () => {

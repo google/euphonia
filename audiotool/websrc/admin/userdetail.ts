@@ -53,7 +53,8 @@ export class UserDetailView {
   // Fills in the user details
   private fillUserInfo() {
     this.userinfo.empty();
-    this.userinfo.eadd('<div class=euid />').etext(`User ${this.user.euid}`);
+    const deletedText = this.user.deleted ? ' - DELETED' : '';
+    this.userinfo.eadd('<div class=euid />').etext(`User ${this.user.euid}${deletedText}`);
     const table = this.userinfo.eadd('<table />');
     table.eaddtr([$('<span class=label />').etext('Name:'), $('<span />').etext(`${this.getNameInfo()}`)]);
     table.eaddtr([$('<span class=label />').etext('Email:'), $('<span />').etext(`${this.user.email}`)]);
@@ -86,6 +87,7 @@ export class UserDetailView {
     buttons.eadd('<button />').etext('Edit User').on('click', async e => await this.startEdit());
     buttons.eadd('<button />').etext('Assign tasks').on('click', async e => await this.startAssign());
     buttons.eadd('<button />').etext('Unassign all remaining tasks').on('click', async e => await this.unassignAll());
+    buttons.eadd('<button />').etext('Delete user').on('click', async e => await this.deleteUser());
     this.parent.app.setNav(`/user/${this.user.euid}`);
   }
 
@@ -236,6 +238,19 @@ export class UserDetailView {
   // Shows the assignment dialog
   async startAssign() {
     await new BulkAssignDialog(this.parent.app, [this.user.euid]).start();
+  }
+
+  // Deletes the user and all their recordings, after confirmation
+  async deleteUser() {
+    const confirm = await ChoiceDialog.choose('Delete user and all recordings? This cannot be undone.', 'DELETE', 'Cancel');
+    if (confirm !== 'DELETE') {
+      return;
+    }
+    
+    await Spinner.waitFor(async () => {
+      await this.data.deleteUser(this.user.euid);
+    });
+    this.parent.start();
   }
 }
 
